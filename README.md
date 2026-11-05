@@ -6,7 +6,7 @@ Un jeu narratif dans le navigateur : tu choisis ta rive sur un pont, puis tu vis
 
 ## Ce que contient le prototype
 
-La semaine complète de Sébastien, de J-6 jusqu'à l'isoloir, d'après le script :
+Les deux parcours complets, de J-6 jusqu'à l'isoloir, d'après le script : Sébastien (rive gauche) et Léa (rive droite).
 
 - l'écran du pont, où l'on choisit sa rive ;
 - le compte à rebours jusqu'au vote ;
@@ -21,7 +21,7 @@ La semaine complète de Sébastien, de J-6 jusqu'à l'isoloir, d'après le scrip
 
 | Pour changer… | Ouvre ce fichier |
 | --- | --- |
-| le texte, les choix, les effets sur les jauges | `site/js/histoire.js` |
+| le texte, les choix, les effets sur les jauges | `site/js/histoire-sebastien.js` et `site/js/histoire-lea.js` |
 | les décors en pixel art | `site/js/dessins.js` |
 | la musique et les ambiances sonores | `site/js/musique.js` |
 | les couleurs, la taille du texte | `site/style.css` |

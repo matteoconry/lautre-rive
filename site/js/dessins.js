@@ -502,6 +502,254 @@
     r(ctx, 70, 72, 10, 6, "#c89070"); r(ctx, 98, 72, 10, 6, "#c89070");
   }
 
+  /* ====================== Les décors de Léa (couleurs froides) ====================== */
+
+  // Un petit personnage debout : x, y (pieds), couleur du haut, peau, cheveux
+  function silhouette(ctx, x, y, haut, peau, cheveux, bas) {
+    r(ctx, x + 1, y - 7, 2, 7, bas || "#2a2a3a"); r(ctx, x + 4, y - 7, 2, 7, bas || "#2a2a3a");
+    r(ctx, x, y - 16, 7, 9, haut);
+    r(ctx, x + 1, y - 22, 5, 6, peau);
+    r(ctx, x + 1, y - 23, 5, 2, cheveux);
+  }
+
+  /* ---------- J-6 : le quai du RER à 6 h 30 ---------- */
+  function rer(ctx, t) {
+    r(ctx, 0, 0, L, H, "#14142a");
+    r(ctx, 0, 0, L, 10, "#1e1e38");                    // plafond
+    for (var n = 10; n < L; n += 30) { r(ctx, n, 8, 14, 2, "#d8e8ff"); }
+    // Panneau d'affichage « Retard 20 min »
+    r(ctx, 54, 14, 52, 12, "#0a0a14"); r(ctx, 56, 16, 30, 2, "#ffb020"); r(ctx, 56, 20, 22, 2, "#ffb020");
+    if (Math.floor(t * 1.5) % 2) r(ctx, 90, 16, 14, 6, "#ff5020");
+    // Mur carrelé, affiches
+    for (var x = 0; x < L; x += 5) for (var y = 28; y < 52; y += 5) r(ctx, x, y, 4, 4, "#2a2a48");
+    r(ctx, 12, 30, 18, 20, "#6a4aa0"); r(ctx, 130, 30, 18, 20, "#3a7a9a");
+    // Quai et voie
+    r(ctx, 0, 52, L, 18, "#3a3a4a"); r(ctx, 0, 68, L, 2, "#e8e030");
+    r(ctx, 0, 70, L, 20, "#0e0e16"); r(ctx, 0, 78, L, 1, "#4a4a5a"); r(ctx, 0, 85, L, 1, "#4a4a5a");
+    // La foule serrée
+    var foule = [[18, "#4a3a6a"], [30, "#2a4a5a"], [44, "#5a2a3a"], [58, "#3a3a3a"], [96, "#2a5a4a"], [110, "#4a4a6a"], [124, "#6a3a2a"], [140, "#3a2a5a"]];
+    foule.forEach(function (f, k) { silhouette(ctx, f[0], 66 + (k % 2), f[1], k % 3 ? "#c89070" : "#8a5a3a", "#1a1414"); });
+    // L'homme au journal
+    r(ctx, 108, 46, 10, 8, "#e8e4d8"); r(ctx, 109, 47, 8, 1, "#222");
+    // Léa, sac à dos, au milieu
+    silhouette(ctx, 76, 67, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+    r(ctx, 74, 52, 3, 8, "#3a3a7a");
+  }
+
+  /* ---------- J-6 : le badge dans la poche du sac ---------- */
+  function sac(ctx, t, etat) {
+    r(ctx, 0, 0, L, H, "#121226");
+    r(ctx, 20, 10, 120, 76, "#2a2a6a");               // le sac
+    r(ctx, 24, 14, 112, 68, "#34348a");
+    r(ctx, 24, 24, 112, 2, "#c8c8d8");                // fermeture éclair ouverte
+    r(ctx, 30, 30, 34, 22, "#e8e4d8"); r(ctx, 32, 34, 28, 1, "#9a9aa8"); r(ctx, 32, 38, 24, 1, "#9a9aa8"); // cours de droit
+    r(ctx, 98, 34, 30, 20, "#1a8a5a"); r(ctx, 100, 36, 26, 4, "#e8e8e8");  // passe Navigo
+    var bx = 64, by = 40;
+    var lueur = (Math.sin(t * 2.2) + 1) / 2;
+    ctx.globalAlpha = 0.18 + lueur * 0.22; r(ctx, bx - 4, by - 4, 32, 26, "#a0b8ff"); ctx.globalAlpha = 1;
+    r(ctx, bx + 2, by + 2, 24, 18, "#0a0a18"); r(ctx, bx - 1, by - 1, 26, 20, "#14142a");
+    r(ctx, bx, by, 24, 18, "#c0c4d0"); r(ctx, bx + 1, by + 1, 22, 16, "#e4e8f0");
+    r(ctx, bx + 10, by - 3, 4, 4, "#8a90a0"); r(ctx, bx + 11, by - 12, 2, 9, "#3a6ad8"); // cordon bleu
+    if (etat && etat.drapeaux.badge_touche) r(ctx, bx + 18, by + 13, 5, 4, "#a8b0c8");
+  }
+
+  /* ---------- J-5 : la cuisine de la coloc, le soir ---------- */
+  function coloc(ctx, t) {
+    r(ctx, 0, 0, L, H, "#22223a");
+    r(ctx, 0, 64, L, 26, "#2e2a3a");
+    // Fenêtre sur les immeubles
+    r(ctx, 104, 10, 46, 32, "#3a3a52"); r(ctx, 106, 12, 42, 28, "#0c0c1e");
+    for (var i = 0; i < 6; i++) r(ctx, 110 + i * 6, 18 + (i % 3) * 6, 2, 3, (i % 2) ? "#9a8cff" : "#ffc060");
+    r(ctx, 126, 12, 2, 28, "#3a3a52");
+    // Évier, vaisselle empilée
+    r(ctx, 0, 48, 70, 4, "#5a5a6a"); r(ctx, 0, 52, 70, 12, "#3a3a4a");
+    r(ctx, 10, 40, 14, 3, "#e8e8e8"); r(ctx, 11, 37, 12, 3, "#d8d8e8"); r(ctx, 12, 34, 10, 3, "#e8e8e8"); r(ctx, 28, 38, 6, 10, "#8a5ad8");
+    // Table, ordinateur (le site de la CAF), Léa
+    r(ctx, 70, 58, 60, 3, "#6a5a4a"); r(ctx, 74, 61, 2, 20, "#4a3a2a"); r(ctx, 124, 61, 2, 20, "#4a3a2a");
+    r(ctx, 86, 46, 26, 12, "#1a1a24"); r(ctx, 88, 48, 22, 8, "#e8f0ff");
+    r(ctx, 90, 50, 10, 1, "#3a6ad8"); r(ctx, 90, 53, 16, 1, "#9a9aa8");
+    if (Math.floor(t * 2) % 2) r(ctx, 102, 50, 6, 2, "#3a6ad8"); // « en cours de traitement »
+    r(ctx, 84, 58, 30, 2, "#2a2a34");
+    silhouette(ctx, 62, 74, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+    // Le frigo couvert de mots
+    r(ctx, 142, 24, 16, 40, "#d8d8e0"); r(ctx, 145, 28, 4, 4, "#ffd040"); r(ctx, 151, 33, 4, 4, "#ff80a0"); r(ctx, 146, 40, 4, 4, "#80d0ff");
+  }
+
+  /* ---------- J-4 : le contrôle en bas de l'immeuble ---------- */
+  function controle(ctx, t) {
+    r(ctx, 0, 0, L, H, "#8a94c0");
+    bandes(ctx, 0, ["#5a6a9a", "#6a78a8", "#7a86b4", "#8a94c0"], 6);
+    // Immeubles
+    r(ctx, 0, 4, 60, 56, "#4a4a6a"); r(ctx, 100, 0, 60, 60, "#3e3e5e");
+    for (var y = 8; y < 56; y += 8) for (var x = 4; x < 58; x += 9) r(ctx, x, y, 4, 5, "#2a2a44");
+    for (var y2 = 4; y2 < 56; y2 += 8) for (var x2 = 104; x2 < 158; x2 += 9) r(ctx, x2, y2, 4, 5, "#26263e");
+    r(ctx, 22, 16, 4, 5, "#ffd080");                  // la fenêtre de la coloc
+    r(ctx, 0, 60, L, 4, "#5a5a6a"); r(ctx, 0, 64, L, 26, "#2e2e3a");
+    // Le fourgon (sans inscription)
+    r(ctx, 92, 50, 52, 22, "#2a3a6a"); r(ctx, 132, 44, 14, 28, "#2e3e72"); r(ctx, 134, 47, 9, 8, "#1a2440");
+    r(ctx, 96, 72, 8, 5, "#111"); r(ctx, 132, 72, 8, 5, "#111");
+    if (Math.floor(t * 2) % 2) r(ctx, 136, 42, 6, 2, "#4080ff");
+    // Yanis sur son scooter, les mains sur le guidon
+    r(ctx, 52, 70, 26, 4, "#d84a2a"); r(ctx, 50, 74, 6, 5, "#111"); r(ctx, 74, 74, 6, 5, "#111"); r(ctx, 72, 60, 2, 10, "#555");
+    silhouette(ctx, 58, 70, "#e86a20", "#7a4a2a", "#111", "#2a2a3a");
+    r(ctx, 66, 58, 6, 2, "#7a4a2a");
+    // Deux agents, calmes
+    silhouette(ctx, 82, 72, "#1e2a4a", "#c89070", "#1e2a4a", "#1e2a4a");
+    silhouette(ctx, 40, 72, "#1e2a4a", "#8a5a3a", "#1e2a4a", "#1e2a4a");
+  }
+
+  /* ---------- J-3 : l'association, aide aux devoirs ---------- */
+  function asso(ctx, t) {
+    r(ctx, 0, 0, L, H, "#e0d8c8");
+    r(ctx, 0, 62, L, 28, "#b8a890");
+    // Dessins d'enfants aux murs
+    var dessins = [[10, "#ff8060"], [30, "#60b0ff"], [50, "#80d060"], [110, "#ffd040"], [130, "#c080ff"]];
+    dessins.forEach(function (d, k) {
+      r(ctx, d[0], 10 + (k % 2) * 4, 14, 12, "#ffffff");
+      r(ctx, d[0] + 3, 13 + (k % 2) * 4, 6, 6, d[1]);
+    });
+    // Le panneau de liège et sa feuille
+    r(ctx, 70, 8, 30, 22, "#b08050"); r(ctx, 76, 12, 14, 14, "#f8f8f0"); r(ctx, 78, 15, 10, 1, "#555"); r(ctx, 78, 18, 8, 1, "#555"); r(ctx, 82, 11, 2, 2, "#d02020");
+    // La table, les cahiers
+    r(ctx, 30, 54, 100, 4, "#8a6a4a"); r(ctx, 34, 58, 3, 24, "#6a4a2a"); r(ctx, 123, 58, 3, 24, "#6a4a2a");
+    r(ctx, 60, 50, 16, 4, "#ffffff"); r(ctx, 62, 51, 12, 1, "#6a6aff"); r(ctx, 84, 50, 14, 4, "#f0f0f8");
+    // Léa et Kenza côte à côte
+    silhouette(ctx, 54, 62, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+    r(ctx, 92, 46, 6, 8, "#ffb040"); r(ctx, 93, 40, 4, 6, "#6a4a30"); r(ctx, 92, 39, 6, 2, "#1a1010"); r(ctx, 97, 41, 2, 4, "#1a1010");
+    // La lettre de l'école, qui tremble un peu dans la main de Kenza
+    var tremble = Math.floor(t * 4) % 2;
+    r(ctx, 82 + tremble, 44, 9, 7, "#ffffff"); r(ctx, 83 + tremble, 46, 7, 1, "#888");
+  }
+
+  /* ---------- J-3 : la façade de la fac, éclairée ---------- */
+  function fac(ctx, t) {
+    r(ctx, 0, 0, L, H, "#202042");
+    bandes(ctx, 0, ["#0e0e24", "#14142e", "#1a1a38", "#202042"], 8);
+    r(ctx, 0, 34, L, 56, "#18182a");
+    r(ctx, 20, 18, 120, 46, "#3a3a5a");
+    for (var y = 22; y < 58; y += 9) for (var x = 26; x < 136; x += 12) {
+      var allume = ((x + y) % 5) < 3;
+      r(ctx, x, y, 7, 6, allume ? "#c8d0ff" : "#2a2a44");
+    }
+    r(ctx, 68, 48, 24, 16, "#1a1a2a"); r(ctx, 66, 46, 28, 2, "#5a5a7a"); // l'entrée
+    r(ctx, 70, 40, 20, 4, "#c8d0ff");
+    r(ctx, 0, 64, L, 26, "#14141e"); r(ctx, 0, 64, L, 1, "#3a3a50");
+    ctx.globalAlpha = 0.1 + Math.sin(t) * 0.03; r(ctx, 20, 18, 120, 46, "#a0b0ff"); ctx.globalAlpha = 1;
+  }
+
+  /* ---------- J-2 : l'anniversaire de la grand-mère à Creil ---------- */
+  function anniv(ctx, t) {
+    r(ctx, 0, 0, L, H, "#d8c8b0");
+    r(ctx, 0, 0, L, 4, "#b8a890");
+    // Papier peint et cadres
+    for (var x = 4; x < L; x += 12) r(ctx, x, 4, 1, 50, "#c8b8a0");
+    r(ctx, 16, 12, 14, 12, "#8a6a4a"); r(ctx, 18, 14, 10, 8, "#a0b8d0");
+    // Guirlande
+    for (var g = 40; g < 120; g += 8) r(ctx, g, 6 + ((g / 8) % 2) * 2, 4, 4, ["#e04040", "#4080e0", "#e0c040"][(g / 8) % 3]);
+    // La télé sur le buffet, débat sans le son
+    r(ctx, 126, 26, 28, 20, "#111"); r(ctx, 128, 28, 24, 16, ["#3a5a8a", "#8a3a3a"][Math.floor(t / 1.8) % 2]);
+    r(ctx, 120, 46, 40, 10, "#6a4a30");
+    // La table avec la toile cirée
+    r(ctx, 14, 54, 118, 6, "#c84a4a");
+    for (var c = 14; c < 132; c += 6) r(ctx, c, 54, 3, 6, "#e8e0d0");
+    r(ctx, 20, 60, 3, 22, "#5a3a24"); r(ctx, 124, 60, 3, 22, "#5a3a24");
+    // Le gâteau, bougies
+    r(ctx, 64, 46, 18, 8, "#f0d8c0"); r(ctx, 64, 46, 18, 2, "#f8f0e8");
+    for (var b = 0; b < 4; b++) { r(ctx, 67 + b * 4, 42, 1, 4, "#80c0ff"); if (Math.floor(t * 6 + b) % 2) r(ctx, 67 + b * 4, 40, 1, 2, "#ffb020"); }
+    // La famille : oncle Patrick, la grand-mère, Christine, Léa
+    silhouette(ctx, 24, 54, "#3a5a3a", "#d8a080", "#7a6a5a", "#2a2a3a");
+    silhouette(ctx, 46, 54, "#8a6a9a", "#e0b090", "#e8e8e8", "#2a2a3a");
+    silhouette(ctx, 92, 54, "#5a7a9a", "#b08060", "#3a2a20", "#2a2a3a");
+    silhouette(ctx, 108, 54, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+  }
+
+  /* ---------- J-1 : la manifestation ---------- */
+  function manif(ctx, t) {
+    bandes(ctx, 0, ["#8a90a8", "#9aa0b4", "#aab0c0", "#babecc"], 6);
+    // Immeubles haussmanniens
+    r(ctx, 0, 8, L, 46, "#c8bca8");
+    for (var x = 4; x < L; x += 14) for (var y = 12; y < 48; y += 10) r(ctx, x, y, 6, 7, "#5a5a6a");
+    r(ctx, 0, 20, L, 1, "#8a8070"); r(ctx, 0, 30, L, 1, "#8a8070");
+    // L'agence bancaire, vitrine brisée
+    r(ctx, 108, 36, 40, 18, "#3a4a5a"); r(ctx, 110, 38, 36, 14, "#8ab0c8");
+    ctx.strokeStyle = "#f0f0f0"; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(128, 38); ctx.lineTo(122, 52); ctx.moveTo(128, 38); ctx.lineTo(140, 50); ctx.moveTo(128, 38); ctx.lineTo(112, 44); ctx.stroke();
+    // Fumigènes
+    for (var f = 0; f < 6; f++) {
+      var fy = 40 - ((t * 5 + f * 7) % 30), fx = 40 + f * 12 + Math.sin(t + f) * 3;
+      ctx.globalAlpha = 0.25; r(ctx, fx, fy, 8, 6, f % 2 ? "#ff6a6a" : "#d0d0d8"); ctx.globalAlpha = 1;
+    }
+    r(ctx, 0, 54, L, 36, "#6a6a70");
+    // La foule, des pancartes
+    for (var p = 0; p < 16; p++) {
+      var px = 4 + p * 10, py = 76 + (p % 3) * 3;
+      silhouette(ctx, px, py, ["#4a6a9a", "#9a4a4a", "#e8e8e8", "#5a8a5a"][p % 4], p % 2 ? "#c89070" : "#8a5a3a", "#2a2020");
+      if (p % 3 === 0) { r(ctx, px + 3, py - 34, 1, 12, "#8a6a4a"); r(ctx, px - 2, py - 40, 12, 7, "#f8f8f0"); r(ctx, px, py - 38, 8, 1, "#c02020"); }
+    }
+    // Les cagoulés devant la vitrine
+    silhouette(ctx, 118, 70, "#111", "#111", "#111", "#111");
+    silhouette(ctx, 130, 70, "#111", "#111", "#111", "#111");
+    // Léa, au premier plan
+    silhouette(ctx, 76, 88, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+  }
+
+  /* ---------- J-1 (si elle travaille samedi) : la salle de pause ---------- */
+  function caisse(ctx, t) {
+    r(ctx, 0, 0, L, H, "#d8dce0");
+    r(ctx, 0, 62, L, 28, "#a8acb4");
+    for (var n = 10; n < L; n += 40) r(ctx, n, 2, 24, 3, "#f8fcff");
+    // Casiers
+    for (var k = 0; k < 6; k++) { r(ctx, 4 + k * 13, 16, 12, 46, "#8a9aaa"); r(ctx, 13 + k * 13, 36, 2, 4, "#5a6a7a"); }
+    // Affiche « planning »
+    r(ctx, 92, 14, 26, 20, "#ffffff"); for (var l = 0; l < 5; l++) r(ctx, 94, 17 + l * 3, 22, 1, l === 3 ? "#e04040" : "#9a9aa8");
+    // Table, café, machine
+    r(ctx, 90, 56, 50, 3, "#e8e8e8"); r(ctx, 94, 59, 2, 22, "#888"); r(ctx, 134, 59, 2, 22, "#888");
+    r(ctx, 144, 30, 14, 32, "#3a3a44"); r(ctx, 147, 34, 8, 6, "#80c0ff");
+    r(ctx, 116, 52, 4, 4, "#8a5a3a");
+    // Léa en tenue de caisse, une collègue lui tend son téléphone
+    silhouette(ctx, 100, 70, "#3a6ad8", "#b08060", "#1a1010", "#2a2a40");
+    silhouette(ctx, 120, 70, "#3a6ad8", "#e0b090", "#c8a040", "#2a2a40");
+    r(ctx, 112, 52, 4, 6, "#111"); r(ctx, 113, 53, 2, 4, Math.floor(t * 3) % 2 ? "#ff6a6a" : "#d0d0d8");
+  }
+
+  /* ---------- Dimanche : le préau d'école, bureau de vote ---------- */
+  function preau(ctx, t) {
+    bandes(ctx, 0, ["#a8c8e8", "#b4d0ec", "#c0d8f0"], 6);
+    r(ctx, 0, 18, L, 72, "#b8b0a0");
+    r(ctx, 0, 14, L, 6, "#5a4a3a");                    // le toit du préau
+    for (var p = 10; p < L; p += 36) r(ctx, p, 20, 4, 50, "#6a5a4a");
+    // Marelle au sol et dessins à la craie
+    r(ctx, 0, 70, L, 20, "#9a9488");
+    for (var m = 0; m < 4; m++) r(ctx, 16 + m * 9, 76, 8, 6, "#f0f0f0"), r(ctx, 17 + m * 9, 77, 6, 4, "#9a9488");
+    // Le panneau « Bureau de vote » et l'urne
+    r(ctx, 60, 26, 40, 8, "#f8f8f0"); r(ctx, 64, 29, 32, 2, "#3a3a6a");
+    r(ctx, 70, 48, 20, 4, "#8a8a8a"); r(ctx, 72, 40, 16, 8, "#d8e8f0"); r(ctx, 76, 40, 8, 1, "#333");
+    // La file d'électeurs
+    var avance = Math.floor(t / 3) % 2;
+    [[110, "#6a6a3a"], [122, "#3a5a7a"], [134, "#8a4a4a"]].forEach(function (e, k) {
+      silhouette(ctx, e[0] - avance, 70, e[1], k === 1 ? "#8a5a3a" : "#d8a080", "#2a2020");
+    });
+    silhouette(ctx, 146 - avance, 70, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+  }
+
+  /* ---------- Dimanche : le badge d'hôpital, enfin retourné ---------- */
+  function badge_lea(ctx, t) {
+    r(ctx, 0, 0, L, H, "#121226");
+    ctx.globalAlpha = 0.25 + (Math.sin(t * 1.5) + 1) * 0.08; r(ctx, 36, 12, 88, 66, "#a0b8ff"); ctx.globalAlpha = 1;
+    r(ctx, 76, 0, 8, 14, "#3a6ad8");                  // le cordon
+    r(ctx, 74, 12, 12, 6, "#8a90a0");
+    r(ctx, 44, 18, 72, 52, "#c0c4d0");
+    r(ctx, 46, 20, 68, 48, "#f4f6fa");
+    r(ctx, 46, 20, 68, 8, "#2a8ac8");                 // bandeau de l'hôpital
+    r(ctx, 50, 23, 30, 2, "#f4f6fa"); r(ctx, 104, 22, 6, 4, "#f4f6fa"); r(ctx, 106, 21, 2, 6, "#f4f6fa");
+    r(ctx, 50, 32, 20, 26, "#9aa0b0");                // la photo
+    r(ctx, 54, 36, 12, 12, "#b08060"); r(ctx, 53, 34, 14, 4, "#3a2a20"); r(ctx, 52, 50, 16, 8, "#e8f0f8");
+    r(ctx, 76, 34, 32, 2, "#2a2e3a");                 // CHRISTINE MOREL
+    r(ctx, 76, 40, 24, 2, "#2a2e3a");                 // AIDE-SOIGNANTE
+    r(ctx, 76, 46, 20, 2, "#6a6ad8");                 // SERVICE DE NUIT
+    r(ctx, 76, 54, 26, 1, "#9a9aa8"); r(ctx, 76, 58, 18, 1, "#9a9aa8");
+  }
+
   window.Dessins = {
     largeur: L,
     hauteur: H,
@@ -518,6 +766,17 @@
     balto: balto,
     mairie: mairie,
     badge: badge,
-    isoloir: isoloir
+    isoloir: isoloir,
+    rer: rer,
+    sac: sac,
+    coloc: coloc,
+    controle: controle,
+    asso: asso,
+    fac: fac,
+    anniv: anniv,
+    manif: manif,
+    caisse: caisse,
+    preau: preau,
+    badge_lea: badge_lea
   };
 })();

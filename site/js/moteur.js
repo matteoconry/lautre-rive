@@ -5,7 +5,8 @@
 (function () {
   "use strict";
 
-  var H = window.Histoire;
+  var P = window.Parcours;
+  var H = P.sebastien; // le parcours en cours
   var D = window.Dessins;
 
   var el = {
@@ -255,7 +256,7 @@
 
   // Un choix est grisé si le personnage n'en a plus les moyens
   function raisonBlocage(opt) {
-    if (opt.exigeant && etat.energie < H.seuil_energie) return "Trop fatigué pour ça.";
+    if (opt.exigeant && etat.energie < H.seuil_energie) return H.fatigue;
     if (opt.exige) {
       for (var cle in opt.exige) {
         if (cle !== "raison" && etat[cle] < opt.exige[cle]) return opt.exige.raison || "Pas possible.";
@@ -348,7 +349,7 @@
         var lignes = [
           { t: "Dans sa tête n°" + etape.numero, style: "rubrique" },
           { t: "Ton pari : " + opt.texte, style: "recit" },
-          { t: "Sébastien :", style: "fort" },
+          { t: H.prenom + " :", style: "fort" },
           { t: "« " + etape.reponse + " »", style: "pense" }
         ];
         lignes.push(etape.source
@@ -364,7 +365,7 @@
 
     var titre = document.createElement("p");
     titre.className = "fort";
-    titre.textContent = "Fin de la semaine de Sébastien.";
+    titre.textContent = "Fin de la semaine de " + H.prenom + ".";
     el.texte.appendChild(titre);
 
     var dl = document.createElement("dl");
@@ -381,24 +382,25 @@
     ligne("Fin de mois", ecart("fin_de_mois", " €"));
     ligne("Énergie", ecart("energie", " / 10"));
     ligne("Liens", ecart("liens", " / 10"));
-    ligne("Berlin", etat.drapeaux.berlin ? "payé" : "pas cette fois");
-    ligne("La nuit du bip", etat.drapeaux.parti_intervention ? "il est parti" : "il est resté avec Manon");
-    ligne("Au Balto", etat.drapeaux.a_parle_au_bar ? "il a répondu" : "il n'a rien dit");
+    (H.recap || []).forEach(function (r) { ligne(r.nom, etat.drapeaux[r.si] ? r.oui : r.non); });
     etat.paris.forEach(function (p) { ligne("Pari n°" + p.numero, p.pari); });
-    ligne("Le badge", "Roger Marchal, son père");
+    ligne("Le badge", H.badge);
     if (etat.vote) ligne("Ton enveloppe", etat.vote);
     el.texte.appendChild(dl);
 
     var note = document.createElement("p");
     note.className = "note";
-    note.textContent = "Rejoue la semaine : d'autres choix ouvrent d'autres scènes. Le parcours de Léa, le quiz et la rencontre sur le pont arrivent bientôt.";
+    var autre = H.rive === "gauche" ? P.lea : P.sebastien;
+    note.textContent = "Rejoue la semaine : d'autres choix ouvrent d'autres scènes. Ou passe de l'autre côté du pont, avec " + autre.prenom + ".";
     el.texte.appendChild(note);
 
     boutons([
       { texte: "Rejouer la semaine" },
+      { texte: "Passer de l'autre côté : " + autre.prenom, classe: autre.rive },
       { texte: "Revenir au pont" }
     ], function (opt, n) {
-      if (n === 0) commencer();
+      if (n === 0) commencer(H.rive === "gauche" ? "sebastien" : "lea");
+      else if (n === 1) commencer(autre === P.lea ? "lea" : "sebastien");
       else accueil();
     });
   }
@@ -411,6 +413,7 @@
     M.jouer("pont");
     etat = nouvelEtat();
     el.jeu.classList.add("accueil");
+    document.body.className = "";
     el.hud.classList.add("cache");
     el.titre.classList.remove("visible");
 
@@ -425,32 +428,25 @@
         { texte: "Rive gauche", classe: "gauche" },
         { texte: "Rive droite", classe: "droite" }
       ], function (opt, n) {
-        if (n === 0) {
-          vider();
-          ecrire([
-            { t: "Alors tu vas passer de l'autre côté.", style: "fort" },
-            { t: "Pendant six jours, tu vas vivre la vie de quelqu'un qui ne vote pas comme toi." },
-            { t: "Ses choix seront les tiens. Aucun n'est le bon." }
-          ], function () {
-            boutons([{ texte: "Traverser le pont", classe: "gauche" }], commencer);
+        var nom = n === 0 ? "sebastien" : "lea";
+        var q = P[nom];
+        vider();
+        ecrire([
+          { t: "Alors tu vas passer de l'autre côté.", style: "fort" },
+          { t: "De l'autre côté t'attend " + q.presentation + "." },
+          { t: "Pendant six jours, tu vas vivre la vie de quelqu'un qui ne vote pas comme toi. Ses choix seront les tiens. Aucun n'est le bon." }
+        ], function () {
+          boutons([{ texte: "Traverser le pont", classe: q.rive }, { texte: "Revenir au pont" }], function (o, k) {
+            if (k === 0) commencer(nom); else accueil();
           });
-        } else {
-          vider();
-          ecrire([
-            { t: "De l'autre côté t'attend Léa, 21 ans, étudiante à Saint-Denis.", style: "fort" },
-            { t: "Son parcours n'est pas encore dans ce prototype. Pour l'instant, seule la traversée vers Sébastien est ouverte." }
-          ], function () {
-            boutons([
-              { texte: "Découvrir Sébastien", classe: "gauche" },
-              { texte: "Revenir au pont" }
-            ], function (o, k) { if (k === 0) commencer(); else accueil(); });
-          });
-        }
+        });
       });
     });
   }
 
-  function commencer() {
+  function commencer(nom) {
+    if (nom && P[nom]) H = P[nom];
+    document.body.className = H.rive === "gauche" ? "sebastien" : "lea";
     etat = nouvelEtat();
     index = -1;
     file = [];

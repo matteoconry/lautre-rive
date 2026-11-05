@@ -21,7 +21,20 @@
  * Choix grisés : « exigeant: true » grise le choix sous 3 d'énergie ;
  * « exige: { fin_de_mois: 30, raison: "…" } » le grise sous 30 €.
  */
-window.Histoire = {
+window.Parcours = window.Parcours || {};
+window.Parcours.sebastien = {
+  prenom: "Sébastien",
+  rive: "gauche",
+  presentation: "Sébastien, 47 ans, cariste dans un village du Nord-Est",
+  fatigue: "Trop fatigué pour ça.",
+  // Les lignes du récapitulatif de fin de semaine
+  recap: [
+    { nom: "Berlin", si: "berlin", oui: "payé", non: "pas cette fois" },
+    { nom: "La nuit du bip", si: "parti_intervention", oui: "il est parti", non: "il est resté avec Manon" },
+    { nom: "Au Balto", si: "a_parle_au_bar", oui: "il a répondu", non: "il n'a rien dit" }
+  ],
+  badge: "Roger Marchal, son père",
+
   depart: {
     jour: 6,          // J-6 : six jours avant le vote
     fin_de_mois: 212, // en euros (d'après le script)

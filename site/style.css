@@ -375,3 +375,9 @@ body {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* Le parcours de Léa : couleurs froides (bleu, violet néon) */
+body.lea {
+  --chaud: #8a6aff;
+  --brique: #3a6ad8;
+}

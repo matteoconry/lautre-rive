@@ -149,6 +149,18 @@
     o.start(t); o.stop(t + 0.1);
   }
 
+  // Synthé carré, un peu étouffé (sons de la ville)
+  function synth(sortie, t, midi, vol, duree) {
+    var o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    o.type = "square"; o.frequency.value = freq(midi);
+    f.type = "lowpass"; f.frequency.value = 1800;
+    o.connect(f); f.connect(g); g.connect(sortie);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + duree);
+    o.start(t); o.stop(t + duree + 0.05);
+  }
+
   // Battement sourd (cœur)
   function battement(sortie, t, vol) {
     var o = ctx.createOscillator(), g = ctx.createGain();
@@ -428,8 +440,8 @@
       },
       pas: function (s, t, i, d) {
         var r = this.sortieRadio, a = accordDe(this, i);
-        if (a.pas % 4 === 0) basse(r, t, a.notes[0] - 12, 0.25, d * 1.5);
-        if (a.pas % 4 === 2) basse(r, t, a.notes[2] - 12, 0.2, d * 1.5);
+        if (a.pas % 4 === 0) basse(r, t, a.notes[0] - 12, 0.4, d * 1.5);
+        if (a.pas % 4 === 2) basse(r, t, a.notes[2] - 12, 0.32, d * 1.5);
         if (a.pas % 2 === 1) pince(r, t, a.notes[1 + (i % 3)], 0.05, 0.4);
         if (a.pas % 4 === 2) clic(r, t, 1800, 0.10, 0.08);
         if (Math.random() < 0.06) clic(s, t, 5200, 0.03, 0.12); // des verres qui trinquent
@@ -480,8 +492,167 @@
         var n = this.notes[p];
         if (n) piano(s, t, n, 0.06);
       }
+    }    ,
+
+    /* ---------- Léa : des sons plus urbains, plus électroniques ---------- */
+
+    // J-6, le quai du RER : la ville qui se réveille, la foule, l'annonce
+    rer: {
+      bpm: 96, echo: 0.3,
+      accords: [[45, 52, 57, 60], [41, 48, 53, 57], [48, 55, 60, 64], [43, 50, 55, 59]],
+      couches: function (s) {
+        return [
+          souffle(s, bruitBlanc, "bandpass", 700, 0.03, 1.9), // la foule sur le quai
+          bourdon(s, [55, 110], "sawtooth", 0.015, 250)       // la ventilation
+        ];
+      },
+      pas: function (s, t, i, d) {
+        var a = accordDe(this, i);
+        if (a.pas === 0) nappe(s, t, a.notes, 0.016, d * 8, 900);
+        synth(s, t, a.notes[[0, 2, 1, 3, 2, 1, 3, 2][a.pas]] + 12, 0.025, d * 0.8);
+        if (a.pas % 4 === 0) basse(s, t, a.notes[0] - 12, 0.14, d * 1.6);
+        if (i % 64 === 8) { cloche(s, t, 72, 0.04); cloche(s, t + d, 76, 0.04); cloche(s, t + 2 * d, 79, 0.04); } // le carillon d'annonce
+      }
+    },
+
+    // J-5, la cuisine de la coloc : un son lo-fi du soir
+    coloc: {
+      bpm: 76, echo: 0.3,
+      accords: [[50, 57, 60, 65], [55, 59, 62, 65], [48, 55, 59, 64], [45, 52, 55, 60]],
+      melodie: [
+        [72, null, null, 74, null, 72, null, 69],
+        [71, null, null, null, 67, null, null, null],
+        [67, null, 69, null, 71, null, 72, null],
+        [69, null, null, null, null, null, 64, null]
+      ],
+      couches: function (s) {
+        return [bourdon(s, [50, 100], "sine", 0.012, 300), souffle(s, bruitBlanc, "highpass", 6000, 0.008, 0.3)];
+      },
+      pas: function (s, t, i, d) {
+        var a = accordDe(this, i);
+        if (a.pas === 0) piano(s, t, a.notes[0] - 12, 0.06);
+        if (a.pas === 0 || a.pas === 5) { a.notes.forEach(function (n, k) { piano(s, t + k * 0.02, n, 0.025); }); }
+        var m = this.melodie[a.mesure][a.pas];
+        if (m) piano(s, t, m, 0.06);
+        if (a.pas % 4 === 0) battement(s, t, 0.12);
+        if (a.pas % 4 === 2) clic(s, t, 1800, 0.05, 0.08);
+      }
+    },
+
+    // J-4, le contrôle : tendu, une pulsation qui ne se relâche pas
+    controle: {
+      bpm: 88, echo: 0.2,
+      accords: [[38, 45, 50], [38, 45, 50], [39, 46, 51], [37, 44, 49]],
+      couches: function (s) {
+        return [souffle(s, bruitBrun, "lowpass", 500, 0.08, 0.15)]; // la rue
+      },
+      pas: function (s, t, i, d) {
+        var a = accordDe(this, i);
+        basse(s, t, a.notes[0], 0.11, d * 0.7);
+        if (a.pas === 0) nappe(s, t, a.notes.map(function (n) { return n + 12; }), 0.016, d * 8, 500);
+        if (a.pas === 3 || a.pas === 6) synth(s, t, a.notes[2] + 24, 0.018, d);
+      }
+    },
+
+    // J-3, l'association : chaud, plein d'espoir
+    asso: {
+      bpm: 84, echo: 0.3,
+      accords: [[48, 55, 60, 64], [45, 52, 57, 60], [53, 57, 60, 65], [55, 59, 62, 67]],
+      melodie: [
+        [72, null, 74, null, 76, null, 79, null],
+        [76, null, 74, null, 72, null, null, null],
+        [69, null, 72, null, 77, null, 76, null],
+        [74, null, null, null, 71, null, null, null]
+      ],
+      couches: function (s) {
+        return [souffle(s, bruitBlanc, "bandpass", 1500, 0.012, 2.6)]; // des voix d'enfants au loin
+      },
+      pas: function (s, t, i, d) {
+        var a = accordDe(this, i);
+        if (a.pas === 0) { nappe(s, t, a.notes, 0.016, d * 8, 1300); basse(s, t, a.notes[0] - 12, 0.14, d * 4); }
+        var m = this.melodie[a.mesure][a.pas];
+        if (m && Math.floor(i / 32) % 2 === 0) pince(s, t, m + 12, 0.04, 1.2);
+        if (m && Math.floor(i / 32) % 2 === 1) piano(s, t, m, 0.06);
+        if (a.pas % 2 === 1) pince(s, t, a.notes[2] + 12, 0.025, 0.6);
+      }
+    },
+
+    // J-2, l'anniversaire : la famille, la télé, une tension sous la fête
+    anniv: {
+      bpm: 70, echo: 0.25,
+      accords: [[53, 57, 60, 65], [52, 55, 60, 64], [50, 53, 57, 62], [55, 59, 62, 65]],
+      melodie: [
+        [72, null, 72, 74, 72, null, 77, null],
+        [76, null, null, null, 72, null, null, null],
+        [74, null, 74, 76, 74, null, 72, null],
+        [71, null, null, null, null, null, null, null]
+      ],
+      couches: function (s) {
+        return [souffle(s, bruitBlanc, "bandpass", 600, 0.035, 2.1)]; // les conversations de la famille
+      },
+      pas: function (s, t, i, d) {
+        var a = accordDe(this, i);
+        if (a.pas === 0) { nappe(s, t, a.notes, 0.014, d * 8, 700); piano(s, t, a.notes[0] - 12, 0.05); }
+        var m = this.melodie[a.mesure][a.pas];
+        if (m) piano(s, t, m, 0.05);
+        if (Math.random() < 0.05) clic(s, t, 4600, 0.025, 0.06); // les couverts
+      }
+    },
+
+    // J-1, la manif : la foule, les tambours
+    manif: {
+      bpm: 104, echo: 0.2,
+      accords: [[45, 52, 57], [43, 50, 55], [41, 48, 53], [43, 50, 55]],
+      couches: function (s) {
+        return [
+          souffle(s, bruitBlanc, "bandpass", 500, 0.06, 0.9),  // la foule
+          souffle(s, bruitBlanc, "bandpass", 1100, 0.03, 1.4)
+        ];
+      },
+      pas: function (s, t, i, d) {
+        var a = accordDe(this, i);
+        if (a.pas % 2 === 0) battement(s, t, a.pas % 4 === 0 ? 0.3 : 0.18); // les tambours
+        if (a.pas === 3 || a.pas === 7) clic(s, t, 900, 0.08, 0.1);
+        if (a.pas === 0) nappe(s, t, a.notes.map(function (n) { return n + 12; }), 0.014, d * 8, 800);
+        if (i % 32 === 28) clic(s, t, 2600, 0.06, 0.5); // le verre qui se brise, au loin
+      }
+    },
+
+    // J-1, la salle de pause : néons, frigo, les bips des caisses à travers le mur
+    caisse: {
+      bpm: 80, echo: 0.15,
+      accords: [[52, 59, 64], [48, 55, 60], [50, 57, 62], [47, 54, 59]],
+      couches: function (s) {
+        return [bourdon(s, [100, 200], "sawtooth", 0.01, 400)]; // les néons
+      },
+      pas: function (s, t, i, d) {
+        var a = accordDe(this, i);
+        if (a.pas === 0) nappe(s, t, a.notes, 0.012, d * 8, 600);
+        if (Math.random() < 0.18) synth(s, t, 95, 0.012, 0.08); // un bip de caisse
+        if (a.pas === 4) synth(s, t, a.notes[1] + 12, 0.02, d * 2);
+      }
+    },
+
+    // Dimanche matin, le préau : la lumière, une cour d'école vide
+    preau: {
+      bpm: 72, echo: 0.45,
+      accords: [[45, 52, 57, 61], [50, 54, 57, 62], [47, 54, 57, 62], [52, 56, 59, 64]],
+      couches: function (s) {
+        return [souffle(s, bruitBrun, "lowpass", 400, 0.03, 0.1)];
+      },
+      pas: function (s, t, i, d) {
+        var a = accordDe(this, i);
+        if (a.pas === 0) { nappe(s, t, a.notes, 0.02, d * 8, 1300); basse(s, t, a.notes[0] - 12, 0.12, d * 6); }
+        if (a.pas % 2 === 0) pince(s, t, a.notes[(a.pas / 2) % a.notes.length] + 12, 0.035, 1.4);
+        if (Math.random() < 0.08) pince(s, t, 96 + Math.floor(Math.random() * 5), 0.012, 0.15); // un oiseau
+      }
     }
   };
+
+  // Des décors qui partagent la même ambiance
+  AMBIANCES.sac = AMBIANCES.boite;
+  AMBIANCES.badge_lea = AMBIANCES.badge;
+  AMBIANCES.fac = AMBIANCES.fonderie;
 
   /* ---------------- Le chef d'orchestre ---------------- */
 
