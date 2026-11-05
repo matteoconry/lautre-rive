@@ -321,6 +321,165 @@
         if (a.pas === 5 && a.mesure === 3) pince(s, t, a.notes[3] + 24, 0.04, 2);
         if (i % 32 === 20) clic(s, t, 2400, 0.04, 0.4); // un choc métallique au loin
       }
+    }    ,
+
+    // J-5, la pause sur le quai : la journée, mais les comptes qui serrent
+    pause: {
+      bpm: 92, echo: 0.15,
+      accords: [[45, 52, 57, 60], [45, 52, 57, 60], [41, 48, 53, 57], [43, 50, 55, 59]],
+      couches: function (s) {
+        return [souffle(s, bruitBrun, "lowpass", 700, 0.05, 0.2)]; // le bruit de l'entrepôt
+      },
+      pas: function (s, t, i, d) {
+        var a = accordDe(this, i);
+        if (a.pas === 0) nappe(s, t, a.notes, 0.014, d * 8, 800);
+        if (a.pas % 2 === 0) basse(s, t, a.notes[0] - 12, 0.12, d * 0.8); // une pulsation qui compte
+        if (a.pas === 3 || a.pas === 7) pince(s, t, a.notes[2] + 12, 0.04, 0.6);
+        if (i % 8 === 5) clic(s, t, 3600, 0.03, 0.05); // une touche de calculatrice
+      }
+    },
+
+    // J-4, la grand-rue au crépuscule : ce qui a fermé
+    rue: {
+      bpm: 60, echo: 0.5,
+      accords: [[50, 57, 60, 65], [46, 53, 58, 62], [48, 55, 60, 64], [45, 52, 57, 61]],
+      melodie: [
+        [74, null, null, null, 72, null, 69, null],
+        [70, null, null, null, 69, null, null, null],
+        [67, null, null, 69, null, 72, null, null],
+        [69, null, null, null, null, null, null, null]
+      ],
+      couches: function (s) {
+        return [souffle(s, bruitBlanc, "bandpass", 500, 0.025, 0.07)]; // le vent dans la rue vide
+      },
+      pas: function (s, t, i, d) {
+        var a = accordDe(this, i);
+        if (a.pas === 0) { nappe(s, t, a.notes, 0.02, d * 8, 700); basse(s, t, a.notes[0] - 12, 0.12, d * 6); }
+        var m = this.melodie[a.mesure][a.pas];
+        if (m) piano(s, t, m, 0.07);
+      }
+    },
+
+    // J-3, l'accident sous la pluie : tendu, mais déterminé
+    accident: {
+      bpm: 110, echo: 0.25,
+      accords: [[40, 47, 52], [40, 47, 52], [36, 43, 48], [38, 45, 50]],
+      couches: function (s) {
+        return [
+          souffle(s, bruitBlanc, "highpass", 3000, 0.04, 0.3), // la pluie
+          souffle(s, bruitBrun, "lowpass", 200, 0.10, 0.2)     // le moteur du camion
+        ];
+      },
+      pas: function (s, t, i, d) {
+        var a = accordDe(this, i);
+        basse(s, t, a.notes[0], i % 2 ? 0.10 : 0.16, d * 0.9); // ostinato
+        if (a.pas === 0) nappe(s, t, a.notes.map(function (n) { return n + 12; }), 0.018, d * 8, 600);
+        if (a.pas === 4) battement(s, t, 0.18);
+        if (a.pas === 6 && a.mesure % 2) pince(s, t, a.notes[2] + 24, 0.035, 0.8);
+      }
+    },
+
+    // La fonderie éteinte : presque rien, une seconde de silence
+    fonderie: {
+      bpm: 40, echo: 0.7,
+      couches: function (s) {
+        return [souffle(s, bruitBlanc, "bandpass", 350, 0.03, 0.05)];
+      },
+      pas: function (s, t, i) {
+        if (i % 16 === 4) cloche(s, t, 62, 0.03);
+        if (i % 32 === 14) clic(s, t, 900, 0.03, 0.6); // une tôle qui bat au vent
+      }
+    },
+
+    // J-2, le repas : la télé qui murmure, une tension douce
+    repas: {
+      bpm: 66, echo: 0.25,
+      accords: [[48, 55, 60, 64], [45, 52, 57, 60], [41, 48, 53, 57], [43, 50, 55, 62]],
+      melodie: [
+        [72, null, 71, null, 67, null, null, null],
+        [69, null, null, 72, null, null, null, null],
+        [69, null, 67, null, 65, null, 64, null],
+        [62, null, null, null, null, null, null, null]
+      ],
+      couches: function (s) {
+        return [
+          souffle(s, bruitBlanc, "bandpass", 900, 0.02, 1.7), // la télé, sans le son… presque
+          bourdon(s, [50, 100], "sine", 0.01, 300)
+        ];
+      },
+      pas: function (s, t, i, d) {
+        var a = accordDe(this, i);
+        if (a.pas === 0) { nappe(s, t, a.notes, 0.012, d * 8, 650); piano(s, t, a.notes[0] - 12, 0.05); }
+        var m = this.melodie[a.mesure][a.pas];
+        if (m) piano(s, t, m, 0.07);
+        if (Math.random() < 0.05) clic(s, t, 4200, 0.02, 0.05); // une fourchette sur l'assiette
+      }
+    },
+
+    // J-1, le Balto : le brouhaha du comptoir, un vieux juke-box
+    balto: {
+      bpm: 100, echo: 0.1, radio: true,
+      accords: [[45, 52, 57, 61], [50, 54, 57, 62], [52, 56, 59, 64], [50, 54, 57, 62]],
+      couches: function (s) {
+        return [
+          souffle(s, bruitBlanc, "bandpass", 650, 0.05, 2.3),  // les conversations
+          souffle(s, bruitBlanc, "bandpass", 1300, 0.025, 3.1)
+        ];
+      },
+      pas: function (s, t, i, d) {
+        var r = this.sortieRadio, a = accordDe(this, i);
+        if (a.pas % 4 === 0) basse(r, t, a.notes[0] - 12, 0.25, d * 1.5);
+        if (a.pas % 4 === 2) basse(r, t, a.notes[2] - 12, 0.2, d * 1.5);
+        if (a.pas % 2 === 1) pince(r, t, a.notes[1 + (i % 3)], 0.05, 0.4);
+        if (a.pas % 4 === 2) clic(r, t, 1800, 0.10, 0.08);
+        if (Math.random() < 0.06) clic(s, t, 5200, 0.03, 0.12); // des verres qui trinquent
+      }
+    },
+
+    // Dimanche matin, la mairie : une cloche au loin, de la lumière
+    mairie: {
+      bpm: 72, echo: 0.5,
+      accords: [[48, 55, 60, 64], [53, 57, 60, 65], [45, 52, 57, 60], [55, 59, 62, 67]],
+      couches: function (s) {
+        return [souffle(s, bruitBrun, "lowpass", 400, 0.04, 0.1)];
+      },
+      pas: function (s, t, i, d) {
+        var a = accordDe(this, i);
+        if (a.pas === 0) { nappe(s, t, a.notes, 0.02, d * 8, 1200); basse(s, t, a.notes[0] - 12, 0.12, d * 6); }
+        if (i % 16 === 0) cloche(s, t, 55, 0.05);   // l'église, au loin
+        if (a.pas % 2 === 1) pince(s, t, a.notes[(i >> 1) % a.notes.length] + 12, 0.035, 1.2);
+      }
+    },
+
+    // Le badge retourné : le mystère se résout, chaleur
+    badge: {
+      bpm: 54, echo: 0.6,
+      accords: [[50, 57, 62, 66], [47, 54, 59, 62], [43, 50, 55, 59], [45, 52, 57, 61]],
+      couches: function (s) {
+        return [bourdon(s, [freq(38), freq(45)], "sine", 0.04, 400, 0.1)];
+      },
+      notes: [74, null, null, 78, null, null, 76, null],
+      pas: function (s, t, i, d) {
+        var a = accordDe(this, i);
+        if (a.pas === 0) nappe(s, t, a.notes, 0.026, d * 8, 1000);
+        var n = this.notes[a.pas];
+        if (n) cloche(s, t, n - (a.mesure === 2 ? 2 : 0), 0.04);
+      }
+    },
+
+    // L'isoloir : seul, le cœur, une note à la fois
+    isoloir: {
+      bpm: 56, echo: 0.55,
+      couches: function (s) {
+        return [bourdon(s, [freq(43), freq(50)], "sine", 0.03, 300, 0.08)];
+      },
+      notes: [67, null, null, null, 71, null, null, null, 74, null, null, null, 72, null, 71, null],
+      pas: function (s, t, i, d) {
+        var p = i % 16;
+        if (p % 8 === 0) { battement(s, t, 0.22); battement(s, t + d * 0.45, 0.13); }
+        var n = this.notes[p];
+        if (n) piano(s, t, n, 0.06);
+      }
     }
   };
 

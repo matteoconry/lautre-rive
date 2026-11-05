@@ -43,9 +43,25 @@
       energie: H.depart.energie,
       liens: H.depart.liens,
       drapeaux: {},
-      pari: null,
+      paris: [],
+      vote: null,
       choixFaits: []
     };
+  }
+
+  // Une étape, une page ou une ligne peut dépendre d'un choix passé
+  function visible(x) {
+    if (!x) return false;
+    if (x.si && !etat.drapeaux[x.si]) return false;
+    if (x.sinon && etat.drapeaux[x.sinon]) return false;
+    return true;
+  }
+
+  // {fin_de_mois} → la somme du moment
+  function remplir(texte) {
+    return texte.replace(/\{(\w+)\}/g, function (tout, cle) {
+      return etat[cle] !== undefined ? etat[cle] : tout;
+    });
   }
 
   /* ---------------- Décor animé ---------------- */
@@ -62,8 +78,8 @@
   /* ---------------- Bandeau : compte à rebours et jauges ---------------- */
 
   function afficherBandeau() {
-    el.jour.textContent = "J-" + etat.jour;
-    el.jourTexte.textContent = "avant le vote";
+    el.jour.textContent = etat.jour > 0 ? "J-" + etat.jour : "Dimanche";
+    el.jourTexte.textContent = etat.jour > 0 ? "avant le vote" : "jour du vote";
     el.pips.innerHTML = "";
     var total = H.depart.jour; // J-6 … J-1, puis dimanche
     for (var i = 0; i <= total; i++) {
@@ -132,9 +148,9 @@
 
   function creerLigne(ligne) {
     var noeud, cible;
-    if (ligne.style === "sms") {
+    if (ligne.style === "sms" || ligne.style === "parole") {
       noeud = document.createElement("div");
-      noeud.className = "sms";
+      noeud.className = ligne.style;
       var de = document.createElement("b");
       de.textContent = ligne.de || "";
       cible = document.createElement("span");
@@ -157,6 +173,11 @@
 
   // Écrit les lignes, puis appelle fini()
   function ecrire(lignes, fini) {
+    lignes = lignes.filter(visible).map(function (l) {
+      var copie = {}; for (var k in l) copie[k] = l[k];
+      copie.t = remplir(l.t);
+      return copie;
+    });
     var cibles = lignes.map(creerLigne);
     var i = 0, c = 0, minuteur = null;
     var lent = !window.matchMedia || !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -246,13 +267,16 @@
   /* ---------------- Déroulé de l'histoire ---------------- */
 
   function avancer() {
-    if (file.length) {
-      page(file.shift().lignes, avancer);
-      return;
+    while (file.length) {
+      var p = file.shift();
+      if (visible(p)) { page(p.lignes, avancer); return; }
     }
-    index++;
-    var etape = H.etapes[index];
-    if (!etape) { accueil(); return; }
+    var etape;
+    do {
+      index++;
+      etape = H.etapes[index];
+      if (!etape) { accueil(); return; }
+    } while (!visible(etape));
     jouer(etape);
   }
 
@@ -269,6 +293,11 @@
   function jouerDecor(etape) {
     decor = etape.decor;
     M.jouer(decor);
+    if (etape.jour !== undefined && etape.jour !== etat.jour) {
+      etat.jour = etape.jour;
+      afficherBandeau();
+      if (H.recuperation_nuit) appliquer({ energie: H.recuperation_nuit }); // une nuit de sommeil
+    }
     if (!etape.titre) { avancer(); return; }
     vider();
     el.titre.innerHTML = "";
@@ -299,6 +328,7 @@
         appliquer(opt.effets);
         if (opt.drapeaux) Object.keys(opt.drapeaux).forEach(function (k) { etat.drapeaux[k] = opt.drapeaux[k]; });
         etat.choixFaits.push(opt.texte);
+        if (etape.vote) etat.vote = opt.texte;
         file = (opt.suite || []).slice();
         avancer();
       });
@@ -307,13 +337,14 @@
 
   function jouerTete(etape) {
     vider();
-    ecrire([
-      { t: "Dans sa tête n°" + etape.numero, style: "rubrique" },
-      { t: etape.question, style: "fort" },
-      { t: "Fais ton pari.", style: "note" }
-    ], function () {
+    ecrire([{ t: "Dans sa tête n°" + etape.numero, style: "rubrique" }]
+      .concat(etape.avant || [])
+      .concat([
+        { t: etape.question, style: "fort" },
+        { t: "Fais ton pari.", style: "note" }
+      ]), function () {
       boutons(etape.options.map(function (o) { return { texte: o }; }), function (opt) {
-        etat.pari = opt.texte;
+        etat.paris.push({ numero: etape.numero, pari: opt.texte });
         var lignes = [
           { t: "Dans sa tête n°" + etape.numero, style: "rubrique" },
           { t: "Ton pari : " + opt.texte, style: "recit" },
@@ -330,12 +361,10 @@
 
   function jouerFin() {
     vider();
-    etat.jour = H.depart.jour - 1; // la journée est passée : J-5
-    afficherBandeau();
 
     var titre = document.createElement("p");
     titre.className = "fort";
-    titre.textContent = "Fin de la première journée.";
+    titre.textContent = "Fin de la semaine de Sébastien.";
     el.texte.appendChild(titre);
 
     var dl = document.createElement("dl");
@@ -352,23 +381,21 @@
     ligne("Fin de mois", ecart("fin_de_mois", " €"));
     ligne("Énergie", ecart("energie", " / 10"));
     ligne("Liens", ecart("liens", " / 10"));
-    ligne("Didier", etat.drapeaux.didier_monte ? "est monté avec lui" : "a trouvé quelqu'un d'autre");
-    if (etat.pari) ligne("Ton pari", etat.pari);
-    ligne("Le badge", etat.drapeaux.badge_touche ? "presque retourné" : "toujours face cachée");
+    ligne("Berlin", etat.drapeaux.berlin ? "payé" : "pas cette fois");
+    ligne("La nuit du bip", etat.drapeaux.parti_intervention ? "il est parti" : "il est resté avec Manon");
+    ligne("Au Balto", etat.drapeaux.a_parle_au_bar ? "il a répondu" : "il n'a rien dit");
+    etat.paris.forEach(function (p) { ligne("Pari n°" + p.numero, p.pari); });
+    ligne("Le badge", "Roger Marchal, son père");
+    if (etat.vote) ligne("Ton enveloppe", etat.vote);
     el.texte.appendChild(dl);
-
-    var demain = document.createElement("p");
-    demain.className = "pense";
-    demain.textContent = "Demain, J-5 · Le compte. À la pause de 10 h, il ouvrira l'appli de la banque.";
-    el.texte.appendChild(demain);
 
     var note = document.createElement("p");
     note.className = "note";
-    note.textContent = "Ce prototype s'arrête ici. Les jours suivants, l'isoloir et la rencontre sur le pont arrivent bientôt.";
+    note.textContent = "Rejoue la semaine : d'autres choix ouvrent d'autres scènes. Le parcours de Léa, le quiz et la rencontre sur le pont arrivent bientôt.";
     el.texte.appendChild(note);
 
     boutons([
-      { texte: "Rejouer la journée" },
+      { texte: "Rejouer la semaine" },
       { texte: "Revenir au pont" }
     ], function (opt, n) {
       if (n === 0) commencer();

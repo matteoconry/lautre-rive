@@ -258,6 +258,19 @@ body {
 }
 .texte .sms b { display: block; font-size: 12px; color: var(--brique); margin-bottom: 2px; }
 
+.texte .parole { margin: 0 0 10px; }
+.texte .parole b {
+  display: inline-block;
+  font-size: 12px;
+  color: #fff8ee;
+  background: var(--brique);
+  padding: 1px 6px;
+  margin-bottom: 3px;
+}
+.texte .parole span { display: block; padding-left: 2px; }
+.texte .parole span::before { content: "« "; }
+.texte .parole span::after { content: " »"; }
+
 .texte .rubrique {
   display: inline-block;
   background: var(--encre);
