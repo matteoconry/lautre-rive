@@ -381,3 +381,33 @@ body.lea {
   --chaud: #8a6aff;
   --brique: #3a6ad8;
 }
+
+/* Quiz : le curseur et les barres */
+.curseur {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  margin: 4px 0 6px;
+}
+.curseur output {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  color: var(--brique);
+}
+.curseur input[type=range] {
+  width: 100%;
+  height: 36px;
+  accent-color: var(--chaud);
+  cursor: pointer;
+}
+.barres { margin: 4px 0 10px; display: flex; flex-direction: column; gap: 6px; }
+.barre { display: grid; grid-template-columns: 70px 1fr; align-items: center; gap: 8px; font-size: 13px; }
+.barre i { display: block; height: 14px; background: #e3d6c1; border: 2px solid var(--encre); }
+.barre b { display: block; height: 100%; }
+.barre.toi b { background: var(--gris); }
+.barre.vrai b { background: var(--chaud); }
+
+/* Rencontre : les répliques floues */
+.texte .flou span { filter: blur(1.5px); color: var(--gris); letter-spacing: 1px; }

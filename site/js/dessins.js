@@ -750,6 +750,32 @@
     r(ctx, 76, 54, 26, 1, "#9a9aa8"); r(ctx, 76, 58, 18, 1, "#9a9aa8");
   }
 
+  /* ---------- La rencontre sur le pont ---------- */
+  function pont_rencontre(ctx, t, etat) {
+    pont(ctx, t);
+    var complet = etat && etat.rencontre_complete;
+    var joueSeb = !etat || etat.parcours === "sebastien";
+    // Sébastien vient de la gauche, Léa de la droite
+    function seb() {
+      r(ctx, 71, 32, 2, 8, "#2a3448"); r(ctx, 74, 32, 2, 8, "#2a3448");
+      r(ctx, 70, 23, 7, 9, "#e07a3c"); r(ctx, 71, 17, 5, 6, "#c89070"); r(ctx, 71, 16, 5, 2, "#3a2a20");
+    }
+    function lea() {
+      r(ctx, 86, 33, 2, 7, "#2a2a40"); r(ctx, 89, 33, 2, 7, "#2a2a40");
+      r(ctx, 85, 25, 7, 8, "#7a5ad8"); r(ctx, 86, 19, 5, 6, "#b08060"); r(ctx, 86, 18, 5, 2, "#1a1010"); r(ctx, 90, 19, 2, 6, "#1a1010");
+    }
+    function flou(x0) {
+      var h = hasard(Math.floor(t * 6));
+      for (var i = 0; i < 40; i++) r(ctx, x0 + Math.floor(h() * 9), 16 + Math.floor(h() * 24), 1, 1, h() > 0.5 ? "#8a7a9a" : "#c8b8c8");
+    }
+    if (complet || joueSeb) seb(); else flou(69);
+    if (complet || !joueSeb) lea(); else flou(84);
+    if (complet) {
+      r(ctx, 76, 38, 4, 3, "#ece2c8"); r(ctx, 76, 38, 4, 1, "#a8442c");   // le badge de Roger
+      r(ctx, 81, 38, 4, 3, "#f4f6fa"); r(ctx, 81, 38, 4, 1, "#2a8ac8");   // le badge de Christine
+    }
+  }
+
   window.Dessins = {
     largeur: L,
     hauteur: H,
@@ -777,6 +803,7 @@
     manif: manif,
     caisse: caisse,
     preau: preau,
-    badge_lea: badge_lea
+    badge_lea: badge_lea,
+    pont_rencontre: pont_rencontre
   };
 })();

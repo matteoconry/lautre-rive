@@ -15,6 +15,8 @@ Les deux parcours complets, de J-6 jusqu'à l'isoloir, d'après le script : Séb
 - trois moments « Dans sa tête » (on parie, puis on découvre la réponse) ;
 - le badge retourné dans la boîte à gants, révélé le jour du vote ;
 - l'isoloir, où le joueur glisse aussi son enveloppe ;
+- le quiz « Devine ce que pense l'autre », avec de vrais chiffres de sondage et leur source ;
+- la rencontre sur le pont : floue après un parcours, complète après les deux ;
 - une musique et une ambiance sonore pour chaque décor, avec un bouton pour couper le son.
 
 ## Où modifier quoi
@@ -22,6 +24,7 @@ Les deux parcours complets, de J-6 jusqu'à l'isoloir, d'après le script : Séb
 | Pour changer… | Ouvre ce fichier |
 | --- | --- |
 | le texte, les choix, les effets sur les jauges | `site/js/histoire-sebastien.js` et `site/js/histoire-lea.js` |
+| la rencontre sur le pont | `site/js/rencontre.js` |
 | les décors en pixel art | `site/js/dessins.js` |
 | la musique et les ambiances sonores | `site/js/musique.js` |
 | les couleurs, la taille du texte | `site/style.css` |
