@@ -6,21 +6,22 @@ Un jeu narratif dans le navigateur : tu choisis ta rive sur un pont, puis tu vis
 
 ## Ce que contient le prototype
 
-La première journée de Sébastien (J-6 · Le matin), d'après le script :
+Les deux parcours complets, de J-6 jusqu'à l'isoloir, d'après le script : Sébastien (rive gauche) et Léa (rive droite).
 
 - l'écran du pont, où l'on choisit sa rive ;
 - le compte à rebours jusqu'au vote ;
 - trois jauges : fin de mois (€), énergie et liens ;
-- des choix sans bonne réponse, qui font bouger les jauges ;
-- un moment « Dans sa tête » (on parie, puis on découvre la réponse) ;
-- le badge retourné dans la boîte à gants ;
+- des choix sans bonne réponse, qui font bouger les jauges et reviennent plus tard dans l'histoire ;
+- trois moments « Dans sa tête » (on parie, puis on découvre la réponse) ;
+- le badge retourné dans la boîte à gants, révélé le jour du vote ;
+- l'isoloir, où le joueur glisse aussi son enveloppe ;
 - une musique et une ambiance sonore pour chaque décor, avec un bouton pour couper le son.
 
 ## Où modifier quoi
 
 | Pour changer… | Ouvre ce fichier |
 | --- | --- |
-| le texte, les choix, les effets sur les jauges | `site/js/histoire.js` |
+| le texte, les choix, les effets sur les jauges | `site/js/histoire-sebastien.js` et `site/js/histoire-lea.js` |
 | les décors en pixel art | `site/js/dessins.js` |
 | la musique et les ambiances sonores | `site/js/musique.js` |
 | les couleurs, la taille du texte | `site/style.css` |

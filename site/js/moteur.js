@@ -5,7 +5,8 @@
 (function () {
   "use strict";
 
-  var H = window.Histoire;
+  var P = window.Parcours;
+  var H = P.sebastien; // le parcours en cours
   var D = window.Dessins;
 
   var el = {
@@ -43,9 +44,25 @@
       energie: H.depart.energie,
       liens: H.depart.liens,
       drapeaux: {},
-      pari: null,
+      paris: [],
+      vote: null,
       choixFaits: []
     };
+  }
+
+  // Une étape, une page ou une ligne peut dépendre d'un choix passé
+  function visible(x) {
+    if (!x) return false;
+    if (x.si && !etat.drapeaux[x.si]) return false;
+    if (x.sinon && etat.drapeaux[x.sinon]) return false;
+    return true;
+  }
+
+  // {fin_de_mois} → la somme du moment
+  function remplir(texte) {
+    return texte.replace(/\{(\w+)\}/g, function (tout, cle) {
+      return etat[cle] !== undefined ? etat[cle] : tout;
+    });
   }
 
   /* ---------------- Décor animé ---------------- */
@@ -62,8 +79,8 @@
   /* ---------------- Bandeau : compte à rebours et jauges ---------------- */
 
   function afficherBandeau() {
-    el.jour.textContent = "J-" + etat.jour;
-    el.jourTexte.textContent = "avant le vote";
+    el.jour.textContent = etat.jour > 0 ? "J-" + etat.jour : "Dimanche";
+    el.jourTexte.textContent = etat.jour > 0 ? "avant le vote" : "jour du vote";
     el.pips.innerHTML = "";
     var total = H.depart.jour; // J-6 … J-1, puis dimanche
     for (var i = 0; i <= total; i++) {
@@ -132,9 +149,9 @@
 
   function creerLigne(ligne) {
     var noeud, cible;
-    if (ligne.style === "sms") {
+    if (ligne.style === "sms" || ligne.style === "parole") {
       noeud = document.createElement("div");
-      noeud.className = "sms";
+      noeud.className = ligne.style;
       var de = document.createElement("b");
       de.textContent = ligne.de || "";
       cible = document.createElement("span");
@@ -157,6 +174,11 @@
 
   // Écrit les lignes, puis appelle fini()
   function ecrire(lignes, fini) {
+    lignes = lignes.filter(visible).map(function (l) {
+      var copie = {}; for (var k in l) copie[k] = l[k];
+      copie.t = remplir(l.t);
+      return copie;
+    });
     var cibles = lignes.map(creerLigne);
     var i = 0, c = 0, minuteur = null;
     var lent = !window.matchMedia || !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -234,7 +256,7 @@
 
   // Un choix est grisé si le personnage n'en a plus les moyens
   function raisonBlocage(opt) {
-    if (opt.exigeant && etat.energie < H.seuil_energie) return "Trop fatigué pour ça.";
+    if (opt.exigeant && etat.energie < H.seuil_energie) return H.fatigue;
     if (opt.exige) {
       for (var cle in opt.exige) {
         if (cle !== "raison" && etat[cle] < opt.exige[cle]) return opt.exige.raison || "Pas possible.";
@@ -246,13 +268,16 @@
   /* ---------------- Déroulé de l'histoire ---------------- */
 
   function avancer() {
-    if (file.length) {
-      page(file.shift().lignes, avancer);
-      return;
+    while (file.length) {
+      var p = file.shift();
+      if (visible(p)) { page(p.lignes, avancer); return; }
     }
-    index++;
-    var etape = H.etapes[index];
-    if (!etape) { accueil(); return; }
+    var etape;
+    do {
+      index++;
+      etape = H.etapes[index];
+      if (!etape) { accueil(); return; }
+    } while (!visible(etape));
     jouer(etape);
   }
 
@@ -269,6 +294,11 @@
   function jouerDecor(etape) {
     decor = etape.decor;
     M.jouer(decor);
+    if (etape.jour !== undefined && etape.jour !== etat.jour) {
+      etat.jour = etape.jour;
+      afficherBandeau();
+      if (H.recuperation_nuit) appliquer({ energie: H.recuperation_nuit }); // une nuit de sommeil
+    }
     if (!etape.titre) { avancer(); return; }
     vider();
     el.titre.innerHTML = "";
@@ -299,6 +329,7 @@
         appliquer(opt.effets);
         if (opt.drapeaux) Object.keys(opt.drapeaux).forEach(function (k) { etat.drapeaux[k] = opt.drapeaux[k]; });
         etat.choixFaits.push(opt.texte);
+        if (etape.vote) etat.vote = opt.texte;
         file = (opt.suite || []).slice();
         avancer();
       });
@@ -307,17 +338,18 @@
 
   function jouerTete(etape) {
     vider();
-    ecrire([
-      { t: "Dans sa tête n°" + etape.numero, style: "rubrique" },
-      { t: etape.question, style: "fort" },
-      { t: "Fais ton pari.", style: "note" }
-    ], function () {
+    ecrire([{ t: "Dans sa tête n°" + etape.numero, style: "rubrique" }]
+      .concat(etape.avant || [])
+      .concat([
+        { t: etape.question, style: "fort" },
+        { t: "Fais ton pari.", style: "note" }
+      ]), function () {
       boutons(etape.options.map(function (o) { return { texte: o }; }), function (opt) {
-        etat.pari = opt.texte;
+        etat.paris.push({ numero: etape.numero, pari: opt.texte });
         var lignes = [
           { t: "Dans sa tête n°" + etape.numero, style: "rubrique" },
           { t: "Ton pari : " + opt.texte, style: "recit" },
-          { t: "Sébastien :", style: "fort" },
+          { t: H.prenom + " :", style: "fort" },
           { t: "« " + etape.reponse + " »", style: "pense" }
         ];
         lignes.push(etape.source
@@ -330,12 +362,10 @@
 
   function jouerFin() {
     vider();
-    etat.jour = H.depart.jour - 1; // la journée est passée : J-5
-    afficherBandeau();
 
     var titre = document.createElement("p");
     titre.className = "fort";
-    titre.textContent = "Fin de la première journée.";
+    titre.textContent = "Fin de la semaine de " + H.prenom + ".";
     el.texte.appendChild(titre);
 
     var dl = document.createElement("dl");
@@ -352,26 +382,25 @@
     ligne("Fin de mois", ecart("fin_de_mois", " €"));
     ligne("Énergie", ecart("energie", " / 10"));
     ligne("Liens", ecart("liens", " / 10"));
-    ligne("Didier", etat.drapeaux.didier_monte ? "est monté avec lui" : "a trouvé quelqu'un d'autre");
-    if (etat.pari) ligne("Ton pari", etat.pari);
-    ligne("Le badge", etat.drapeaux.badge_touche ? "presque retourné" : "toujours face cachée");
+    (H.recap || []).forEach(function (r) { ligne(r.nom, etat.drapeaux[r.si] ? r.oui : r.non); });
+    etat.paris.forEach(function (p) { ligne("Pari n°" + p.numero, p.pari); });
+    ligne("Le badge", H.badge);
+    if (etat.vote) ligne("Ton enveloppe", etat.vote);
     el.texte.appendChild(dl);
-
-    var demain = document.createElement("p");
-    demain.className = "pense";
-    demain.textContent = "Demain, J-5 · Le compte. À la pause de 10 h, il ouvrira l'appli de la banque.";
-    el.texte.appendChild(demain);
 
     var note = document.createElement("p");
     note.className = "note";
-    note.textContent = "Ce prototype s'arrête ici. Les jours suivants, l'isoloir et la rencontre sur le pont arrivent bientôt.";
+    var autre = H.rive === "gauche" ? P.lea : P.sebastien;
+    note.textContent = "Rejoue la semaine : d'autres choix ouvrent d'autres scènes. Ou passe de l'autre côté du pont, avec " + autre.prenom + ".";
     el.texte.appendChild(note);
 
     boutons([
-      { texte: "Rejouer la journée" },
+      { texte: "Rejouer la semaine" },
+      { texte: "Passer de l'autre côté : " + autre.prenom, classe: autre.rive },
       { texte: "Revenir au pont" }
     ], function (opt, n) {
-      if (n === 0) commencer();
+      if (n === 0) commencer(H.rive === "gauche" ? "sebastien" : "lea");
+      else if (n === 1) commencer(autre === P.lea ? "lea" : "sebastien");
       else accueil();
     });
   }
@@ -384,6 +413,7 @@
     M.jouer("pont");
     etat = nouvelEtat();
     el.jeu.classList.add("accueil");
+    document.body.className = "";
     el.hud.classList.add("cache");
     el.titre.classList.remove("visible");
 
@@ -398,32 +428,25 @@
         { texte: "Rive gauche", classe: "gauche" },
         { texte: "Rive droite", classe: "droite" }
       ], function (opt, n) {
-        if (n === 0) {
-          vider();
-          ecrire([
-            { t: "Alors tu vas passer de l'autre côté.", style: "fort" },
-            { t: "Pendant six jours, tu vas vivre la vie de quelqu'un qui ne vote pas comme toi." },
-            { t: "Ses choix seront les tiens. Aucun n'est le bon." }
-          ], function () {
-            boutons([{ texte: "Traverser le pont", classe: "gauche" }], commencer);
+        var nom = n === 0 ? "sebastien" : "lea";
+        var q = P[nom];
+        vider();
+        ecrire([
+          { t: "Alors tu vas passer de l'autre côté.", style: "fort" },
+          { t: "De l'autre côté t'attend " + q.presentation + "." },
+          { t: "Pendant six jours, tu vas vivre la vie de quelqu'un qui ne vote pas comme toi. Ses choix seront les tiens. Aucun n'est le bon." }
+        ], function () {
+          boutons([{ texte: "Traverser le pont", classe: q.rive }, { texte: "Revenir au pont" }], function (o, k) {
+            if (k === 0) commencer(nom); else accueil();
           });
-        } else {
-          vider();
-          ecrire([
-            { t: "De l'autre côté t'attend Léa, 21 ans, étudiante à Saint-Denis.", style: "fort" },
-            { t: "Son parcours n'est pas encore dans ce prototype. Pour l'instant, seule la traversée vers Sébastien est ouverte." }
-          ], function () {
-            boutons([
-              { texte: "Découvrir Sébastien", classe: "gauche" },
-              { texte: "Revenir au pont" }
-            ], function (o, k) { if (k === 0) commencer(); else accueil(); });
-          });
-        }
+        });
       });
     });
   }
 
-  function commencer() {
+  function commencer(nom) {
+    if (nom && P[nom]) H = P[nom];
+    document.body.className = H.rive === "gauche" ? "sebastien" : "lea";
     etat = nouvelEtat();
     index = -1;
     file = [];

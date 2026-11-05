@@ -269,6 +269,487 @@
     r(ctx, 0, 70, L, 1, "#4a4444");
   }
 
+  /* ---------- J-5 : la pause de 10 h sur le quai (de jour) ---------- */
+  function pause(ctx, t, etat) {
+    bandes(ctx, 0, ["#9ab0c8", "#a8bccf", "#b8c8d6", "#c8d4de"], 6);
+    r(ctx, 0, 24, L, 66, "#4a4648");
+    // L'entrepôt, de près
+    r(ctx, 0, 6, 160, 50, "#7a7a82");
+    for (var x = 0; x < 160; x += 4) r(ctx, x, 6, 1, 50, "#6a6a72");
+    r(ctx, 0, 6, 160, 2, "#5a5a62");
+    r(ctx, 92, 18, 46, 38, "#2a2a30");               // porte de quai ouverte
+    r(ctx, 92, 18, 46, 3, "#e0a020");
+    for (var p = 0; p < 3; p++) r(ctx, 98 + p * 12, 34, 9, 22, "#8a6a40"); // colis
+    r(ctx, 0, 56, L, 4, "#3a3638");                  // bord du quai
+    r(ctx, 0, 60, L, 30, "#5a5658");
+    // Palette et Sébastien assis dessus
+    r(ctx, 26, 62, 30, 3, "#a07a4a"); r(ctx, 26, 65, 30, 2, "#7a5a34"); r(ctx, 28, 67, 4, 3, "#7a5a34"); r(ctx, 50, 67, 4, 3, "#7a5a34");
+    r(ctx, 34, 44, 12, 18, "#e07a3c");               // gilet orange
+    r(ctx, 35, 46, 10, 2, "#f0d040");                // bande réfléchissante
+    r(ctx, 36, 35, 8, 9, "#c89070");                 // visage
+    r(ctx, 35, 33, 10, 3, "#3a2a20");                // cheveux
+    r(ctx, 33, 62, 6, 6, "#2a3448"); r(ctx, 41, 62, 6, 6, "#2a3448"); // jambes
+    r(ctx, 39, 50, 6, 4, "#c89070");                 // mains
+    var lueur = Math.floor(t * 2) % 2 ? "#a0d8ff" : "#7ac0ff";
+    r(ctx, 40, 48, 4, 5, "#111"); r(ctx, 41, 49, 2, 3, lueur); // le téléphone, l'appli de la banque
+    // Chariot garé
+    r(ctx, 128, 58, 16, 14, "#e0a020"); r(ctx, 126, 46, 2, 26, "#333");
+    r(ctx, 130, 72, 4, 4, "#111"); r(ctx, 140, 72, 4, 4, "#111");
+    if (etat && etat.drapeaux.samedi_au_boulot && etat.jour === 1) {
+      r(ctx, 40, 48, 4, 5, "#111"); r(ctx, 41, 49, 2, 3, "#7fe0a0"); // la vidéo WhatsApp
+    }
+  }
+
+  /* ---------- J-4 : la grand-rue de Vresnes au crépuscule ---------- */
+  function rue(ctx, t) {
+    bandes(ctx, 0, ["#2a2040", "#3e2a4a", "#5a3450", "#7a4450", "#a05a4a"], 6);
+    r(ctx, 0, 30, L, 60, "#2a2228");
+    // Façades
+    var facades = [[0, 14, 40, "#5c3a30"], [40, 10, 44, "#4e4a52"], [84, 16, 38, "#5a4436"], [122, 12, 38, "#4a3a3a"]];
+    facades.forEach(function (f) {
+      r(ctx, f[0], f[1], f[2], 64 - f[1], f[3]);
+      r(ctx, f[0], f[1], f[2], 2, "#2a1e22");
+      r(ctx, f[0] + 4, f[1] + 6, 6, 8, "#1a1418"); r(ctx, f[0] + f[2] - 10, f[1] + 6, 6, 8, "#1a1418");
+    });
+    // La pharmacie, rideau baissé, croix éteinte
+    r(ctx, 44, 40, 36, 24, "#6a6a70");
+    for (var y = 41; y < 64; y += 2) r(ctx, 44, y, 36, 1, "#5a5a60");
+    r(ctx, 58, 28, 8, 8, "#2a3a2e"); r(ctx, 61, 29, 2, 6, "#3a5a40"); r(ctx, 59, 31, 6, 2, "#3a5a40");
+    // La poste, avec l'affiche
+    r(ctx, 90, 40, 26, 24, "#2a2430");
+    r(ctx, 94, 44, 10, 13, "#f0e8d0");
+    r(ctx, 95, 46, 8, 1, "#555"); r(ctx, 95, 48, 7, 1, "#555"); r(ctx, 95, 50, 8, 1, "#555"); r(ctx, 95, 53, 5, 1, "#555");
+    r(ctx, 106, 40, 8, 4, "#d8b040");
+    // Une seule fenêtre allumée, en haut à droite
+    r(ctx, 150, 20, 6, 8, Math.sin(t * 0.7) > -0.8 ? "#ffc060" : "#a07030");
+    // Trottoir, route, lampadaire
+    r(ctx, 0, 64, L, 3, "#4a4044"); r(ctx, 0, 67, L, 23, "#1e1a20");
+    for (var d = 4; d < L; d += 20) r(ctx, d, 78, 10, 1, "#5a5458");
+    r(ctx, 30, 30, 1, 34, "#151015"); r(ctx, 28, 29, 5, 2, "#151015");
+    ctx.globalAlpha = 0.18; r(ctx, 22, 31, 18, 33, "#ffc060"); ctx.globalAlpha = 1;
+    r(ctx, 29, 31, 3, 1, "#ffe3a0");
+  }
+
+  /* ---------- J-3 : l'accident, la nuit, sous la pluie ---------- */
+  function accident(ctx, t) {
+    r(ctx, 0, 0, L, H, "#07070e");
+    r(ctx, 0, 40, L, 50, "#121218");
+    // Gyrophares qui éclairent tout
+    var phase = Math.floor(t * 4) % 2;
+    ctx.globalAlpha = 0.16;
+    r(ctx, 0, 0, 80, 90, phase ? "#ff2020" : "#2040ff");
+    r(ctx, 80, 0, 80, 90, phase ? "#2040ff" : "#ff2020");
+    ctx.globalAlpha = 1;
+    // Route mouillée
+    ctx.fillStyle = "#1c1c26";
+    ctx.beginPath(); ctx.moveTo(60, 40); ctx.lineTo(100, 40); ctx.lineTo(160, 90); ctx.lineTo(0, 90); ctx.closePath(); ctx.fill();
+    // Camion de pompiers
+    r(ctx, 92, 40, 50, 22, "#b02020"); r(ctx, 132, 34, 14, 28, "#c02828");
+    r(ctx, 134, 37, 9, 8, "#2a3a4a");
+    r(ctx, 96, 44, 32, 2, "#e8e8e8"); r(ctx, 96, 52, 32, 1, "#e8e8e8");
+    r(ctx, 98, 62, 8, 6, "#111"); r(ctx, 128, 62, 8, 6, "#111");
+    r(ctx, 134, 32, 4, 2, phase ? "#ff4040" : "#601010"); r(ctx, 140, 32, 4, 2, phase ? "#4060ff" : "#101860");
+    // Camionnette et scooter couché
+    r(ctx, 18, 46, 34, 18, "#d8d8d0"); r(ctx, 44, 42, 12, 22, "#c8c8c0"); r(ctx, 46, 45, 8, 6, "#2a3a4a");
+    r(ctx, 22, 64, 7, 5, "#111"); r(ctx, 44, 64, 7, 5, "#111");
+    r(ctx, 58, 64, 14, 4, "#2a7a40"); r(ctx, 56, 67, 4, 4, "#111"); r(ctx, 70, 67, 4, 4, "#111");
+    // Un pompier penché, avec sa lampe
+    r(ctx, 74, 52, 7, 12, "#2a2a30"); r(ctx, 75, 47, 5, 5, "#e8d040"); r(ctx, 81, 56, 3, 2, "#ffe3a0");
+    // Pluie
+    var h = hasard(3);
+    for (var i = 0; i < 70; i++) {
+      var px = Math.floor(h() * L), vitesse = 60 + h() * 40;
+      var py = (h() * 90 + t * vitesse) % 90;
+      r(ctx, px, py, 1, 3, "rgba(170,180,220,0.45)");
+    }
+  }
+
+  /* ---------- J-3 : la fonderie éteinte ---------- */
+  function fonderie(ctx, t) {
+    bandes(ctx, 0, ["#3a4458", "#4a5468", "#5a6478", "#6a7488"], 8);
+    r(ctx, 0, 32, L, 58, "#2a2a30");
+    r(ctx, 20, 20, 110, 44, "#3a3a42");             // la halle
+    ctx.fillStyle = "#3a3a42";
+    for (var k = 0; k < 5; k++) { ctx.beginPath(); ctx.moveTo(20 + k * 22, 20); ctx.lineTo(42 + k * 22, 20); ctx.lineTo(42 + k * 22, 12); ctx.closePath(); ctx.fill(); }
+    for (var w = 0; w < 9; w++) r(ctx, 26 + w * 11, 32, 6, 9, (w * 5) % 3 === 0 ? "#15151a" : "#22232a"); // vitres cassées
+    r(ctx, 136, 2, 7, 62, "#34343c");               // la cheminée
+    r(ctx, 135, 2, 9, 2, "#2a2a32");
+    r(ctx, 60, 50, 22, 14, "#1a1a20");              // le portail
+    for (var b = 60; b < 82; b += 3) r(ctx, b, 50, 1, 14, "#4a4a52");
+    r(ctx, 0, 64, L, 26, "#1e1e22");
+    r(ctx, 0, 64, L, 1, "#3a3a40");
+    // Un oiseau, de temps en temps
+    var ox = (t * 10) % 220 - 30;
+    r(ctx, ox, 10 + Math.sin(t) * 2, 2, 1, "#1a1a20"); r(ctx, ox + 3, 10 + Math.sin(t) * 2, 2, 1, "#1a1a20");
+  }
+
+  /* ---------- J-2 : le repas, la télé allumée sans le son ---------- */
+  function repas(ctx, t) {
+    r(ctx, 0, 0, L, H, "#3a2a24");
+    r(ctx, 0, 62, L, 28, "#4a362c");
+    // Suspension au-dessus de la table
+    r(ctx, 79, 0, 1, 14, "#1e1614"); r(ctx, 72, 14, 16, 4, "#c06a30");
+    ctx.globalAlpha = 0.14; ctx.fillStyle = "#ffd08a";
+    ctx.beginPath(); ctx.moveTo(72, 18); ctx.lineTo(88, 18); ctx.lineTo(118, 66); ctx.lineTo(42, 66); ctx.closePath(); ctx.fill();
+    ctx.globalAlpha = 1;
+    // La télé, image qui change sans le son
+    r(ctx, 120, 22, 34, 24, "#111");
+    var teintes = ["#3a5a8a", "#8a3a3a", "#3a6a4a", "#6a5a8a"];
+    r(ctx, 122, 24, 30, 20, teintes[Math.floor(t / 1.6) % 4]);
+    r(ctx, 126, 30, 8, 12, "#c8a888"); r(ctx, 140, 30, 8, 12, "#c8a888"); // deux débatteurs
+    r(ctx, 122, 40, 30, 4, "#e8e8e8");
+    r(ctx, 132, 46, 10, 4, "#2a1e1a");
+    // La table, deux assiettes, le pain
+    r(ctx, 40, 56, 80, 4, "#7a5038"); r(ctx, 44, 60, 3, 22, "#5a3a28"); r(ctx, 113, 60, 3, 22, "#5a3a28");
+    r(ctx, 54, 54, 12, 2, "#e8e0d0"); r(ctx, 94, 54, 12, 2, "#e8e0d0"); r(ctx, 74, 53, 12, 3, "#c89050");
+    // Sébastien à gauche, Manon à droite
+    r(ctx, 34, 36, 12, 20, "#5a4a3a"); r(ctx, 36, 26, 8, 10, "#c89070"); r(ctx, 35, 24, 10, 3, "#3a2a20");
+    r(ctx, 112, 38, 11, 18, "#6a4a8a"); r(ctx, 114, 29, 7, 9, "#d8a080"); r(ctx, 113, 27, 9, 3, "#2a1a14"); r(ctx, 121, 30, 3, 12, "#2a1a14");
+  }
+
+  /* ---------- J-1 : le Balto, bar-tabac et relais poste ---------- */
+  function balto(ctx, t) {
+    r(ctx, 0, 0, L, H, "#3a2e26");
+    r(ctx, 0, 0, L, 8, "#2a201a");
+    // Étagères à bouteilles
+    r(ctx, 10, 14, 90, 2, "#5a4030"); r(ctx, 10, 28, 90, 2, "#5a4030");
+    var couleurs = ["#2a6a3a", "#8a6a2a", "#6a2a2a", "#c8c0a0", "#3a4a7a"];
+    for (var b = 0; b < 15; b++) {
+      r(ctx, 12 + b * 6, 7, 3, 7, couleurs[b % 5]); r(ctx, 13 + b * 6, 5, 1, 2, couleurs[b % 5]);
+      r(ctx, 12 + b * 6, 21, 3, 7, couleurs[(b + 2) % 5]);
+    }
+    // Le losange rouge du tabac, et le panneau « relais »
+    ctx.fillStyle = "#c02a20";
+    ctx.beginPath(); ctx.moveTo(130, 6); ctx.lineTo(140, 14); ctx.lineTo(130, 22); ctx.lineTo(120, 14); ctx.closePath(); ctx.fill();
+    r(ctx, 112, 26, 36, 8, "#d8b040"); r(ctx, 115, 29, 30, 2, "#5a4a20");
+    // Écran de jeux qui clignote
+    r(ctx, 150, 30, 8, 10, "#111"); r(ctx, 151, 31, 6, 8, Math.floor(t * 3) % 2 ? "#40a0ff" : "#ff40a0");
+    // Le comptoir
+    r(ctx, 0, 48, L, 6, "#8a5a34"); r(ctx, 0, 54, L, 36, "#5a3a24");
+    for (var c = 0; c < L; c += 16) r(ctx, c, 56, 1, 30, "#4a2e1c");
+    // Trois clients au comptoir, et Jean-Mi qui parle
+    var parle = Math.floor(t * 5) % 2;
+    [[30, "#4a5a3a"], [60, "#3a3a5a"], [96, "#6a3a2a"]].forEach(function (cl, k) {
+      r(ctx, cl[0], 32, 12, 16, cl[1]); r(ctx, cl[0] + 2, 23, 8, 9, "#c89070"); r(ctx, cl[0] + 1, 21, 10, 3, "#2a2018");
+      if (k === 1 && parle) r(ctx, cl[0] + 4, 29, 3, 1, "#5a2a20");
+      if (k === 2) r(ctx, cl[0] + 1, 21, 10, 2, "#c0c0c0"); // Jean-Mi, cheveux gris
+    });
+    r(ctx, 44, 44, 3, 4, "#e8d080"); r(ctx, 76, 44, 3, 4, "#e8d080"); // les verres
+    // Sébastien, de dos, au premier plan
+    r(ctx, 64, 66, 22, 24, "#e07a3c"); r(ctx, 68, 56, 14, 11, "#3a2a20");
+  }
+
+  /* ---------- Dimanche : le parking de la mairie ---------- */
+  function mairie(ctx, t) {
+    bandes(ctx, 0, ["#8ab0d8", "#9abcde", "#aac8e4", "#bad4ea"], 6);
+    r(ctx, 0, 24, L, 66, "#6a6a6a");
+    // La mairie
+    r(ctx, 30, 14, 100, 46, "#e0d4b8");
+    r(ctx, 30, 12, 100, 3, "#8a5a4a");
+    ctx.fillStyle = "#8a5a4a"; ctx.beginPath(); ctx.moveTo(66, 12); ctx.lineTo(80, 4); ctx.lineTo(94, 12); ctx.closePath(); ctx.fill();
+    r(ctx, 76, 7, 8, 4, "#f4f0e0"); r(ctx, 79, 8, 1, 2, "#333"); // l'horloge
+    for (var f = 0; f < 4; f++) { r(ctx, 38 + f * 24, 22, 10, 14, "#5a6a7a"); r(ctx, 38 + f * 24, 22, 10, 1, "#f4f0e0"); }
+    r(ctx, 72, 42, 16, 18, "#6a3a2a"); r(ctx, 70, 40, 20, 2, "#c8bca0");
+    r(ctx, 74, 36, 12, 3, "#f4f0e0"); r(ctx, 75, 37, 10, 1, "#555"); // « BUREAU DE VOTE »
+    // Le drapeau qui bouge
+    r(ctx, 80, 2, 1, 2, "#555");
+    var vague = Math.floor(t * 3) % 2;
+    r(ctx, 81, 1 + vague, 3, 3, "#2a4a9a"); r(ctx, 84, 1, 3, 3, "#f4f4f4"); r(ctx, 87, 1 + vague, 3, 3, "#c02a2a");
+    // Parking, la Clio, quelques électeurs
+    r(ctx, 0, 60, L, 30, "#4a4a4c");
+    for (var p = 6; p < L; p += 22) r(ctx, p, 70, 1, 14, "#d8d8d8");
+    r(ctx, 112, 72, 26, 8, "#3a3a44"); r(ctx, 117, 67, 15, 5, "#2e2e38"); r(ctx, 118, 68, 6, 3, "#5a5a6a"); r(ctx, 125, 68, 6, 3, "#5a5a6a");
+    r(ctx, 115, 80, 5, 3, "#111"); r(ctx, 131, 80, 5, 3, "#111");
+    var marche = (t * 4) % 30;
+    r(ctx, 40 + marche, 62, 4, 8, "#5a3a6a"); r(ctx, 41 + marche, 58, 3, 4, "#c89070");
+  }
+
+  /* ---------- Dimanche : le badge enfin retourné ---------- */
+  function badge(ctx, t) {
+    r(ctx, 0, 0, L, H, "#1a1214");
+    ctx.globalAlpha = 0.25 + (Math.sin(t * 1.5) + 1) * 0.08; r(ctx, 36, 12, 88, 66, "#ffd27a"); ctx.globalAlpha = 1;
+    r(ctx, 76, 0, 8, 14, "#a8442c");                  // le vieux cordon
+    r(ctx, 74, 12, 12, 6, "#8a8070");                 // la pince
+    r(ctx, 44, 18, 72, 52, "#c8c0b0");                // plastique jauni
+    r(ctx, 46, 20, 68, 48, "#ece2c8");
+    r(ctx, 46, 20, 68, 8, "#a8442c");                 // bandeau de l'usine
+    r(ctx, 50, 23, 40, 2, "#ece2c8");
+    r(ctx, 50, 32, 20, 26, "#8a8478");                // la photo
+    r(ctx, 54, 36, 12, 12, "#c8a888"); r(ctx, 53, 34, 14, 4, "#5a5048"); r(ctx, 52, 50, 16, 8, "#5a5a62");
+    r(ctx, 76, 34, 32, 2, "#3a2e28");                 // ROGER MARCHAL
+    r(ctx, 76, 40, 26, 2, "#3a2e28");                 // FONDERIE DE VRESNES
+    r(ctx, 76, 46, 14, 2, "#3a2e28");                 // 1971
+    r(ctx, 76, 54, 30, 1, "#9a9080"); r(ctx, 76, 58, 22, 1, "#9a9080");
+    r(ctx, 102, 60, 8, 6, "#c0b090");                 // le coin usé
+  }
+
+  /* ---------- Dimanche : l'isoloir ---------- */
+  function isoloir(ctx, t) {
+    r(ctx, 0, 0, L, H, "#2a2a34");
+    // Le rideau, qui bouge à peine
+    for (var x = 0; x < L; x += 8) {
+      var ondule = Math.sin(t * 0.8 + x * 0.3) > 0.6 ? 1 : 0;
+      r(ctx, x + ondule, 0, 7, 66, (x / 8) % 2 ? "#3a4a6a" : "#34445f");
+    }
+    r(ctx, 0, 0, L, 3, "#8a8a92");                    // la tringle
+    // La tablette
+    r(ctx, 20, 64, 120, 4, "#c8b89a"); r(ctx, 20, 68, 120, 22, "#a89878");
+    // L'enveloppe et la feuille blanche, sans nom ni logo
+    r(ctx, 46, 54, 30, 12, "#d8c8a0"); ctx.fillStyle = "#c8b890";
+    ctx.beginPath(); ctx.moveTo(46, 54); ctx.lineTo(61, 61); ctx.lineTo(76, 54); ctx.closePath(); ctx.fill();
+    r(ctx, 86, 48, 24, 17, "#f8f8f4"); r(ctx, 87, 49, 22, 15, "#ffffff");
+    // Les mains de Sébastien
+    r(ctx, 70, 72, 10, 6, "#c89070"); r(ctx, 98, 72, 10, 6, "#c89070");
+  }
+
+  /* ====================== Les décors de Léa (couleurs froides) ====================== */
+
+  // Un petit personnage debout : x, y (pieds), couleur du haut, peau, cheveux
+  function silhouette(ctx, x, y, haut, peau, cheveux, bas) {
+    r(ctx, x + 1, y - 7, 2, 7, bas || "#2a2a3a"); r(ctx, x + 4, y - 7, 2, 7, bas || "#2a2a3a");
+    r(ctx, x, y - 16, 7, 9, haut);
+    r(ctx, x + 1, y - 22, 5, 6, peau);
+    r(ctx, x + 1, y - 23, 5, 2, cheveux);
+  }
+
+  /* ---------- J-6 : le quai du RER à 6 h 30 ---------- */
+  function rer(ctx, t) {
+    r(ctx, 0, 0, L, H, "#14142a");
+    r(ctx, 0, 0, L, 10, "#1e1e38");                    // plafond
+    for (var n = 10; n < L; n += 30) { r(ctx, n, 8, 14, 2, "#d8e8ff"); }
+    // Panneau d'affichage « Retard 20 min »
+    r(ctx, 54, 14, 52, 12, "#0a0a14"); r(ctx, 56, 16, 30, 2, "#ffb020"); r(ctx, 56, 20, 22, 2, "#ffb020");
+    if (Math.floor(t * 1.5) % 2) r(ctx, 90, 16, 14, 6, "#ff5020");
+    // Mur carrelé, affiches
+    for (var x = 0; x < L; x += 5) for (var y = 28; y < 52; y += 5) r(ctx, x, y, 4, 4, "#2a2a48");
+    r(ctx, 12, 30, 18, 20, "#6a4aa0"); r(ctx, 130, 30, 18, 20, "#3a7a9a");
+    // Quai et voie
+    r(ctx, 0, 52, L, 18, "#3a3a4a"); r(ctx, 0, 68, L, 2, "#e8e030");
+    r(ctx, 0, 70, L, 20, "#0e0e16"); r(ctx, 0, 78, L, 1, "#4a4a5a"); r(ctx, 0, 85, L, 1, "#4a4a5a");
+    // La foule serrée
+    var foule = [[18, "#4a3a6a"], [30, "#2a4a5a"], [44, "#5a2a3a"], [58, "#3a3a3a"], [96, "#2a5a4a"], [110, "#4a4a6a"], [124, "#6a3a2a"], [140, "#3a2a5a"]];
+    foule.forEach(function (f, k) { silhouette(ctx, f[0], 66 + (k % 2), f[1], k % 3 ? "#c89070" : "#8a5a3a", "#1a1414"); });
+    // L'homme au journal
+    r(ctx, 108, 46, 10, 8, "#e8e4d8"); r(ctx, 109, 47, 8, 1, "#222");
+    // Léa, sac à dos, au milieu
+    silhouette(ctx, 76, 67, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+    r(ctx, 74, 52, 3, 8, "#3a3a7a");
+  }
+
+  /* ---------- J-6 : le badge dans la poche du sac ---------- */
+  function sac(ctx, t, etat) {
+    r(ctx, 0, 0, L, H, "#121226");
+    r(ctx, 20, 10, 120, 76, "#2a2a6a");               // le sac
+    r(ctx, 24, 14, 112, 68, "#34348a");
+    r(ctx, 24, 24, 112, 2, "#c8c8d8");                // fermeture éclair ouverte
+    r(ctx, 30, 30, 34, 22, "#e8e4d8"); r(ctx, 32, 34, 28, 1, "#9a9aa8"); r(ctx, 32, 38, 24, 1, "#9a9aa8"); // cours de droit
+    r(ctx, 98, 34, 30, 20, "#1a8a5a"); r(ctx, 100, 36, 26, 4, "#e8e8e8");  // passe Navigo
+    var bx = 64, by = 40;
+    var lueur = (Math.sin(t * 2.2) + 1) / 2;
+    ctx.globalAlpha = 0.18 + lueur * 0.22; r(ctx, bx - 4, by - 4, 32, 26, "#a0b8ff"); ctx.globalAlpha = 1;
+    r(ctx, bx + 2, by + 2, 24, 18, "#0a0a18"); r(ctx, bx - 1, by - 1, 26, 20, "#14142a");
+    r(ctx, bx, by, 24, 18, "#c0c4d0"); r(ctx, bx + 1, by + 1, 22, 16, "#e4e8f0");
+    r(ctx, bx + 10, by - 3, 4, 4, "#8a90a0"); r(ctx, bx + 11, by - 12, 2, 9, "#3a6ad8"); // cordon bleu
+    if (etat && etat.drapeaux.badge_touche) r(ctx, bx + 18, by + 13, 5, 4, "#a8b0c8");
+  }
+
+  /* ---------- J-5 : la cuisine de la coloc, le soir ---------- */
+  function coloc(ctx, t) {
+    r(ctx, 0, 0, L, H, "#22223a");
+    r(ctx, 0, 64, L, 26, "#2e2a3a");
+    // Fenêtre sur les immeubles
+    r(ctx, 104, 10, 46, 32, "#3a3a52"); r(ctx, 106, 12, 42, 28, "#0c0c1e");
+    for (var i = 0; i < 6; i++) r(ctx, 110 + i * 6, 18 + (i % 3) * 6, 2, 3, (i % 2) ? "#9a8cff" : "#ffc060");
+    r(ctx, 126, 12, 2, 28, "#3a3a52");
+    // Évier, vaisselle empilée
+    r(ctx, 0, 48, 70, 4, "#5a5a6a"); r(ctx, 0, 52, 70, 12, "#3a3a4a");
+    r(ctx, 10, 40, 14, 3, "#e8e8e8"); r(ctx, 11, 37, 12, 3, "#d8d8e8"); r(ctx, 12, 34, 10, 3, "#e8e8e8"); r(ctx, 28, 38, 6, 10, "#8a5ad8");
+    // Table, ordinateur (le site de la CAF), Léa
+    r(ctx, 70, 58, 60, 3, "#6a5a4a"); r(ctx, 74, 61, 2, 20, "#4a3a2a"); r(ctx, 124, 61, 2, 20, "#4a3a2a");
+    r(ctx, 86, 46, 26, 12, "#1a1a24"); r(ctx, 88, 48, 22, 8, "#e8f0ff");
+    r(ctx, 90, 50, 10, 1, "#3a6ad8"); r(ctx, 90, 53, 16, 1, "#9a9aa8");
+    if (Math.floor(t * 2) % 2) r(ctx, 102, 50, 6, 2, "#3a6ad8"); // « en cours de traitement »
+    r(ctx, 84, 58, 30, 2, "#2a2a34");
+    silhouette(ctx, 62, 74, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+    // Le frigo couvert de mots
+    r(ctx, 142, 24, 16, 40, "#d8d8e0"); r(ctx, 145, 28, 4, 4, "#ffd040"); r(ctx, 151, 33, 4, 4, "#ff80a0"); r(ctx, 146, 40, 4, 4, "#80d0ff");
+  }
+
+  /* ---------- J-4 : le contrôle en bas de l'immeuble ---------- */
+  function controle(ctx, t) {
+    r(ctx, 0, 0, L, H, "#8a94c0");
+    bandes(ctx, 0, ["#5a6a9a", "#6a78a8", "#7a86b4", "#8a94c0"], 6);
+    // Immeubles
+    r(ctx, 0, 4, 60, 56, "#4a4a6a"); r(ctx, 100, 0, 60, 60, "#3e3e5e");
+    for (var y = 8; y < 56; y += 8) for (var x = 4; x < 58; x += 9) r(ctx, x, y, 4, 5, "#2a2a44");
+    for (var y2 = 4; y2 < 56; y2 += 8) for (var x2 = 104; x2 < 158; x2 += 9) r(ctx, x2, y2, 4, 5, "#26263e");
+    r(ctx, 22, 16, 4, 5, "#ffd080");                  // la fenêtre de la coloc
+    r(ctx, 0, 60, L, 4, "#5a5a6a"); r(ctx, 0, 64, L, 26, "#2e2e3a");
+    // Le fourgon (sans inscription)
+    r(ctx, 92, 50, 52, 22, "#2a3a6a"); r(ctx, 132, 44, 14, 28, "#2e3e72"); r(ctx, 134, 47, 9, 8, "#1a2440");
+    r(ctx, 96, 72, 8, 5, "#111"); r(ctx, 132, 72, 8, 5, "#111");
+    if (Math.floor(t * 2) % 2) r(ctx, 136, 42, 6, 2, "#4080ff");
+    // Yanis sur son scooter, les mains sur le guidon
+    r(ctx, 52, 70, 26, 4, "#d84a2a"); r(ctx, 50, 74, 6, 5, "#111"); r(ctx, 74, 74, 6, 5, "#111"); r(ctx, 72, 60, 2, 10, "#555");
+    silhouette(ctx, 58, 70, "#e86a20", "#7a4a2a", "#111", "#2a2a3a");
+    r(ctx, 66, 58, 6, 2, "#7a4a2a");
+    // Deux agents, calmes
+    silhouette(ctx, 82, 72, "#1e2a4a", "#c89070", "#1e2a4a", "#1e2a4a");
+    silhouette(ctx, 40, 72, "#1e2a4a", "#8a5a3a", "#1e2a4a", "#1e2a4a");
+  }
+
+  /* ---------- J-3 : l'association, aide aux devoirs ---------- */
+  function asso(ctx, t) {
+    r(ctx, 0, 0, L, H, "#e0d8c8");
+    r(ctx, 0, 62, L, 28, "#b8a890");
+    // Dessins d'enfants aux murs
+    var dessins = [[10, "#ff8060"], [30, "#60b0ff"], [50, "#80d060"], [110, "#ffd040"], [130, "#c080ff"]];
+    dessins.forEach(function (d, k) {
+      r(ctx, d[0], 10 + (k % 2) * 4, 14, 12, "#ffffff");
+      r(ctx, d[0] + 3, 13 + (k % 2) * 4, 6, 6, d[1]);
+    });
+    // Le panneau de liège et sa feuille
+    r(ctx, 70, 8, 30, 22, "#b08050"); r(ctx, 76, 12, 14, 14, "#f8f8f0"); r(ctx, 78, 15, 10, 1, "#555"); r(ctx, 78, 18, 8, 1, "#555"); r(ctx, 82, 11, 2, 2, "#d02020");
+    // La table, les cahiers
+    r(ctx, 30, 54, 100, 4, "#8a6a4a"); r(ctx, 34, 58, 3, 24, "#6a4a2a"); r(ctx, 123, 58, 3, 24, "#6a4a2a");
+    r(ctx, 60, 50, 16, 4, "#ffffff"); r(ctx, 62, 51, 12, 1, "#6a6aff"); r(ctx, 84, 50, 14, 4, "#f0f0f8");
+    // Léa et Kenza côte à côte
+    silhouette(ctx, 54, 62, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+    r(ctx, 92, 46, 6, 8, "#ffb040"); r(ctx, 93, 40, 4, 6, "#6a4a30"); r(ctx, 92, 39, 6, 2, "#1a1010"); r(ctx, 97, 41, 2, 4, "#1a1010");
+    // La lettre de l'école, qui tremble un peu dans la main de Kenza
+    var tremble = Math.floor(t * 4) % 2;
+    r(ctx, 82 + tremble, 44, 9, 7, "#ffffff"); r(ctx, 83 + tremble, 46, 7, 1, "#888");
+  }
+
+  /* ---------- J-3 : la façade de la fac, éclairée ---------- */
+  function fac(ctx, t) {
+    r(ctx, 0, 0, L, H, "#202042");
+    bandes(ctx, 0, ["#0e0e24", "#14142e", "#1a1a38", "#202042"], 8);
+    r(ctx, 0, 34, L, 56, "#18182a");
+    r(ctx, 20, 18, 120, 46, "#3a3a5a");
+    for (var y = 22; y < 58; y += 9) for (var x = 26; x < 136; x += 12) {
+      var allume = ((x + y) % 5) < 3;
+      r(ctx, x, y, 7, 6, allume ? "#c8d0ff" : "#2a2a44");
+    }
+    r(ctx, 68, 48, 24, 16, "#1a1a2a"); r(ctx, 66, 46, 28, 2, "#5a5a7a"); // l'entrée
+    r(ctx, 70, 40, 20, 4, "#c8d0ff");
+    r(ctx, 0, 64, L, 26, "#14141e"); r(ctx, 0, 64, L, 1, "#3a3a50");
+    ctx.globalAlpha = 0.1 + Math.sin(t) * 0.03; r(ctx, 20, 18, 120, 46, "#a0b0ff"); ctx.globalAlpha = 1;
+  }
+
+  /* ---------- J-2 : l'anniversaire de la grand-mère à Creil ---------- */
+  function anniv(ctx, t) {
+    r(ctx, 0, 0, L, H, "#d8c8b0");
+    r(ctx, 0, 0, L, 4, "#b8a890");
+    // Papier peint et cadres
+    for (var x = 4; x < L; x += 12) r(ctx, x, 4, 1, 50, "#c8b8a0");
+    r(ctx, 16, 12, 14, 12, "#8a6a4a"); r(ctx, 18, 14, 10, 8, "#a0b8d0");
+    // Guirlande
+    for (var g = 40; g < 120; g += 8) r(ctx, g, 6 + ((g / 8) % 2) * 2, 4, 4, ["#e04040", "#4080e0", "#e0c040"][(g / 8) % 3]);
+    // La télé sur le buffet, débat sans le son
+    r(ctx, 126, 26, 28, 20, "#111"); r(ctx, 128, 28, 24, 16, ["#3a5a8a", "#8a3a3a"][Math.floor(t / 1.8) % 2]);
+    r(ctx, 120, 46, 40, 10, "#6a4a30");
+    // La table avec la toile cirée
+    r(ctx, 14, 54, 118, 6, "#c84a4a");
+    for (var c = 14; c < 132; c += 6) r(ctx, c, 54, 3, 6, "#e8e0d0");
+    r(ctx, 20, 60, 3, 22, "#5a3a24"); r(ctx, 124, 60, 3, 22, "#5a3a24");
+    // Le gâteau, bougies
+    r(ctx, 64, 46, 18, 8, "#f0d8c0"); r(ctx, 64, 46, 18, 2, "#f8f0e8");
+    for (var b = 0; b < 4; b++) { r(ctx, 67 + b * 4, 42, 1, 4, "#80c0ff"); if (Math.floor(t * 6 + b) % 2) r(ctx, 67 + b * 4, 40, 1, 2, "#ffb020"); }
+    // La famille : oncle Patrick, la grand-mère, Christine, Léa
+    silhouette(ctx, 24, 54, "#3a5a3a", "#d8a080", "#7a6a5a", "#2a2a3a");
+    silhouette(ctx, 46, 54, "#8a6a9a", "#e0b090", "#e8e8e8", "#2a2a3a");
+    silhouette(ctx, 92, 54, "#5a7a9a", "#b08060", "#3a2a20", "#2a2a3a");
+    silhouette(ctx, 108, 54, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+  }
+
+  /* ---------- J-1 : la manifestation ---------- */
+  function manif(ctx, t) {
+    bandes(ctx, 0, ["#8a90a8", "#9aa0b4", "#aab0c0", "#babecc"], 6);
+    // Immeubles haussmanniens
+    r(ctx, 0, 8, L, 46, "#c8bca8");
+    for (var x = 4; x < L; x += 14) for (var y = 12; y < 48; y += 10) r(ctx, x, y, 6, 7, "#5a5a6a");
+    r(ctx, 0, 20, L, 1, "#8a8070"); r(ctx, 0, 30, L, 1, "#8a8070");
+    // L'agence bancaire, vitrine brisée
+    r(ctx, 108, 36, 40, 18, "#3a4a5a"); r(ctx, 110, 38, 36, 14, "#8ab0c8");
+    ctx.strokeStyle = "#f0f0f0"; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(128, 38); ctx.lineTo(122, 52); ctx.moveTo(128, 38); ctx.lineTo(140, 50); ctx.moveTo(128, 38); ctx.lineTo(112, 44); ctx.stroke();
+    // Fumigènes
+    for (var f = 0; f < 6; f++) {
+      var fy = 40 - ((t * 5 + f * 7) % 30), fx = 40 + f * 12 + Math.sin(t + f) * 3;
+      ctx.globalAlpha = 0.25; r(ctx, fx, fy, 8, 6, f % 2 ? "#ff6a6a" : "#d0d0d8"); ctx.globalAlpha = 1;
+    }
+    r(ctx, 0, 54, L, 36, "#6a6a70");
+    // La foule, des pancartes
+    for (var p = 0; p < 16; p++) {
+      var px = 4 + p * 10, py = 76 + (p % 3) * 3;
+      silhouette(ctx, px, py, ["#4a6a9a", "#9a4a4a", "#e8e8e8", "#5a8a5a"][p % 4], p % 2 ? "#c89070" : "#8a5a3a", "#2a2020");
+      if (p % 3 === 0) { r(ctx, px + 3, py - 34, 1, 12, "#8a6a4a"); r(ctx, px - 2, py - 40, 12, 7, "#f8f8f0"); r(ctx, px, py - 38, 8, 1, "#c02020"); }
+    }
+    // Les cagoulés devant la vitrine
+    silhouette(ctx, 118, 70, "#111", "#111", "#111", "#111");
+    silhouette(ctx, 130, 70, "#111", "#111", "#111", "#111");
+    // Léa, au premier plan
+    silhouette(ctx, 76, 88, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+  }
+
+  /* ---------- J-1 (si elle travaille samedi) : la salle de pause ---------- */
+  function caisse(ctx, t) {
+    r(ctx, 0, 0, L, H, "#d8dce0");
+    r(ctx, 0, 62, L, 28, "#a8acb4");
+    for (var n = 10; n < L; n += 40) r(ctx, n, 2, 24, 3, "#f8fcff");
+    // Casiers
+    for (var k = 0; k < 6; k++) { r(ctx, 4 + k * 13, 16, 12, 46, "#8a9aaa"); r(ctx, 13 + k * 13, 36, 2, 4, "#5a6a7a"); }
+    // Affiche « planning »
+    r(ctx, 92, 14, 26, 20, "#ffffff"); for (var l = 0; l < 5; l++) r(ctx, 94, 17 + l * 3, 22, 1, l === 3 ? "#e04040" : "#9a9aa8");
+    // Table, café, machine
+    r(ctx, 90, 56, 50, 3, "#e8e8e8"); r(ctx, 94, 59, 2, 22, "#888"); r(ctx, 134, 59, 2, 22, "#888");
+    r(ctx, 144, 30, 14, 32, "#3a3a44"); r(ctx, 147, 34, 8, 6, "#80c0ff");
+    r(ctx, 116, 52, 4, 4, "#8a5a3a");
+    // Léa en tenue de caisse, une collègue lui tend son téléphone
+    silhouette(ctx, 100, 70, "#3a6ad8", "#b08060", "#1a1010", "#2a2a40");
+    silhouette(ctx, 120, 70, "#3a6ad8", "#e0b090", "#c8a040", "#2a2a40");
+    r(ctx, 112, 52, 4, 6, "#111"); r(ctx, 113, 53, 2, 4, Math.floor(t * 3) % 2 ? "#ff6a6a" : "#d0d0d8");
+  }
+
+  /* ---------- Dimanche : le préau d'école, bureau de vote ---------- */
+  function preau(ctx, t) {
+    bandes(ctx, 0, ["#a8c8e8", "#b4d0ec", "#c0d8f0"], 6);
+    r(ctx, 0, 18, L, 72, "#b8b0a0");
+    r(ctx, 0, 14, L, 6, "#5a4a3a");                    // le toit du préau
+    for (var p = 10; p < L; p += 36) r(ctx, p, 20, 4, 50, "#6a5a4a");
+    // Marelle au sol et dessins à la craie
+    r(ctx, 0, 70, L, 20, "#9a9488");
+    for (var m = 0; m < 4; m++) r(ctx, 16 + m * 9, 76, 8, 6, "#f0f0f0"), r(ctx, 17 + m * 9, 77, 6, 4, "#9a9488");
+    // Le panneau « Bureau de vote » et l'urne
+    r(ctx, 60, 26, 40, 8, "#f8f8f0"); r(ctx, 64, 29, 32, 2, "#3a3a6a");
+    r(ctx, 70, 48, 20, 4, "#8a8a8a"); r(ctx, 72, 40, 16, 8, "#d8e8f0"); r(ctx, 76, 40, 8, 1, "#333");
+    // La file d'électeurs
+    var avance = Math.floor(t / 3) % 2;
+    [[110, "#6a6a3a"], [122, "#3a5a7a"], [134, "#8a4a4a"]].forEach(function (e, k) {
+      silhouette(ctx, e[0] - avance, 70, e[1], k === 1 ? "#8a5a3a" : "#d8a080", "#2a2020");
+    });
+    silhouette(ctx, 146 - avance, 70, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+  }
+
+  /* ---------- Dimanche : le badge d'hôpital, enfin retourné ---------- */
+  function badge_lea(ctx, t) {
+    r(ctx, 0, 0, L, H, "#121226");
+    ctx.globalAlpha = 0.25 + (Math.sin(t * 1.5) + 1) * 0.08; r(ctx, 36, 12, 88, 66, "#a0b8ff"); ctx.globalAlpha = 1;
+    r(ctx, 76, 0, 8, 14, "#3a6ad8");                  // le cordon
+    r(ctx, 74, 12, 12, 6, "#8a90a0");
+    r(ctx, 44, 18, 72, 52, "#c0c4d0");
+    r(ctx, 46, 20, 68, 48, "#f4f6fa");
+    r(ctx, 46, 20, 68, 8, "#2a8ac8");                 // bandeau de l'hôpital
+    r(ctx, 50, 23, 30, 2, "#f4f6fa"); r(ctx, 104, 22, 6, 4, "#f4f6fa"); r(ctx, 106, 21, 2, 6, "#f4f6fa");
+    r(ctx, 50, 32, 20, 26, "#9aa0b0");                // la photo
+    r(ctx, 54, 36, 12, 12, "#b08060"); r(ctx, 53, 34, 14, 4, "#3a2a20"); r(ctx, 52, 50, 16, 8, "#e8f0f8");
+    r(ctx, 76, 34, 32, 2, "#2a2e3a");                 // CHRISTINE MOREL
+    r(ctx, 76, 40, 24, 2, "#2a2e3a");                 // AIDE-SOIGNANTE
+    r(ctx, 76, 46, 20, 2, "#6a6ad8");                 // SERVICE DE NUIT
+    r(ctx, 76, 54, 26, 1, "#9a9aa8"); r(ctx, 76, 58, 18, 1, "#9a9aa8");
+  }
+
   window.Dessins = {
     largeur: L,
     hauteur: H,
@@ -276,6 +757,26 @@
     cuisine: cuisine,
     route: route,
     boite: boite,
-    quai: quai
+    quai: quai,
+    pause: pause,
+    rue: rue,
+    accident: accident,
+    fonderie: fonderie,
+    repas: repas,
+    balto: balto,
+    mairie: mairie,
+    badge: badge,
+    isoloir: isoloir,
+    rer: rer,
+    sac: sac,
+    coloc: coloc,
+    controle: controle,
+    asso: asso,
+    fac: fac,
+    anniv: anniv,
+    manif: manif,
+    caisse: caisse,
+    preau: preau,
+    badge_lea: badge_lea
   };
 })();
