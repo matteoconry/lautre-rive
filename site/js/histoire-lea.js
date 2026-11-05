@@ -5,6 +5,7 @@
  */
 window.Parcours = window.Parcours || {};
 window.Parcours.lea = {
+  id: "lea",
   prenom: "Léa",
   rive: "droite",
   presentation: "Léa, 21 ans, étudiante en droit à Saint-Denis",
@@ -210,7 +211,7 @@ window.Parcours.lea = {
         "Elle en veut plus dans son quartier."
       ],
       reponse: "Elle en veut plus, mais pas comme ça. Quand le local à vélos a brûlé, c'est elle qui a appelé le 17. Personne n'est venu avant une heure. Elle veut des policiers qui connaissent le quartier, pas des contrôles à répétition.",
-      source: null
+      source: "Dans la vraie vie : 45 % des sympathisants de La France insoumise et du Parti communiste disent avoir confiance dans la police (74 % de l'ensemble des Français). Ipsos bva, « Fractures françaises », octobre 2025."
     },
 
     /* ==================== J-3 · Ce qui la tient ==================== */
@@ -428,15 +429,21 @@ window.Parcours.lea = {
       { t: "Ton choix n'est enregistré nulle part.", style: "note" }
     ] },
 
-    /* ==================== Le pont ==================== */
+    /* ==================== Le quiz et le pont ==================== */
 
-    { type: "decor", decor: "pont", titre: "L'Autre Rive", sous: "Le soir, sur le pont" },
+    { type: "decor", decor: "pont", titre: "Devine ce que pense l'autre", sous: "Trois questions sur ceux qui votent comme Léa" },
 
-    { type: "texte", lignes: [
-      { t: "Le soir, Léa traverse le pont à pied. En face, quelqu'un arrive de la rive du village." },
-      { t: "Un homme d'une cinquantaine d'années, un badge dans la main.", style: "pense" },
-      { t: "La rencontre se débloquera quand tu auras joué les deux parcours.", style: "note" }
-    ] },
+    {
+      type: "quiz",
+      groupe: "les sympathisants de La France insoumise et du Parti communiste",
+      questions: [
+        { q: "Selon toi, combien de ceux qui votent comme Léa trouvent anormal d'utiliser la violence pour défendre ses intérêts ?", vrai: 71, source: "Ipsos bva pour le Cevipof, la Fondation Jean-Jaurès, Le Monde et l'Institut Montaigne, « Fractures françaises », 1er-9 octobre 2025, 3 000 personnes." },
+        { q: "Selon toi, combien d'entre eux disent avoir du mal à joindre les deux bouts ?", vrai: 67, source: "Ipsos bva pour le Cevipof, la Fondation Jean-Jaurès, Le Monde et l'Institut Montaigne, « Fractures françaises », 1er-9 octobre 2025, 3 000 personnes." },
+        { q: "Selon toi, combien d'entre eux disent que les gens comme eux ont des conditions de vie de moins en moins bonnes ?", vrai: 78, source: "Ipsos bva pour le Cevipof, la Fondation Jean-Jaurès, Le Monde et l'Institut Montaigne, « Fractures françaises », 1er-9 octobre 2025, 3 000 personnes." }
+      ]
+    },
+
+    { type: "rencontre" },
 
     { type: "fin" }
   ]

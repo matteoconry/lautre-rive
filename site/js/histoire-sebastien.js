@@ -23,6 +23,7 @@
  */
 window.Parcours = window.Parcours || {};
 window.Parcours.sebastien = {
+  id: "sebastien",
   prenom: "Sébastien",
   rive: "gauche",
   presentation: "Sébastien, 47 ans, cariste dans un village du Nord-Est",
@@ -105,7 +106,7 @@ window.Parcours.sebastien = {
         "C'est réel et ça l'inquiète."
       ],
       reponse: "C'est réel. Les étés secs, il les voit sur les champs de son beau-frère. Ce qu'il refuse, c'est que ce soit à celui qui fait 64 km par jour de payer la facture.",
-      source: null // le chiffre de sondage n'est pas encore choisi : on ne met rien d'inventé
+      source: "Dans la vraie vie : 68 % des sympathisants du Rassemblement national se disent inquiets face au changement climatique (74 % de l'ensemble des Français). " + "Ipsos bva, « Fractures françaises », octobre 2025, chiffre cité par la Fondation Jean-Jaurès."
     },
 
     { type: "decor", decor: "boite" },
@@ -482,15 +483,21 @@ window.Parcours.sebastien = {
       { t: "Ton choix n'est enregistré nulle part.", style: "note" }
     ] },
 
-    /* ==================== Le pont ==================== */
+    /* ==================== Le quiz et le pont ==================== */
 
-    { type: "decor", decor: "pont", titre: "L'Autre Rive", sous: "Le soir, sur le pont" },
+    { type: "decor", decor: "pont", titre: "Devine ce que pense l'autre", sous: "Trois questions sur ceux qui votent comme Sébastien" },
 
-    { type: "texte", lignes: [
-      { t: "Le soir, Sébastien traverse le pont à pied. En face, quelqu'un arrive de la rive des immeubles." },
-      { t: "Une jeune femme, un badge dans la main.", style: "pense" },
-      { t: "La rencontre se débloquera quand tu auras joué les deux parcours. Le parcours de Léa arrive bientôt.", style: "note" }
-    ] },
+    {
+      type: "quiz",
+      groupe: "les sympathisants du Rassemblement national",
+      questions: [
+        { q: "Selon toi, combien de ceux qui votent comme Sébastien trouvent anormal d'utiliser la violence pour défendre ses intérêts ?", vrai: 76, source: "Ipsos bva pour le Cevipof, la Fondation Jean-Jaurès, Le Monde et l'Institut Montaigne, « Fractures françaises », 1er-9 octobre 2025, 3 000 personnes." },
+        { q: "Selon toi, combien d'entre eux disent avoir du mal à joindre les deux bouts ?", vrai: 67, source: "Ipsos bva pour le Cevipof, la Fondation Jean-Jaurès, Le Monde et l'Institut Montaigne, « Fractures françaises », 1er-9 octobre 2025, 3 000 personnes." },
+        { q: "Selon toi, combien d'entre eux se disent inquiets face au changement climatique ?", vrai: 68, source: "Ipsos bva pour le Cevipof, la Fondation Jean-Jaurès, Le Monde et l'Institut Montaigne, « Fractures françaises », 1er-9 octobre 2025, 3 000 personnes. Chiffre cité par la Fondation Jean-Jaurès." }
+      ]
+    },
+
+    { type: "rencontre" },
 
     { type: "fin" }
   ]

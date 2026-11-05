@@ -43,6 +43,7 @@
       fin_de_mois: H.depart.fin_de_mois,
       energie: H.depart.energie,
       liens: H.depart.liens,
+      parcours: H.id,
       drapeaux: {},
       paris: [],
       vote: null,
@@ -151,7 +152,7 @@
     var noeud, cible;
     if (ligne.style === "sms" || ligne.style === "parole") {
       noeud = document.createElement("div");
-      noeud.className = ligne.style;
+      noeud.className = ligne.style + (ligne.flou ? " flou" : "");
       var de = document.createElement("b");
       de.textContent = ligne.de || "";
       cible = document.createElement("span");
@@ -287,6 +288,8 @@
       case "texte": return page(etape.lignes, avancer);
       case "choix": return jouerChoix(etape);
       case "tete": return jouerTete(etape);
+      case "quiz": return jouerQuiz(etape);
+      case "rencontre": return jouerRencontre();
       case "fin": return jouerFin();
     }
   }
@@ -360,6 +363,152 @@
     });
   }
 
+  /* ---------------- Le quiz « Devine ce que pense l'autre » ---------------- */
+
+  function jouerQuiz(etape) {
+    var n = 0, ecarts = [];
+
+    function question() {
+      var q = etape.questions[n];
+      vider();
+      ecrire([
+        { t: "Devine ce que pense l'autre · " + (n + 1) + "/" + etape.questions.length, style: "rubrique" },
+        { t: q.q, style: "fort" }
+      ], function () {
+        var boite = document.createElement("div");
+        boite.className = "curseur";
+        var valeur = document.createElement("output");
+        valeur.textContent = "50 %";
+        var range = document.createElement("input");
+        range.type = "range"; range.min = 0; range.max = 100; range.step = 1; range.value = 50;
+        range.setAttribute("aria-label", "Ta réponse, en pourcentage");
+        range.addEventListener("input", function () { valeur.textContent = range.value + " %"; });
+        ["click", "pointerdown", "touchstart"].forEach(function (ev) {
+          range.addEventListener(ev, function (e) { e.stopPropagation(); });
+        });
+        boite.appendChild(valeur);
+        boite.appendChild(range);
+        el.choix.appendChild(boite);
+        var b = document.createElement("button");
+        b.type = "button";
+        b.textContent = "Valider";
+        b.addEventListener("click", function (e) {
+          e.stopPropagation();
+          reponse(q, parseInt(range.value, 10));
+        });
+        el.choix.appendChild(b);
+      });
+    }
+
+    function reponse(q, pari) {
+      var ecart = Math.abs(pari - q.vrai);
+      ecarts.push(ecart);
+      vider();
+      ecrire([
+        { t: "Devine ce que pense l'autre · " + (n + 1) + "/" + etape.questions.length, style: "rubrique" },
+        { t: "Ta réponse : " + pari + " %" },
+        { t: "La réalité : " + q.vrai + " %", style: "fort" },
+        { t: ecart <= 3 ? "Dans le mille." : "Écart : " + ecart + " points.", style: "pense" }
+      ], function () {
+        var barres = document.createElement("div");
+        barres.className = "barres";
+        [["Toi", pari, "toi"], ["Réalité", q.vrai, "vrai"]].forEach(function (x) {
+          var ligne = document.createElement("div");
+          ligne.className = "barre " + x[2];
+          var nom = document.createElement("span"); nom.textContent = x[0];
+          var fond = document.createElement("i");
+          var plein = document.createElement("b"); plein.style.width = x[1] + "%";
+          fond.appendChild(plein);
+          ligne.appendChild(nom); ligne.appendChild(fond);
+          barres.appendChild(ligne);
+        });
+        el.texte.appendChild(barres);
+        var src = document.createElement("p");
+        src.className = "note";
+        src.textContent = "Source : " + q.source + " Chiffre pour " + etape.groupe + ".";
+        el.texte.appendChild(src);
+        el.suite.classList.remove("cache");
+        attente = function () {
+          attente = null;
+          n++;
+          if (n < etape.questions.length) question();
+          else bilan();
+        };
+      });
+    }
+
+    function bilan() {
+      var moyen = Math.round(ecarts.reduce(function (a, b) { return a + b; }, 0) / ecarts.length);
+      etat.ecart_quiz = moyen;
+      page([
+        { t: "Devine ce que pense l'autre", style: "rubrique" },
+        { t: "En moyenne, ton écart est de " + moyen + " points.", style: "fort" },
+        { t: moyen <= 10 ? "Tu connais bien l'autre rive." : "Sur ces questions, l'autre rive n'est pas tout à fait celle que tu imaginais.", style: "pense" }
+      ], avancer);
+    }
+
+    question();
+  }
+
+  /* ---------------- La rencontre sur le pont ---------------- */
+
+  var CLE_PARCOURS = "lautre-rive-parcours";
+
+  function lireJoues() {
+    try { return JSON.parse(window.localStorage.getItem(CLE_PARCOURS)) || {}; } catch (e) { return {}; }
+  }
+
+  function enregistrerParcours() {
+    var j = lireJoues();
+    j[H.id] = etat.drapeaux;
+    try { window.localStorage.setItem(CLE_PARCOURS, JSON.stringify(j)); } catch (e) { /* navigation privée */ }
+    return j;
+  }
+
+  // « a_parle_au_bar » ou « !a_parle_au_bar », lu dans un parcours déjà joué
+  function condition(drapeaux, cle) {
+    if (!cle) return true;
+    if (cle.charAt(0) === "!") return !(drapeaux && drapeaux[cle.slice(1)]);
+    return !!(drapeaux && drapeaux[cle]);
+  }
+
+  function brouiller(texte) {
+    var signes = "▒▓░";
+    return texte.replace(/\S/g, function () { return signes.charAt(Math.floor(Math.random() * 3)); });
+  }
+
+  function jouerRencontre() {
+    var joues = enregistrerParcours();
+    var complet = !!(joues.sebastien && joues.lea);
+    var R = window.Rencontre;
+    etat.rencontre_complete = complet;
+    decor = "pont_rencontre";
+    M.jouer("pont");
+
+    var autre = H.id === "sebastien" ? P.lea : P.sebastien;
+    var pages;
+    if (complet) {
+      pages = R.pages.map(function (lignes) {
+        return { lignes: lignes.filter(function (l) {
+          return condition(joues.sebastien, l.siSeb) && condition(joues.lea, l.siLea);
+        }) };
+      });
+    } else {
+      pages = R.pages.slice(0, R.pages_floues).map(function (lignes) {
+        return { lignes: lignes.map(function (l) {
+          if (l.de !== autre.prenom) return l;
+          return { style: l.style, de: l.de, t: brouiller(l.t), flou: true };
+        }) };
+      });
+      pages.push({ lignes: [
+        { t: "La suite de la rencontre est floue.", style: "pense" },
+        { t: "Joue le parcours de " + autre.prenom + " pour entendre ce qu'" + (autre.id === "lea" ? "elle" : "il") + " répond.", style: "note" }
+      ] });
+    }
+    file = pages.filter(function (p) { return p.lignes.length; });
+    avancer();
+  }
+
   function jouerFin() {
     vider();
 
@@ -386,6 +535,7 @@
     etat.paris.forEach(function (p) { ligne("Pari n°" + p.numero, p.pari); });
     ligne("Le badge", H.badge);
     if (etat.vote) ligne("Ton enveloppe", etat.vote);
+    if (etat.ecart_quiz !== undefined) ligne("Écart au quiz", etat.ecart_quiz + " points en moyenne");
     el.texte.appendChild(dl);
 
     var note = document.createElement("p");
