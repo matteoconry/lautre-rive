@@ -445,6 +445,7 @@ window.Parcours.lea = {
 
     { type: "rencontre" },
 
+    { type: "generique" },
     { type: "fin" }
   ]
 };

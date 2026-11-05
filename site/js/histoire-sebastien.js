@@ -499,6 +499,7 @@ window.Parcours.sebastien = {
 
     { type: "rencontre" },
 
+    { type: "generique" },
     { type: "fin" }
   ]
 };
