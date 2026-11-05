@@ -1,0 +1,348 @@
+/* L'Autre Rive : prototype. Mobile d'abord, puis grand écran. */
+
+:root {
+  --fond: #1a1220;
+  --papier: #f4e9d8;
+  --encre: #2a1d1a;
+  --chaud: #e07a3c;   /* couleur de Sébastien : orange */
+  --brique: #a8442c;  /* couleur de Sébastien : brique */
+  --gris: #8a7f86;
+  --vert: #7fbf7a;
+  --rouge: #e0584a;
+  --police: "Courier New", ui-monospace, Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--fond);
+  color: var(--papier);
+  font-family: var(--police);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+}
+
+.jeu {
+  width: 100%;
+  max-width: 760px;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: max(10px, env(safe-area-inset-top)) 10px max(12px, env(safe-area-inset-bottom));
+  gap: 10px;
+}
+
+.cache { display: none !important; }
+
+/* ---------- Bandeau : compte à rebours + jauges ---------- */
+
+.hud {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.compte {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.compte-jour {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--chaud);
+  letter-spacing: 1px;
+}
+
+.compte-texte { color: var(--gris); }
+
+.compte-pips {
+  margin-left: auto;
+  display: flex;
+  gap: 4px;
+}
+
+.compte-pips i {
+  width: 10px;
+  height: 10px;
+  background: #3a2f3a;
+  display: block;
+}
+.compte-pips i.passe { background: var(--brique); }
+.compte-pips i.aujourdhui { background: var(--chaud); animation: clignote 1.4s steps(2) infinite; }
+.compte-pips i.vote { background: var(--papier); width: 14px; }
+
+@keyframes clignote { 50% { opacity: .35; } }
+
+.jauges {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.jauge {
+  position: relative;
+  background: #241a2a;
+  border: 2px solid #3a2f3a;
+  padding: 5px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.jauge-nom {
+  font-size: 11px;
+  color: var(--gris);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  white-space: nowrap;
+}
+
+.jauge-valeur { font-size: 16px; font-weight: bold; }
+.jauge-valeur.bas { color: var(--rouge); }
+
+.jauge-barre {
+  display: flex;
+  gap: 2px;
+  height: 12px;
+}
+.jauge-barre i {
+  flex: 1;
+  background: #3a2f3a;
+}
+.jauge-barre i.plein { background: var(--chaud); }
+.jauge-barre.bas i.plein { background: var(--rouge); }
+
+.jauge-delta {
+  position: absolute;
+  right: 6px;
+  top: 3px;
+  font-weight: bold;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+}
+.jauge-delta.montre { animation: delta 1.8s ease-out; }
+.jauge-delta.plus { color: var(--vert); }
+.jauge-delta.moins { color: var(--rouge); }
+
+@keyframes delta {
+  0% { opacity: 0; transform: translateY(6px); }
+  15% { opacity: 1; transform: translateY(0); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-8px); }
+}
+
+.jauge.secoue { animation: secoue .35s steps(4); }
+@keyframes secoue {
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+/* ---------- La scène ---------- */
+
+.ecran {
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 3px solid #3a2f3a;
+  background: #000;
+  overflow: hidden;
+}
+
+#scene {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.titre-scene {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: rgba(10, 6, 12, .72);
+  font-size: clamp(18px, 5vw, 30px);
+  letter-spacing: 2px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .6s;
+  padding: 10px;
+}
+.titre-scene.visible { opacity: 1; }
+.titre-scene small {
+  display: block;
+  font-size: clamp(12px, 3vw, 15px);
+  color: var(--chaud);
+  margin-top: 8px;
+  letter-spacing: 1px;
+}
+
+/* ---------- Texte et choix ---------- */
+
+.boite {
+  position: relative;
+  flex: 1 0 auto;
+  background: var(--papier);
+  color: var(--encre);
+  border: 3px solid var(--encre);
+  box-shadow: 0 0 0 3px var(--papier);
+  margin: 3px;
+  padding: 14px 14px 40px;
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 200px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.texte p { margin: 0 0 10px; }
+.texte p.recit { }
+.texte p.pense { font-style: italic; color: #6a4a3a; }
+.texte p.fort { font-weight: bold; }
+.texte p.effets {
+  font-size: 13px;
+  color: var(--brique);
+  font-style: italic;
+}
+.texte p.note {
+  font-size: 12px;
+  color: var(--gris);
+  border-left: 3px solid var(--gris);
+  padding-left: 8px;
+}
+
+.texte .sms {
+  background: #e3d6c1;
+  border-left: 4px solid var(--brique);
+  padding: 8px 10px;
+  margin: 0 0 10px;
+  font-size: 15px;
+}
+.texte .sms b { display: block; font-size: 12px; color: var(--brique); margin-bottom: 2px; }
+
+.texte .rubrique {
+  display: inline-block;
+  background: var(--encre);
+  color: var(--papier);
+  padding: 2px 8px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.choix {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.choix button {
+  font: inherit;
+  font-size: 15px;
+  text-align: left;
+  padding: 12px 12px;
+  min-height: 48px;
+  background: #fff8ee;
+  color: var(--encre);
+  border: 3px solid var(--encre);
+  box-shadow: 3px 3px 0 var(--encre);
+  cursor: pointer;
+  transition: transform .05s;
+}
+.choix button:hover:not(:disabled),
+.choix button:focus-visible { background: #ffe3c8; outline: none; }
+.choix button:active:not(:disabled) { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--encre); }
+.choix button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+  box-shadow: none;
+  border-style: dashed;
+}
+.choix button .raison {
+  display: block;
+  font-size: 12px;
+  font-style: italic;
+  margin-top: 2px;
+}
+.choix button.bonne { background: #d9efd5; }
+.choix button.choisi { outline: 3px solid var(--chaud); outline-offset: 2px; }
+
+.suite {
+  position: absolute;
+  right: 10px;
+  bottom: 6px;
+  background: none;
+  border: none;
+  color: var(--brique);
+  font-size: 20px;
+  cursor: pointer;
+  animation: rebond 1s steps(2) infinite;
+  padding: 4px 8px;
+}
+@keyframes rebond { 50% { transform: translateY(3px); } }
+
+/* Écran de titre : la boîte se fond dans le décor */
+.jeu.accueil .boite {
+  background: transparent;
+  color: var(--papier);
+  border-color: transparent;
+  box-shadow: none;
+  cursor: default;
+  text-align: center;
+}
+.jeu.accueil .texte p.pense { color: var(--gris); }
+.jeu.accueil .choix button { text-align: center; }
+.jeu.accueil .choix button.gauche { background: var(--chaud); }
+.jeu.accueil .choix button.droite { background: #8a9fd8; }
+
+.texte h1 {
+  font-size: clamp(28px, 8vw, 44px);
+  margin: 0 0 6px;
+  letter-spacing: 3px;
+}
+
+/* Récapitulatif de fin de journée */
+.recap {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  font-size: 15px;
+  margin: 6px 0 12px;
+}
+.recap dt { color: var(--gris); }
+.recap dd { margin: 0; font-weight: bold; }
+
+/* Grand écran : un peu plus d'air */
+@media (min-width: 700px) {
+  .jeu { padding-top: 24px; }
+  .hud { flex-direction: row; align-items: center; justify-content: space-between; }
+  .compte-pips { margin-left: 12px; }
+  .jauges { width: 60%; }
+  .boite { font-size: 17px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
