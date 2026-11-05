@@ -197,6 +197,22 @@ body {
   letter-spacing: 1px;
 }
 
+.son {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 2;
+  font: inherit;
+  font-size: 12px;
+  padding: 6px 9px;
+  min-height: 32px;
+  background: rgba(20, 12, 20, .75);
+  color: var(--papier);
+  border: 2px solid var(--chaud);
+  cursor: pointer;
+}
+.son.coupe { border-color: var(--gris); color: var(--gris); text-decoration: line-through; }
+
 /* ---------- Texte et choix ---------- */
 
 .boite {

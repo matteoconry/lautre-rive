@@ -19,8 +19,10 @@
     boite: document.getElementById("boite"),
     texte: document.getElementById("texte"),
     choix: document.getElementById("choix"),
-    suite: document.getElementById("suite")
+    suite: document.getElementById("suite"),
+    son: document.getElementById("son")
   };
+  var M = window.Musique;
   var ctx = el.canvas.getContext("2d");
 
   var NOMS = { fin_de_mois: "Fin de mois", energie: "Énergie", liens: "Liens" };
@@ -266,6 +268,7 @@
 
   function jouerDecor(etape) {
     decor = etape.decor;
+    M.jouer(decor);
     if (!etape.titre) { avancer(); return; }
     vider();
     el.titre.innerHTML = "";
@@ -378,6 +381,7 @@
   function accueil() {
     vider();
     decor = "pont";
+    M.jouer("pont");
     etat = nouvelEtat();
     el.jeu.classList.add("accueil");
     el.hud.classList.add("cache");
@@ -430,6 +434,29 @@
   }
 
   /* ---------------- Contrôles ---------------- */
+
+  // Le son démarre au premier geste du joueur (les navigateurs l'exigent)
+  ["pointerdown", "keydown", "touchend"].forEach(function (type) {
+    document.addEventListener(type, function (ev) {
+      if (ev.target === el.son) return;
+      M.debloquer();
+    }, true);
+  });
+
+  function afficherSon() {
+    var coupe = M.estCoupe();
+    el.son.textContent = coupe ? "♪ Muet" : "♪ Son";
+    el.son.title = coupe ? "Remettre le son" : "Couper le son";
+    el.son.setAttribute("aria-pressed", coupe ? "true" : "false");
+    el.son.classList.toggle("coupe", coupe);
+  }
+  el.son.addEventListener("click", function (ev) {
+    ev.stopPropagation();
+    M.basculer();
+    M.debloquer();
+    afficherSon();
+  });
+  afficherSon();
 
   el.boite.addEventListener("click", toucher);
   el.canvas.parentNode.addEventListener("click", toucher);
