@@ -719,6 +719,8 @@
   function preparer() {
     var AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) return false;
+    // iPhone : jouer même quand le bouton silencieux est activé
+    try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) { /* rien */ }
     ctx = new AC();
     creerBruits();
 

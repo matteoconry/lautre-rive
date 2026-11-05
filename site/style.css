@@ -411,3 +411,13 @@ body.lea {
 
 /* Rencontre : les répliques floues */
 .texte .flou span { filter: blur(1.5px); color: var(--gris); letter-spacing: 1px; }
+
+/* La carte à partager, en fin de partie */
+.texte img.carte {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 8px auto 4px;
+  image-rendering: pixelated;
+  border: 2px solid var(--chaud);
+}

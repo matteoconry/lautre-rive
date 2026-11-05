@@ -246,7 +246,7 @@ window.Parcours.sebastien = {
         "Non, il en veut plus."
       ],
       reponse: "Il en veut plus. Une pharmacie, une poste, une maternité à moins d'une heure. Ce qu'il ne supporte pas, c'est de payer pour des services qu'il ne voit jamais.",
-      source: null
+      source: "Dans la vraie vie : 75 % des sympathisants du Rassemblement national jugent que les services publics locaux n'ont pas assez de moyens par rapport aux besoins de la population (73 % de l'ensemble des Français). OpinionWay pour le Sens du service public, la Casden et la Fondation Jean-Jaurès, 7-12 janvier 2026, 2 000 personnes."
     },
 
     /* ==================== J-3 · Ce qui le tient ==================== */
@@ -295,7 +295,7 @@ window.Parcours.sebastien = {
 
     { type: "texte", lignes: [
       { t: "Sur le groupe des pompiers, un dernier message de la soirée :" },
-      { t: "« La caserne de Vresnes sera regroupée avec celle de Saint-Aubin à la rentrée. 25 km de plus. »", style: "pense" }
+      { t: "« La caserne de Vresnes sera regroupée avec celle de Saint-Ambrel à la rentrée. 25 km de plus. »", style: "pense" }
     ] },
 
     { type: "decor", decor: "fonderie" },
@@ -362,7 +362,7 @@ window.Parcours.sebastien = {
         "Ça lui est égal."
       ],
       reponse: "Elle fait ce qu'elle veut. Elle est polie, elle dit bonjour, elle est la bienvenue ici.",
-      source: null
+      source: "Dans la vraie vie : 64 % des sympathisants du Rassemblement national jugent positivement la loi ouvrant le mariage et l'adoption aux couples de même sexe (71 % de l'ensemble des Français). Ifop pour l'ADFH, 26-29 avril 2024, 1 011 personnes."
     },
 
     { type: "texte", lignes: [

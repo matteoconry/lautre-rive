@@ -279,6 +279,7 @@
       etape = H.etapes[index];
       if (!etape) { accueil(); return; }
     } while (!visible(etape));
+    sauver();
     jouer(etape);
   }
 
@@ -450,6 +451,117 @@
     question();
   }
 
+  /* ---------------- Sauvegarde en cours de partie ---------------- */
+
+  // On garde l'étape où l'on est et l'état du personnage.
+  // Si l'onglet se ferme, la partie reprend au début de cette étape.
+  var CLE_PARTIE = "lautre-rive-partie";
+
+  function sauver() {
+    var etape = H.etapes[index];
+    if (etape.type === "rencontre" || etape.type === "fin") { effacerPartie(); return; }
+    try {
+      window.localStorage.setItem(CLE_PARTIE, JSON.stringify({ parcours: H.id, index: index, etat: etat }));
+    } catch (e) { /* navigation privée */ }
+  }
+
+  function lirePartie() {
+    try {
+      var s = JSON.parse(window.localStorage.getItem(CLE_PARTIE));
+      if (s && P[s.parcours] && P[s.parcours].etapes[s.index] && s.etat) return s;
+    } catch (e) { /* rien */ }
+    return null;
+  }
+
+  function effacerPartie() {
+    try { window.localStorage.removeItem(CLE_PARTIE); } catch (e) { /* rien */ }
+  }
+
+  function reprendre(s) {
+    H = P[s.parcours];
+    document.body.className = H.rive === "gauche" ? "sebastien" : "lea";
+    etat = s.etat;
+    file = [];
+    // Retrouver le décor de la scène en cours
+    decor = "pont";
+    for (var k = s.index; k >= 0; k--) {
+      var e = H.etapes[k];
+      if (e.type === "decor" && visible(e)) { decor = e.decor; break; }
+    }
+    M.jouer(decor);
+    el.jeu.classList.remove("accueil");
+    el.hud.classList.remove("cache");
+    afficherBandeau();
+    index = s.index - 1;
+    avancer();
+  }
+
+  /* ---------------- La carte à partager ---------------- */
+
+  var ADRESSE = "matteoconry.github.io/lautre-rive";
+
+  // Une image carrée en pixel art : le pont, le personnage joué, l'écart au quiz
+  function dessinerCarte(complet) {
+    var C = 1080, x0 = 60, y0 = 60, z = 6;
+    var carte = document.createElement("canvas");
+    carte.width = C; carte.height = C;
+    var c = carte.getContext("2d");
+    var couleur = H.id === "lea" ? "#8a6aff" : "#e07a3c";
+
+    c.fillStyle = "#1a1220"; c.fillRect(0, 0, C, C);
+
+    // La scène, dessinée en petit puis agrandie sans flou
+    var petit = document.createElement("canvas");
+    petit.width = D.largeur; petit.height = D.hauteur;
+    D.pont_rencontre(petit.getContext("2d"), 2, { parcours: H.id, rencontre_complete: complet });
+    c.imageSmoothingEnabled = false;
+    c.drawImage(petit, x0, y0, D.largeur * z, D.hauteur * z);
+    c.fillStyle = couleur;
+    c.fillRect(x0, y0 + D.hauteur * z, D.largeur * z, 6);
+
+    c.textBaseline = "alphabetic";
+    function texte(t, x, y, taille, gras, teinte, align) {
+      c.font = (gras ? "bold " : "") + taille + "px 'Courier New', monospace";
+      c.fillStyle = teinte;
+      c.textAlign = align || "left";
+      c.fillText(t, x, y);
+    }
+    texte("L'AUTRE RIVE", x0, 680, 56, true, "#f4e9d8");
+    texte(complet ? "Six jours de chaque côté du pont." : "Six jours dans la peau de " + H.prenom + ".", x0, 745, 34, false, couleur);
+    if (etat.ecart_quiz !== undefined) {
+      texte("Devine ce que pense l'autre :", x0, 830, 32, false, "#8a7f86");
+      texte(etat.ecart_quiz + " points d'écart en moyenne.", x0, 885, 42, true, "#f4e9d8");
+    }
+    texte("Et toi ?", x0, 990, 40, true, couleur);
+    texte(ADRESSE, C - x0, 990, 24, false, "#8a7f86", "right");
+    return carte;
+  }
+
+  function texteCarte() {
+    var t = "J'ai passé six jours dans la peau de " + H.prenom + ".";
+    if (etat.ecart_quiz !== undefined) t += " Au quiz « Devine ce que pense l'autre », mon écart : " + etat.ecart_quiz + " points.";
+    return t + " Et toi ? https://" + ADRESSE + "/";
+  }
+
+  function partagerCarte(carte) {
+    carte.toBlob(function (blob) {
+      if (!blob) return;
+      var fichier = null;
+      try { fichier = new File([blob], "lautre-rive.png", { type: "image/png" }); } catch (e) { /* vieux navigateur */ }
+      if (fichier && navigator.canShare && navigator.canShare({ files: [fichier] })) {
+        navigator.share({ files: [fichier], title: "L'Autre Rive", text: texteCarte() }).catch(function () { /* annulé */ });
+        return;
+      }
+      // Sinon : on télécharge l'image
+      var lien = document.createElement("a");
+      lien.href = URL.createObjectURL(blob);
+      lien.download = "lautre-rive.png";
+      document.body.appendChild(lien);
+      lien.click();
+      setTimeout(function () { URL.revokeObjectURL(lien.href); lien.remove(); }, 1000);
+    }, "image/png");
+  }
+
   /* ---------------- La rencontre sur le pont ---------------- */
 
   var CLE_PARCOURS = "lautre-rive-parcours";
@@ -544,13 +656,22 @@
     note.textContent = "Rejoue la semaine : d'autres choix ouvrent d'autres scènes. Ou passe de l'autre côté du pont, avec " + autre.prenom + ".";
     el.texte.appendChild(note);
 
+    var carte = dessinerCarte(!!etat.rencontre_complete);
+    var apercu = document.createElement("img");
+    apercu.className = "carte";
+    apercu.alt = "Ta carte à partager : " + texteCarte();
+    apercu.src = carte.toDataURL("image/png");
+    el.texte.appendChild(apercu);
+
     boutons([
+      { texte: "Partager ma carte", classe: H.rive },
       { texte: "Rejouer la semaine" },
       { texte: "Passer de l'autre côté : " + autre.prenom, classe: autre.rive },
       { texte: "Revenir au pont" }
     ], function (opt, n) {
-      if (n === 0) commencer(H.rive === "gauche" ? "sebastien" : "lea");
-      else if (n === 1) commencer(autre === P.lea ? "lea" : "sebastien");
+      if (n === 0) partagerCarte(carte);
+      else if (n === 1) commencer(H.rive === "gauche" ? "sebastien" : "lea");
+      else if (n === 2) commencer(autre === P.lea ? "lea" : "sebastien");
       else accueil();
     });
   }
@@ -570,14 +691,24 @@
     var h1 = document.createElement("h1");
     h1.textContent = "L'Autre Rive";
     el.texte.appendChild(h1);
+    var sauve = lirePartie();
     ecrire([
       { t: "Un pont. Deux rives. Six jours avant le vote.", style: "pense" },
-      { t: "De quel côté du pont viens-tu ?", style: "recit" }
+      { t: sauve ? "Ta semaine est restée en cours." : "De quel côté du pont viens-tu ?", style: "recit" }
     ], function () {
-      boutons([
+      var options = [
         { texte: "Rive gauche", classe: "gauche" },
         { texte: "Rive droite", classe: "droite" }
-      ], function (opt, n) {
+      ];
+      if (sauve) {
+        var q0 = P[sauve.parcours], j = sauve.etat.jour;
+        options.unshift({
+          texte: "Reprendre avec " + q0.prenom,
+          detail: j > 0 ? "J-" + j + " avant le vote" : "Le jour du vote"
+        });
+      }
+      boutons(options, function (opt, n) {
+        if (sauve) { if (n === 0) { reprendre(sauve); return; } n--; }
         var nom = n === 0 ? "sebastien" : "lea";
         var q = P[nom];
         vider();
@@ -596,6 +727,7 @@
 
   function commencer(nom) {
     if (nom && P[nom]) H = P[nom];
+    effacerPartie();
     document.body.className = H.rive === "gauche" ? "sebastien" : "lea";
     etat = nouvelEtat();
     index = -1;
@@ -609,7 +741,8 @@
   /* ---------------- Contrôles ---------------- */
 
   // Le son démarre au premier geste du joueur (les navigateurs l'exigent)
-  ["pointerdown", "keydown", "touchend"].forEach(function (type) {
+  // Sur téléphone, seuls « touchend », « pointerup » et « click » comptent comme un geste.
+  ["pointerdown", "pointerup", "click", "keydown", "touchend"].forEach(function (type) {
     document.addEventListener(type, function (ev) {
       if (ev.target === el.son) return;
       M.debloquer();
@@ -647,4 +780,7 @@
   etat = nouvelEtat();
   accueil();
   window.requestAnimationFrame(boucle);
+  // On tente de lancer la musique dès l'arrivée : certains navigateurs l'autorisent,
+  // les autres la démarrent au premier toucher, n'importe où sur la page.
+  M.debloquer();
 })();

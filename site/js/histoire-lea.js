@@ -312,7 +312,7 @@ window.Parcours.lea = {
         "Oui."
       ],
       reponse: "Oui. Elle a pleuré devant la finale de 2018. Elle aime ce pays assez pour vouloir qu'il tienne ses promesses.",
-      source: null
+      source: "Dans la vraie vie : 66 % des sympathisants de La France insoumise et du Parti communiste se disent fiers d'être Français (78 % de l'ensemble des Français). Destin Commun, « La fierté française », enquête en ligne du 27 septembre au 8 octobre 2025, 3 008 personnes ; chiffre cité dans Le Grand Continent, janvier 2026."
     },
 
     { type: "texte", lignes: [
