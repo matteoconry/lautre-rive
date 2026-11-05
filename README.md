@@ -13,7 +13,8 @@ La première journée de Sébastien (J-6 · Le matin), d'après le script :
 - trois jauges : fin de mois (€), énergie et liens ;
 - des choix sans bonne réponse, qui font bouger les jauges ;
 - un moment « Dans sa tête » (on parie, puis on découvre la réponse) ;
-- le badge retourné dans la boîte à gants.
+- le badge retourné dans la boîte à gants ;
+- une musique et une ambiance sonore pour chaque décor, avec un bouton pour couper le son.
 
 ## Où modifier quoi
 
@@ -21,6 +22,7 @@ La première journée de Sébastien (J-6 · Le matin), d'après le script :
 | --- | --- |
 | le texte, les choix, les effets sur les jauges | `site/js/histoire.js` |
 | les décors en pixel art | `site/js/dessins.js` |
+| la musique et les ambiances sonores | `site/js/musique.js` |
 | les couleurs, la taille du texte | `site/style.css` |
 | le fonctionnement (texte, boutons, jauges) | `site/js/moteur.js` |
 
