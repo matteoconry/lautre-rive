@@ -57,7 +57,7 @@ window.Parcours.sebastien = {
     { type: "texte", lignes: [
       { t: "5 h 10. Nathalie, sa femme, dort encore. Elle commence à 7 h chez Mme Fabre, 91 ans." },
       { t: "Sur le frigo, sous un aimant, sa carte électorale. Il n'a pas voté depuis 2017." },
-      { t: "Dimanche, il votera ? Il ne sait pas encore.", style: "fort" }
+      { t: "Dimanche, est-ce qu'il votera ? Il ne sait pas encore.", style: "fort" }
     ] },
 
     { type: "texte", lignes: [

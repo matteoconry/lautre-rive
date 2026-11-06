@@ -37,7 +37,7 @@ window.Parcours.lea = {
     { type: "texte", lignes: [
       { t: "6 h 30. Le cours de droit des obligations commence à 8 h. Le RER a 20 minutes de retard. Comme hier." },
       { t: "Dans son téléphone, la confirmation d'inscription sur les listes électorales. Elle a eu 18 ans il y a trois ans. Elle n'a jamais voté." },
-      { t: "Dimanche, elle votera ? Elle ne sait pas encore.", style: "fort" }
+      { t: "Dimanche, est-ce qu'elle votera ? Elle ne sait pas encore.", style: "fort" }
     ] },
 
     { type: "choix", question: "Que fait Léa ?", options: [
