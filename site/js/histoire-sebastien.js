@@ -240,13 +240,13 @@ window.Parcours.sebastien = {
     {
       type: "tete",
       numero: 2,
-      question: "Selon toi, Sébastien veut-il moins d'État ?",
+      question: "À ton avis, Sébastien veut-il moins de services publics ?",
       options: [
-        "Oui, moins d'impôts et moins d'État.",
+        "Oui, moins d'impôts, quitte à en avoir moins.",
         "Il s'en fiche.",
         "Non, il en veut plus."
       ],
-      reponse: "Il en veut plus. Une pharmacie, une poste, une maternité à moins d'une heure. Ce qu'il ne supporte pas, c'est de payer pour des services qu'il ne voit jamais.",
+      reponse: "Il en veut plus. La poste est partie au bar-tabac, la maternité la plus proche est à une heure de route. Il paie ses impôts comme tout le monde, mais ici, il ne voit plus rien revenir.",
       source: "Dans la vraie vie : 75 % des sympathisants du Rassemblement national jugent que les services publics locaux n'ont pas assez de moyens par rapport aux besoins de la population (73 % de l'ensemble des Français). OpinionWay pour le Sens du service public, la Casden et la Fondation Jean-Jaurès, 7-12 janvier 2026, 2 000 personnes."
     },
 
