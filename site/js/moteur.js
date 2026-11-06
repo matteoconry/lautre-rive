@@ -734,6 +734,11 @@
     if (etat.ecart_quiz !== undefined) ligne("Écart au quiz", etat.ecart_quiz + " points en moyenne");
     el.texte.appendChild(dl);
 
+    var lecon = document.createElement("p");
+    lecon.className = "pense";
+    lecon.textContent = "Quoi que tu aies choisi, la semaine a tout pris. Tu n'as pas mal joué. Sur les deux rives, des millions de gens vivent ça tous les mois.";
+    el.texte.appendChild(lecon);
+
     var note = document.createElement("p");
     note.className = "note";
     var autre = H.rive === "gauche" ? P.lea : P.sebastien;
