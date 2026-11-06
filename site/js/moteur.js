@@ -668,7 +668,7 @@
       }
       b.noms.forEach(function (n) {
         var nom = document.createElement("span");
-        nom.className = b.role ? "nom" : "mention";
+        nom.className = b.style || (b.role ? "nom" : "mention");
         nom.textContent = n;
         bloc.appendChild(nom);
       });
