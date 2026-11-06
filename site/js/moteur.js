@@ -782,10 +782,6 @@
       invite.className = "invite";
       invite.textContent = "Touche l'écran pour entrer";
       el.texte.appendChild(invite);
-      var casque = document.createElement("p");
-      casque.className = "note";
-      casque.textContent = "Avec le son, c'est mieux.";
-      el.texte.appendChild(casque);
       attente = function () { attente = null; accueil(); };
       return;
     }
