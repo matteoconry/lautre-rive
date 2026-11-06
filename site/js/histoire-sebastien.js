@@ -55,7 +55,7 @@ window.Parcours.sebastien = {
     { type: "decor", decor: "cuisine", jour: 6, titre: "J-6 · Le matin", sous: "Sébastien Marchal, 47 ans · Vresnes" },
 
     { type: "texte", lignes: [
-      { t: "5 h 10. Nathalie dort encore. Elle commence à 7 h chez Mme Fabre, 91 ans." },
+      { t: "5 h 10. Nathalie, sa femme, dort encore. Elle commence à 7 h chez Mme Fabre, 91 ans." },
       { t: "Sur le frigo, sous un aimant, une carte électorale. Elle n'a pas servi depuis 2017." },
       { t: "Dimanche, il ira.", style: "fort" }
     ] },
@@ -78,8 +78,8 @@ window.Parcours.sebastien = {
         ] } ]
       },
       {
-        texte: "Répondre qu'il part plus tôt",
-        detail: "Le trajet en silence, la radio.",
+        texte: "Dire à Didier qu'il ne peut pas",
+        detail: "Une excuse : il part plus tôt. Le trajet en silence, la radio.",
         effets: { energie: +1, liens: -1 },
         suite: [ { lignes: [
           { style: "sms", de: "Sébastien", t: "Désolé, je pars plus tôt ce matin." },
@@ -178,14 +178,14 @@ window.Parcours.sebastien = {
         drapeaux: { samedi_au_boulot: true, berlin: true },
         suite: [ { lignes: [
           { t: "Le chef note son nom pour samedi. Il paiera les deux, plus tard." },
-          { t: "Ce samedi, il ne sera pas au Balto." },
+          { t: "Ce samedi, il ne sera pas au Balto, le bar-tabac où il retrouve les copains." },
           { t: "Énergie -3.", style: "effets" }
         ] } ]
       }
     ] },
 
     { type: "texte", lignes: [
-      { t: "Il ne se plaint pas. Il compte.", style: "pense" }
+      { t: "Il ne se plaint pas. Il fait ses comptes.", style: "pense" }
     ] },
 
     /* ==================== J-4 · Ce qui manque ==================== */
@@ -194,7 +194,8 @@ window.Parcours.sebastien = {
 
     { type: "texte", lignes: [
       { t: "La pharmacie a le rideau baissé. Sur la porte de la poste, une affiche :" },
-      { t: "« À compter du 1er mai, vos services postaux au Balto. »", style: "pense" }
+      { t: "« À compter du 1er mai, vos services postaux au Balto. »", style: "pense" },
+      { t: "Le Balto, c'est le bar-tabac du village.", sinon: "samedi_au_boulot" }
     ] },
 
     { type: "texte", lignes: [

@@ -154,7 +154,7 @@ window.Parcours.lea = {
     ] },
 
     { type: "texte", lignes: [
-      { t: "Elle ne se plaint pas. Elle compte.", style: "pense" }
+      { t: "Elle ne se plaint pas. Elle fait ses comptes.", style: "pense" }
     ] },
 
     /* ==================== J-4 · Ce qui manque ==================== */
