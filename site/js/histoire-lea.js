@@ -111,11 +111,12 @@ window.Parcours.lea = {
     { type: "texte", lignes: [
       { t: "La vaisselle s'empile. Sur l'écran de l'ordinateur, le site de la CAF." },
       { t: "Sur son compte : {fin_de_mois} €. Le loyer, 430 €, aurait dû partir le 5. Il n'est toujours pas payé.", style: "fort" },
-      { t: "Les APL ne sont pas arrivées. « Votre dossier est en cours de traitement. » Elle appelle la CAF. Ça sonne, ça sonne. Personne ne décroche." }
+      { t: "Les APL ne sont pas arrivées. « Votre dossier est en cours de traitement. » Elle a essayé d'appeler la CAF. Personne n'a décroché." }
     ] },
 
     { type: "texte", lignes: [
-      { style: "sms", de: "Sa responsable", t: "Tu peux remplacer Sofia jeudi matin ?" },
+      { t: "Son téléphone sonne. C'est sa responsable, au magasin." },
+      { style: "parole", de: "Sa responsable", t: "Tu peux remplacer Sofia jeudi matin ?" },
       { t: "Jeudi matin, c'est le partiel." }
     ] },
 
