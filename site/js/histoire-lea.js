@@ -35,7 +35,7 @@ window.Parcours.lea = {
     { type: "decor", decor: "rer", jour: 6, titre: "J-6 · Le matin", sous: "Léa Morel, 21 ans · Saint-Denis" },
 
     { type: "texte", lignes: [
-      { t: "6 h 30. Le TD de droit des obligations commence à 8 h. Le RER a 20 minutes de retard. Comme hier." },
+      { t: "6 h 30. Le cours de droit des obligations commence à 8 h. Le RER a 20 minutes de retard. Comme hier." },
       { t: "Dans son téléphone, la confirmation d'inscription sur les listes électorales. Elle a eu 18 ans il y a trois ans. Elle n'a jamais voté." },
       { t: "Dimanche, elle ira.", style: "fort" }
     ] },
@@ -46,7 +46,7 @@ window.Parcours.lea = {
         detail: "Elle arrivera en retard.",
         effets: { energie: +1, liens: -1 },
         suite: [ { lignes: [
-          { t: "Elle arrive à 8 h 20. Le chargé de TD lève les yeux : « Mademoiselle Morel nous fait l'honneur. » Quelques rires." },
+          { t: "Elle arrive à 8 h 20. Le prof lève les yeux : « Mademoiselle Morel nous fait l'honneur. » Quelques rires." },
           { t: "Énergie +1, Liens -1.", style: "effets" }
         ] } ]
       },
@@ -110,8 +110,8 @@ window.Parcours.lea = {
 
     { type: "texte", lignes: [
       { t: "La vaisselle s'empile. Sur l'écran de l'ordinateur, le site de la CAF." },
-      { t: "Solde : {fin_de_mois} €. Sa part du loyer, 430 €, part le 5.", style: "fort" },
-      { t: "Les APL ne sont pas arrivées. « Votre dossier est en cours de traitement. » Le numéro sonne dans le vide." }
+      { t: "Sur son compte : {fin_de_mois} €. Le 5, elle doit payer 430 € de loyer.", style: "fort" },
+      { t: "Les APL ne sont pas arrivées. « Votre dossier est en cours de traitement. » Elle appelle la CAF. Ça sonne, ça sonne. Personne ne décroche." }
     ] },
 
     { type: "texte", lignes: [
