@@ -465,3 +465,77 @@ body.lea {
 }
 .jeu.accueil .texte p.note { text-align: center; border: 0; padding-left: 0; }
 .generique .dedicace { display: block; font-style: italic; font-size: 16px; margin-bottom: 2px; }
+
+/* Ordinateur, tablette ou téléphone couché : deux colonnes qui tiennent dans la fenêtre.
+   À gauche le bandeau et la scène, à droite le texte (qui défile si besoin).
+   Le téléphone tenu droit garde la mise en page en colonne. */
+@media (min-width: 700px) and (min-aspect-ratio: 5/4) {
+  html, body { height: 100%; overflow: hidden; }
+  .jeu {
+    --haut: calc(100vh - 32px);
+    max-width: 1800px;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    padding: 16px 16px max(16px, env(safe-area-inset-bottom));
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(320px, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 12px 18px;
+    align-content: center;
+  }
+  .hud { grid-column: 1; grid-row: 1; flex-direction: column; align-items: stretch; gap: 8px; }
+  .jauges { width: 100%; }
+  .compte-pips { margin-left: auto; }
+  .ecran {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+    justify-self: center;
+    /* La scène reste en 16/9 et ne dépasse jamais la hauteur de la fenêtre */
+    width: min(100%, (100dvh - 150px) * 16 / 9);
+  }
+  .jeu.accueil .ecran { grid-row: 1 / 3; align-self: center; width: min(100%, (100dvh - 40px) * 16 / 9); }
+  .boite {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    min-height: 0;
+    max-height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+  }
+  .jeu.accueil .boite { align-self: center; justify-content: center; }
+  .texte, .choix { flex-shrink: 0; }
+  /* La flèche « continuer » reste en bas de la boîte, même quand le texte défile */
+  .suite {
+    position: sticky;
+    align-self: flex-end;
+    margin: auto -4px -34px 0;
+    bottom: -34px;
+  }
+  .texte h1 { font-size: clamp(28px, 3.4vw, 48px); }
+  .texte img.carte { max-width: 260px; }
+  .titre-scene { font-size: clamp(18px, 2.6vw, 34px); }
+  .titre-scene small { font-size: clamp(12px, 1.3vw, 17px); }
+  /* Le générique prend la hauteur de la boîte */
+  .generique { --gen: calc(100dvh - 140px); height: var(--gen); }
+  .generique .rouleau { padding-top: calc(var(--gen) - 40px); animation-name: generique-large; }
+  @keyframes generique-large {
+    from { transform: translateY(0); }
+    to { transform: translateY(calc(-100% + 100dvh - 140px)); }
+  }
+}
+
+/* Grand écran (1080p et plus) : texte un peu plus grand */
+@media (min-width: 1500px) and (min-height: 850px) and (min-aspect-ratio: 5/4) {
+  .boite { font-size: 18px; padding: 18px 20px 44px; }
+  .choix button { font-size: 16px; }
+  .hud { font-size: 14px; }
+}
+@media (min-width: 700px) and (min-aspect-ratio: 5/4) and (prefers-reduced-motion: reduce) {
+  .generique { height: auto; }
+  .generique .rouleau { padding-top: 0; }
+}
