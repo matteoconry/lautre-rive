@@ -359,7 +359,7 @@
         ];
         lignes.push(etape.source
           ? { t: etape.source, style: "note" }
-          : { t: "Prototype : le chiffre de sondage sur son électorat sera ajouté ici, avec sa source.", style: "note" });
+          : { t: "Le chiffre de sondage sur son électorat sera ajouté ici, avec sa source.", style: "note" });
         page(lignes, avancer);
       });
     });
