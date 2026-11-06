@@ -37,12 +37,14 @@ window.Rencontre = {
       { style: "parole", de: "Léa", t: "Moi, hier, je n'ai rien dit. J'aurais dû.", siSeb: "a_parle_au_bar", siLea: "!a_parle_a_la_manif" },
       { style: "parole", de: "Léa", t: "Hier, j'ai dit à des gens de mon camp qu'ils déconnaient.", siSeb: "!a_parle_au_bar", siLea: "a_parle_a_la_manif" },
       { style: "parole", de: "Sébastien", t: "Moi, hier, je n'ai rien dit. J'aurais dû.", siSeb: "!a_parle_au_bar", siLea: "a_parle_a_la_manif" },
-      { style: "parole", de: "Sébastien", t: "Hier, au bar, un type a sorti une saleté. Personne n'a rien dit. Moi non plus.", siSeb: "!a_parle_au_bar", siLea: "!a_parle_a_la_manif" },
+      { style: "parole", de: "Sébastien", t: "Hier, un type a sorti une saleté. Personne n'a rien dit. Moi non plus.", siSeb: "!a_parle_au_bar", siLea: "!a_parle_a_la_manif" },
       { style: "parole", de: "Léa", t: "Hier, à la manif, pareil. On laisse passer, et après on s'en veut.", siSeb: "!a_parle_au_bar", siLea: "!a_parle_a_la_manif" }
     ],
     [
-      { style: "parole", de: "Sébastien", t: "Ma fille veut partir à la fac, à Lille." },
-      { style: "parole", de: "Léa", t: "Dites-lui d'y aller. C'est dur, mais dites-lui d'y aller." }
+      { style: "parole", de: "Sébastien", t: "Ma fille veut partir à la fac, à Lille.", siSeb: "!parti_intervention" },
+      { style: "parole", de: "Léa", t: "Dites-lui d'y aller. C'est dur, mais dites-lui d'y aller.", siSeb: "!parti_intervention" },
+      { style: "parole", de: "Sébastien", t: "Ma fille voulait me parler d'un truc. Je suis parti au feu. Je sais toujours pas ce que c'était.", siSeb: "parti_intervention" },
+      { style: "parole", de: "Léa", t: "Demandez-lui. Ce soir.", siSeb: "parti_intervention" }
     ],
     [
       { t: "Ils posent chacun un badge sur la rambarde, côte à côte." },

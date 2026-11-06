@@ -56,8 +56,8 @@ window.Parcours.sebastien = {
 
     { type: "texte", lignes: [
       { t: "5 h 10. Nathalie, sa femme, dort encore. Elle commence à 7 h chez Mme Fabre, 91 ans." },
-      { t: "Sur le frigo, sous un aimant, une carte électorale. Elle n'a pas servi depuis 2017." },
-      { t: "Dimanche, il ira.", style: "fort" }
+      { t: "Sur le frigo, sous un aimant, sa carte électorale. Il n'a pas voté depuis 2017." },
+      { t: "Dimanche, il votera ? Il ne sait pas encore.", style: "fort" }
     ] },
 
     { type: "texte", lignes: [
@@ -105,7 +105,7 @@ window.Parcours.sebastien = {
         "C'est réel, mais pas sa priorité.",
         "C'est réel et ça l'inquiète."
       ],
-      reponse: "C'est réel. Les étés secs, il les voit sur les champs de son beau-frère. Ce qu'il refuse, c'est que ce soit à celui qui fait 64 km par jour de payer la facture.",
+      reponse: "C'est réel, et ça l'inquiète. Les étés secs, il les voit sur les champs de son beau-frère. Ce qu'il refuse, c'est que ce soit à celui qui fait 64 km par jour de payer la facture.",
       source: "Dans la vraie vie : 68 % des sympathisants du Rassemblement national se disent inquiets face au changement climatique (74 % de l'ensemble des Français). " + "Ipsos bva, « Fractures françaises », octobre 2025, chiffre cité par la Fondation Jean-Jaurès."
     },
 
@@ -174,12 +174,12 @@ window.Parcours.sebastien = {
         texte: "Accepter les heures sup du samedi",
         detail: "Pour payer les deux.",
         exigeant: true,
-        effets: { energie: -3 },
-        drapeaux: { samedi_au_boulot: true, berlin: true },
+        effets: { fin_de_mois: -265, energie: -3 },
+        drapeaux: { samedi_au_boulot: true, berlin: true, plein: true },
         suite: [ { lignes: [
-          { t: "Le chef note son nom pour samedi. Il paiera les deux, plus tard." },
+          { t: "Le chef note son nom pour samedi. Il paie les deux à découvert. Les heures sup combleront, le mois prochain." },
           { t: "Ce samedi, il ne sera pas au Balto, le bar-tabac où il retrouve les copains." },
-          { t: "Énergie -3.", style: "effets" }
+          { t: "Fin de mois -265 €, Énergie -3.", style: "effets" }
         ] } ]
       }
     ] },
@@ -246,7 +246,7 @@ window.Parcours.sebastien = {
         "Il s'en fiche.",
         "Non, il en veut plus."
       ],
-      reponse: "Il en veut plus. La poste est partie au bar-tabac, la maternité la plus proche est à une heure de route. Il paie ses impôts comme tout le monde, mais ici, il ne voit plus rien revenir.",
+      reponse: "Il en veut plus. La poste va partir au bar-tabac, la maternité la plus proche est à une heure de route. Il paie ses impôts comme tout le monde, mais ici, il ne voit plus rien revenir.",
       source: "Dans la vraie vie : 75 % des sympathisants du Rassemblement national jugent que les services publics locaux n'ont pas assez de moyens par rapport aux besoins de la population (73 % de l'ensemble des Français). OpinionWay pour le Sens du service public, la Casden et la Fondation Jean-Jaurès, 7-12 janvier 2026, 2 000 personnes."
     },
 
@@ -376,8 +376,12 @@ window.Parcours.sebastien = {
     { type: "decor", decor: "balto", jour: 1, titre: "J-1 · La limite", sous: "Le Balto, samedi midi", sinon: "samedi_au_boulot" },
     { type: "decor", decor: "pause", jour: 1, titre: "J-1 · La limite", sous: "L'entrepôt, samedi midi", si: "samedi_au_boulot" },
 
-    { type: "texte", si: "pharmacie_fils", lignes: [
+    { type: "texte", si: "pharmacie_fils", sinon: "samedi_au_boulot", lignes: [
       { t: "Ce matin, il a aidé le fils de Mme Fabre à monter une armoire au deuxième. Service rendu." }
+    ] },
+
+    { type: "texte", si: "pharmacie_fils", lignes: [
+      { t: "L'armoire du fils de Mme Fabre attendra : il a promis de passer l'aider dimanche, après le vote.", si: "samedi_au_boulot" }
     ] },
 
     { type: "texte", sinon: "samedi_au_boulot", lignes: [
@@ -414,7 +418,8 @@ window.Parcours.sebastien = {
         effets: { energie: -1 },
         drapeaux: { a_parle_au_bar: true },
         suite: [ { lignes: [
-          { style: "parole", de: "Sébastien", t: "Lui au moins, il est venu, Jean-Mi. Toi t'as jamais soigné personne." },
+          { style: "parole", de: "Sébastien", t: "Lui au moins, il est venu, Jean-Mi. Toi t'as jamais soigné personne.", sinon: "samedi_au_boulot" },
+          { style: "sms", de: "Sébastien", t: "Lui au moins, il est venu, Jean-Mi. Toi t'as jamais soigné personne.", si: "samedi_au_boulot" },
           { t: "Silence au comptoir, puis le patron change de sujet.", sinon: "samedi_au_boulot" },
           { t: "Plus personne n'écrit sur le groupe pendant une heure.", si: "samedi_au_boulot" },
           { t: "Énergie -1.", style: "effets" }
@@ -459,7 +464,7 @@ window.Parcours.sebastien = {
       { t: "Le rideau se referme. Sur la tablette, une enveloppe et une feuille blanche." },
       { t: "Il pense à la mère de Nathalie et aux soixante-dix kilomètres pour une boîte de médicaments.", si: "pharmacie_soir" },
       { t: "Il pense au fils de Mme Fabre, qui a rendu service sans poser de questions.", si: "pharmacie_fils" },
-      { t: "Il pense au silence de Nathalie, jeudi soir.", si: "pharmacie_attente" },
+      { t: "Il pense au silence de Nathalie, mercredi soir.", si: "pharmacie_attente" },
       { t: "Il pense au gamin de la D29, et aux 25 km de plus à la rentrée.", si: "parti_intervention" },
       { t: "Il pense aux vingt minutes de retard, et aux 25 km de plus à la rentrée.", sinon: "parti_intervention" },
       { t: "Il pense à Jean-Mi, et au silence qui a suivi.", si: "a_parle_au_bar" },
@@ -494,7 +499,7 @@ window.Parcours.sebastien = {
       questions: [
         { q: "Selon toi, combien de ceux qui votent comme Sébastien trouvent anormal d'utiliser la violence pour défendre ses intérêts ?", vrai: 76, source: "Ipsos bva pour le Cevipof, la Fondation Jean-Jaurès, Le Monde et l'Institut Montaigne, « Fractures françaises », 1er-9 octobre 2025, 3 000 personnes." },
         { q: "Selon toi, combien d'entre eux disent avoir du mal à joindre les deux bouts ?", vrai: 67, source: "Ipsos bva pour le Cevipof, la Fondation Jean-Jaurès, Le Monde et l'Institut Montaigne, « Fractures françaises », 1er-9 octobre 2025, 3 000 personnes." },
-        { q: "Selon toi, combien d'entre eux se disent inquiets face au changement climatique ?", vrai: 68, source: "Ipsos bva pour le Cevipof, la Fondation Jean-Jaurès, Le Monde et l'Institut Montaigne, « Fractures françaises », 1er-9 octobre 2025, 3 000 personnes. Chiffre cité par la Fondation Jean-Jaurès." }
+        { q: "Selon toi, combien d'entre eux disent que les gens comme eux ont des conditions de vie de moins en moins bonnes ?", vrai: 84, source: "Ipsos bva pour le Cevipof, la Fondation Jean-Jaurès, Le Monde et l'Institut Montaigne, « Fractures françaises », 1er-9 octobre 2025, 3 000 personnes." }
       ]
     },
 

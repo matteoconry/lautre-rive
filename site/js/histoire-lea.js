@@ -37,7 +37,7 @@ window.Parcours.lea = {
     { type: "texte", lignes: [
       { t: "6 h 30. Le cours de droit des obligations commence à 8 h. Le RER a 20 minutes de retard. Comme hier." },
       { t: "Dans son téléphone, la confirmation d'inscription sur les listes électorales. Elle a eu 18 ans il y a trois ans. Elle n'a jamais voté." },
-      { t: "Dimanche, elle ira.", style: "fort" }
+      { t: "Dimanche, elle votera ? Elle ne sait pas encore.", style: "fort" }
     ] },
 
     { type: "choix", question: "Que fait Léa ?", options: [
@@ -77,7 +77,7 @@ window.Parcours.lea = {
         "Elle y tient."
       ],
       reponse: "Elle y tient. Elle bosse 20 heures par semaine en plus de ses cours. Ce qu'elle trouve injuste, c'est que ça ne suffise pas à payer un loyer.",
-      source: null
+      source: "Dans la vraie vie : 83 % des jeunes de 18 à 30 ans proches de La France insoumise disent que le travail est important dans leur vie (84 % de l'ensemble des jeunes). Ifop pour Marianne, « Les jeunes et la valeur travail », 18-24 novembre 2022, 1 009 jeunes de 18 à 30 ans."
     },
 
     { type: "decor", decor: "sac" },
@@ -110,13 +110,13 @@ window.Parcours.lea = {
 
     { type: "texte", lignes: [
       { t: "La vaisselle s'empile. Sur l'écran de l'ordinateur, le site de la CAF." },
-      { t: "Sur son compte : {fin_de_mois} €. Le 5, elle doit payer 430 € de loyer.", style: "fort" },
+      { t: "Sur son compte : {fin_de_mois} €. Le loyer, 430 €, aurait dû partir le 5. Il n'est toujours pas payé.", style: "fort" },
       { t: "Les APL ne sont pas arrivées. « Votre dossier est en cours de traitement. » Elle appelle la CAF. Ça sonne, ça sonne. Personne ne décroche." }
     ] },
 
     { type: "texte", lignes: [
-      { style: "sms", de: "Sa responsable", t: "Tu peux remplacer Sofia jeudi après-midi ?" },
-      { t: "Jeudi après-midi, c'est le partiel." }
+      { style: "sms", de: "Sa responsable", t: "Tu peux remplacer Sofia jeudi matin ?" },
+      { t: "Jeudi matin, c'est le partiel." }
     ] },
 
     { type: "choix", question: "Que fait Léa ?", options: [
@@ -163,7 +163,7 @@ window.Parcours.lea = {
     { type: "decor", decor: "controle", jour: 4, titre: "J-4 · Ce qui manque", sous: "Sous la fenêtre de la coloc, fin d'après-midi" },
 
     { type: "texte", lignes: [
-      { t: "Léa rentre des courses. En bas de l'immeuble, Yanis est contrôlé." },
+      { t: "Léa range les courses. Par la fenêtre, elle voit Yanis contrôlé en bas de l'immeuble." },
       { t: "La troisième fois ce mois-ci. Il garde les mains sur le guidon. Il a l'habitude.", style: "fort" }
     ] },
 
@@ -182,7 +182,7 @@ window.Parcours.lea = {
         effets: { liens: +2 },
         drapeaux: { descendue: true },
         suite: [ { lignes: [
-          { t: "Elle reste à deux mètres, les sacs de courses à la main, jusqu'à la fin." },
+          { t: "Elle reste à deux mètres, en chaussons, jusqu'à la fin." },
           { style: "parole", de: "Yanis", t: "Merci. Mais ça sert à rien." },
           { t: "Liens +2.", style: "effets" }
         ] } ]
@@ -195,6 +195,10 @@ window.Parcours.lea = {
           { t: "Énergie +1.", style: "effets" }
         ] } ]
       }
+    ] },
+
+    { type: "texte", lignes: [
+      { t: "Le commissariat du quartier a fermé l'an dernier. Les contrôles, eux, n'ont pas arrêté.", style: "fort" }
     ] },
 
     { type: "texte", lignes: [
@@ -212,15 +216,15 @@ window.Parcours.lea = {
         "Elle en veut plus dans son quartier."
       ],
       reponse: "Elle en veut plus, mais pas comme ça. Quand le local à vélos a brûlé, c'est elle qui a appelé le 17. Personne n'est venu avant une heure. Elle veut des policiers qui connaissent le quartier, pas des contrôles à répétition.",
-      source: "Dans la vraie vie : 45 % des sympathisants de La France insoumise et du Parti communiste disent avoir confiance dans la police (74 % de l'ensemble des Français). Ipsos bva, « Fractures françaises », octobre 2025."
+      source: "Dans la vraie vie : 62 % des sympathisants de La France insoumise sont favorables à l'armement des policiers municipaux (67 % de l'ensemble des Français). Elabe pour BFMTV, 8-9 juillet 2025, 1 001 personnes."
     },
 
     /* ==================== J-3 · Ce qui la tient ==================== */
 
-    { type: "decor", decor: "asso", jour: 3, titre: "J-3 · Ce qui la tient", sous: "L'association du quartier, mercredi après-midi" },
+    { type: "decor", decor: "asso", jour: 3, titre: "J-3 · Ce qui la tient", sous: "L'association du quartier, jeudi après-midi" },
 
     { type: "texte", lignes: [
-      { t: "Tous les mercredis, Léa fait de l'aide aux devoirs." },
+      { t: "Tous les jeudis, Léa fait de l'aide aux devoirs." },
       { t: "Kenza, 10 ans, lui tend une lettre de l'école. Ses parents ne peuvent pas la lire." },
       { t: "Il faut la remplir avant vendredi, sinon Kenza perd sa place à la cantine.", style: "fort" }
     ] },
@@ -238,7 +242,7 @@ window.Parcours.lea = {
         ] } ]
       },
       {
-        texte: "Partir réviser, et promettre de revenir vendredi",
+        texte: "Rentrer se reposer, et promettre de revenir vendredi",
         effets: { energie: +1 },
         suite: [ { lignes: [
           { t: "Vendredi, le délai sera passé de quelques heures. La directrice de l'association s'en chargera." },
@@ -389,7 +393,7 @@ window.Parcours.lea = {
     { type: "texte", lignes: [
       { t: "Pendant le Covid, on applaudissait sa mère à 20 h. Elle faisait des nuits de douze heures." },
       { t: "Après, plus personne n'a applaudi, et rien n'a changé." },
-      { t: "Sa mère lui a donné ce badge quand elle a dû s'arrêter pour son dos." }
+      { t: "Sa mère lui a donné ce badge quand elle a été arrêtée trois mois pour son dos. Elle a repris les nuits depuis." }
     ] },
 
     { type: "texte", lignes: [
