@@ -6,10 +6,18 @@
  */
 window.Generique = {
   blocs: [
-    { role: "Une idée de", noms: ["Mattéo"] },
-    { role: "Écriture", noms: ["Mattéo"] },
-    { role: "Code, pixel art et musique", noms: ["Mattéo, avec Claude"] },
-    { role: "Relectures", noms: ["Des électeurs des deux rives"] },
+    { role: "", style: "dedicace", noms: [
+      "Ce jeu est pour ceux qui votent,",
+      "pour ceux qui ne votent plus,",
+      "et pour ceux qui votent autrement que nous."
+    ] },
+    { role: "Sur les deux rives, il y a", noms: [
+      "des caristes et des caissières,",
+      "des aides-soignantes et des aides à domicile,",
+      "des pompiers volontaires et des bénévoles,",
+      "des parents qui comptent et des enfants qui partent."
+    ] },
+    { role: "Un jeu de", noms: ["Mattéo"] },
     { role: "Les chiffres viennent de", noms: [
       "Ipsos bva pour le Cevipof, la Fondation Jean-Jaurès, Le Monde et l'Institut Montaigne",
       "OpinionWay pour le Sens du service public, la Casden et la Fondation Jean-Jaurès",
@@ -21,10 +29,10 @@ window.Generique = {
       "Aucun parti, aucun candidat n'y est montré."
     ] }
   ],
-  merci: "Merci d'avoir traversé le pont.",
+  merci: "Merci d'avoir traversé le pont. Maintenant, va parler à quelqu'un de l'autre rive.",
 
   don: {
-    lien: "",
+    lien: "https://fr.tipeee.com/lautre-rive-jeu/",
     texte: "Soutenir le projet",
     detail: "Le jeu est gratuit, sans publicité, et le restera."
   }

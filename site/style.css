@@ -464,3 +464,4 @@ body.lea {
   animation: clignote 1.6s steps(2) infinite;
 }
 .jeu.accueil .texte p.note { text-align: center; border: 0; padding-left: 0; }
+.generique .dedicace { display: block; font-style: italic; font-size: 16px; margin-bottom: 2px; }
