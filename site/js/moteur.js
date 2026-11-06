@@ -676,15 +676,19 @@
       });
       rouleau.appendChild(bloc);
     });
+    cadre.appendChild(rouleau);
+    el.texte.appendChild(cadre);
+
+    // Le mot de la fin et le soutien restent fixes, bien visibles sous le défilé
+    var fin = document.createElement("div");
+    fin.className = "generique-fin";
     var merci = document.createElement("p");
     merci.className = "merci";
     merci.textContent = G.merci;
-    rouleau.appendChild(merci);
+    fin.appendChild(merci);
     var don = lienDon();
-    if (don) rouleau.appendChild(don);
-
-    cadre.appendChild(rouleau);
-    el.texte.appendChild(cadre);
+    if (don) fin.appendChild(don);
+    el.texte.appendChild(fin);
     el.suite.classList.remove("cache");
 
     var fini = false;
