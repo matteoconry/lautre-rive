@@ -679,9 +679,9 @@
     cadre.appendChild(rouleau);
     el.texte.appendChild(cadre);
 
-    // Le mot de la fin et le soutien restent fixes, bien visibles sous le défilé
+    // D'abord le générique ; à la fin, le mot de la fin et le soutien prennent sa place
     var fin = document.createElement("div");
-    fin.className = "generique-fin";
+    fin.className = "generique-fin cache";
     var merci = document.createElement("p");
     merci.className = "merci";
     merci.textContent = G.merci;
@@ -691,18 +691,23 @@
     el.texte.appendChild(fin);
     el.suite.classList.remove("cache");
 
-    var fini = false;
+    var etapeFin = false, fini = false;
+    function montrerFin() {
+      if (etapeFin) return;
+      etapeFin = true;
+      cadre.classList.add("cache");
+      fin.classList.remove("cache");
+      attente = suite;
+    }
     function suite() {
       if (fini) return;
       fini = true;
       attente = null;
       avancer();
     }
-    // Le texte défile tout seul ; toucher l'écran passe à la suite
-    rouleau.addEventListener("animationend", function () {
-      attente = suite;
-    });
-    attente = suite;
+    // Le texte défile tout seul ; toucher l'écran saute directement au mot de la fin
+    rouleau.addEventListener("animationend", montrerFin);
+    attente = montrerFin;
   }
 
   function jouerFin() {
@@ -829,6 +834,9 @@
           });
         });
       });
+      // Sous les rives, le lien pour soutenir le projet
+      var don = lienDon();
+      if (don) { don.classList.add("don-accueil"); el.choix.appendChild(don); }
     });
   }
 

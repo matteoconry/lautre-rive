@@ -425,8 +425,8 @@ body.lea {
 /* Le générique de fin : le texte monte lentement dans un cadre */
 .generique {
   position: relative;
-  height: 28vh;
-  min-height: 170px;
+  height: 46vh;
+  min-height: 260px;
   overflow: hidden;
   text-align: center;
   -webkit-mask-image: linear-gradient(transparent, #000 15%, #000 85%, transparent);
@@ -438,7 +438,7 @@ body.lea {
 }
 @keyframes generique {
   from { transform: translateY(0); }
-  to { transform: translateY(calc(-100% + 28vh)); }
+  to { transform: translateY(calc(-100% + 46vh)); }
 }
 .generique h2 { font-size: 26px; letter-spacing: 3px; margin: 0 0 28px; }
 .generique .bloc { margin: 0 0 22px; }
@@ -447,8 +447,10 @@ body.lea {
 .generique .nom { display: block; font-weight: bold; margin-bottom: 2px; }
 .generique .mention { display: block; font-size: 13px; font-style: italic; color: var(--gris); margin-bottom: 4px; }
 /* Sous le défilé : le mot de la fin et le soutien, fixes et bien lisibles */
-.generique-fin { text-align: center; margin-top: 10px; }
-.generique-fin .merci { font-weight: bold; font-size: 1.1em; margin: 0 0 12px; color: var(--brique); }
+.generique.cache, .generique-fin.cache { display: none; }
+.generique-fin { text-align: center; margin: 12vh 0 0; animation: apparait 1.2s ease-out; }
+@keyframes apparait { from { opacity: 0; } to { opacity: 1; } }
+.generique-fin .merci { font-weight: bold; font-size: 1.35em; line-height: 1.5; margin: 0 0 22px; color: var(--brique); }
 .generique-fin .don { margin: 0; }
 .generique-fin .don a {
   display: inline-block;
@@ -535,11 +537,11 @@ body.lea {
   .titre-scene { font-size: clamp(18px, 2.6vw, 34px); }
   .titre-scene small { font-size: clamp(12px, 1.3vw, 17px); }
   /* Le générique prend la hauteur de la boîte */
-  .generique { --gen: calc(100dvh - 290px); height: var(--gen); }
+  .generique { --gen: calc(100dvh - 140px); height: var(--gen); }
   .generique .rouleau { padding-top: calc(var(--gen) - 40px); animation-name: generique-large; }
   @keyframes generique-large {
     from { transform: translateY(0); }
-    to { transform: translateY(calc(-100% + 100dvh - 290px)); }
+    to { transform: translateY(calc(-100% + 100dvh - 140px)); }
   }
 }
 
@@ -553,3 +555,6 @@ body.lea {
   .generique { height: auto; }
   .generique .rouleau { padding-top: 0; }
 }
+
+/* Sur le menu de départ, le lien de soutien reste discret sous les rives */
+.don-accueil { margin-top: 14px; }
