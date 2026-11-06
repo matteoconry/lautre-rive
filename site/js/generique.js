@@ -32,7 +32,7 @@ window.Generique = {
   merci: "Merci d'avoir traversé le pont. Maintenant, va parler à quelqu'un de l'autre rive.",
 
   don: {
-    lien: "",
+    lien: "https://fr.tipeee.com/lautre-rive-jeu/",
     texte: "Soutenir le projet",
     detail: "Le jeu est gratuit, sans publicité, et le restera."
   }
