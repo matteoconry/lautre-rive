@@ -11,11 +11,12 @@ window.Generique = {
       "pour ceux qui ne votent plus,",
       "et pour ceux qui votent autrement que nous."
     ] },
-    { role: "Sur les deux rives, il y a", noms: [
+    { role: "Des deux côtés du pont, les mêmes vies :", phrase: true, noms: [
       "des caristes et des caissières,",
       "des aides-soignantes et des aides à domicile,",
       "des pompiers volontaires et des bénévoles,",
-      "des parents qui comptent et des enfants qui partent."
+      "des parents qui comptent chaque euro,",
+      "et des jeunes qui se demandent ce qu'ils vont devenir."
     ] },
     { role: "Un jeu de", noms: ["Mattéo"] },
     { role: "Les chiffres", noms: [

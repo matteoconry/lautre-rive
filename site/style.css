@@ -443,6 +443,7 @@ body.lea {
 .generique h2 { font-size: 26px; letter-spacing: 3px; margin: 0 0 28px; }
 .generique .bloc { margin: 0 0 22px; }
 .generique .role { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--gris); margin-bottom: 4px; }
+.generique .role.phrase { text-transform: none; letter-spacing: 0; font-size: 15px; font-style: italic; color: inherit; margin-bottom: 6px; }
 .generique .nom { display: block; font-weight: bold; margin-bottom: 2px; }
 .generique .mention { display: block; font-size: 13px; font-style: italic; color: var(--gris); margin-bottom: 4px; }
 /* Sous le défilé : le mot de la fin et le soutien, fixes et bien lisibles */

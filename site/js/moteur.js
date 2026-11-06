@@ -664,7 +664,7 @@
       bloc.className = "bloc";
       if (b.role) {
         var role = document.createElement("span");
-        role.className = "role";
+        role.className = b.phrase ? "role phrase" : "role";
         role.textContent = b.role;
         bloc.appendChild(role);
       }
