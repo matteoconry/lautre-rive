@@ -226,7 +226,7 @@ body {
   padding: 14px 14px 40px;
   font-size: 16px;
   line-height: 1.5;
-  min-height: 200px;
+  min-height: 170px;
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
@@ -425,8 +425,8 @@ body.lea {
 /* Le générique de fin : le texte monte lentement dans un cadre */
 .generique {
   position: relative;
-  height: 46vh;
-  min-height: 260px;
+  height: 28vh;
+  min-height: 170px;
   overflow: hidden;
   text-align: center;
   -webkit-mask-image: linear-gradient(transparent, #000 15%, #000 85%, transparent);
@@ -438,14 +438,27 @@ body.lea {
 }
 @keyframes generique {
   from { transform: translateY(0); }
-  to { transform: translateY(calc(-100% + 46vh)); }
+  to { transform: translateY(calc(-100% + 28vh)); }
 }
 .generique h2 { font-size: 26px; letter-spacing: 3px; margin: 0 0 28px; }
 .generique .bloc { margin: 0 0 22px; }
 .generique .role { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--gris); margin-bottom: 4px; }
 .generique .nom { display: block; font-weight: bold; margin-bottom: 2px; }
 .generique .mention { display: block; font-size: 13px; font-style: italic; color: var(--gris); margin-bottom: 4px; }
-.generique .merci { font-weight: bold; margin: 30px 0 14px; color: var(--brique); }
+/* Sous le défilé : le mot de la fin et le soutien, fixes et bien lisibles */
+.generique-fin { text-align: center; margin-top: 10px; }
+.generique-fin .merci { font-weight: bold; font-size: 1.1em; margin: 0 0 12px; color: var(--brique); }
+.generique-fin .don { margin: 0; }
+.generique-fin .don a {
+  display: inline-block;
+  padding: 8px 18px;
+  background: var(--brique);
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+}
+.generique-fin .don small { font-size: 13px; margin-top: 6px; }
 @media (prefers-reduced-motion: reduce) {
   .generique { height: auto; min-height: 0; -webkit-mask-image: none; mask-image: none; }
   .generique .rouleau { padding-top: 0; }
@@ -521,11 +534,11 @@ body.lea {
   .titre-scene { font-size: clamp(18px, 2.6vw, 34px); }
   .titre-scene small { font-size: clamp(12px, 1.3vw, 17px); }
   /* Le générique prend la hauteur de la boîte */
-  .generique { --gen: calc(100dvh - 140px); height: var(--gen); }
+  .generique { --gen: calc(100dvh - 290px); height: var(--gen); }
   .generique .rouleau { padding-top: calc(var(--gen) - 40px); animation-name: generique-large; }
   @keyframes generique-large {
     from { transform: translateY(0); }
-    to { transform: translateY(calc(-100% + 100dvh - 140px)); }
+    to { transform: translateY(calc(-100% + 100dvh - 290px)); }
   }
 }
 

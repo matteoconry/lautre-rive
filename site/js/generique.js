@@ -18,13 +18,9 @@ window.Generique = {
       "des parents qui comptent et des enfants qui partent."
     ] },
     { role: "Un jeu de", noms: ["Mattéo"] },
-    { role: "Les chiffres viennent de", noms: [
-      "Ipsos bva pour le Cevipof, la Fondation Jean-Jaurès, Le Monde et l'Institut Montaigne",
-      "OpinionWay pour le Sens du service public, la Casden et la Fondation Jean-Jaurès",
-      "Ifop pour l'ADFH",
-      "Ifop pour Marianne",
-      "Elabe pour BFMTV",
-      "Destin Commun"
+    { role: "Les chiffres", noms: [
+      "Sondages Ipsos, Ifop, Elabe et OpinionWay, études Destin Commun.",
+      "La source exacte est donnée sous chaque chiffre, dans le jeu."
     ] },
     { role: "", noms: [
       "Les personnages, les villes et les entreprises de ce jeu sont inventés.",
