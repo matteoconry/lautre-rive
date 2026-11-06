@@ -146,6 +146,7 @@
     el.texte.innerHTML = "";
     el.choix.innerHTML = "";
     el.suite.classList.add("cache");
+    el.boite.scrollTop = 0; // sur ordinateur, la boîte de texte défile toute seule
   }
 
   function creerLigne(ligne) {
@@ -316,7 +317,8 @@
     el.titre.classList.add("visible");
     var p = document.createElement("p");
     p.className = "note";
-    p.textContent = "Touche l'écran pour continuer.";
+    p.textContent = (window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches)
+      ? "Clique pour continuer." : "Touche l'écran pour continuer.";
     el.texte.appendChild(p);
     el.suite.classList.remove("cache");
     attente = function () {
@@ -780,7 +782,9 @@
       premiereFois = false;
       var invite = document.createElement("p");
       invite.className = "invite";
-      invite.textContent = "Touche l'écran pour entrer";
+      // Avec une souris, on clique ; sur téléphone, on touche l'écran
+      var souris = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+      invite.textContent = souris ? "Clique pour entrer" : "Touche l'écran pour entrer";
       el.texte.appendChild(invite);
       attente = function () { attente = null; accueil(); };
       return;
