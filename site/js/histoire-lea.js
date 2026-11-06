@@ -92,6 +92,7 @@ window.Parcours.lea = {
         texte: "Retourner le badge",
         drapeaux: { badge_touche: true },
         suite: [ { lignes: [
+          { t: "Ses doigts s'arrêtent sur le plastique. Elle n'a pas la force de le retourner." },
           { t: "Le RER entre en gare. Elle referme la poche. Pas maintenant." }
         ] } ]
       },

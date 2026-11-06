@@ -121,7 +121,7 @@ window.Parcours.sebastien = {
         texte: "Retourner le badge",
         drapeaux: { badge_touche: true },
         suite: [ { lignes: [
-          { t: "Ses doigts s'arrêtent sur le plastique." },
+          { t: "Ses doigts s'arrêtent sur le plastique. Il n'a pas la force de le retourner." },
           { t: "Il referme la boîte à gants. Pas aujourd'hui." }
         ] } ]
       },
