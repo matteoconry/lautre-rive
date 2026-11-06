@@ -455,3 +455,12 @@ body.lea {
 .don { text-align: center; margin: 10px 0 4px; font-size: 14px; }
 .don a { color: var(--brique); text-decoration: underline; }
 .don small { display: block; color: var(--gris); font-size: 12px; margin-top: 2px; }
+
+/* Premier écran : l'invitation à toucher l'écran */
+.texte p.invite {
+  text-align: center;
+  font-weight: bold;
+  margin: 18px 0 6px;
+  animation: clignote 1.6s steps(2) infinite;
+}
+.jeu.accueil .texte p.note { text-align: center; border: 0; padding-left: 0; }

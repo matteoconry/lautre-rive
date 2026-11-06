@@ -758,6 +758,8 @@
 
   /* ---------------- Écran d'accueil : le pont ---------------- */
 
+  var premiereFois = true;
+
   function accueil() {
     vider();
     decor = "pont";
@@ -771,6 +773,22 @@
     var h1 = document.createElement("h1");
     h1.textContent = "L'Autre Rive";
     el.texte.appendChild(h1);
+
+    // Premier écran : les navigateurs refusent le son avant un geste du joueur.
+    // Ce toucher lance la musique, puis le menu apparaît.
+    if (premiereFois) {
+      premiereFois = false;
+      var invite = document.createElement("p");
+      invite.className = "invite";
+      invite.textContent = "Touche l'écran pour entrer";
+      el.texte.appendChild(invite);
+      var casque = document.createElement("p");
+      casque.className = "note";
+      casque.textContent = "Avec le son, c'est mieux.";
+      el.texte.appendChild(casque);
+      attente = function () { attente = null; accueil(); };
+      return;
+    }
     var sauve = lirePartie();
     ecrire([
       { t: "Un pont. Deux rives. Six jours avant le vote.", style: "pense" },
