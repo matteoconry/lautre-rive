@@ -22,6 +22,8 @@ window.Generique = {
       "Ipsos bva pour le Cevipof, la Fondation Jean-Jaurès, Le Monde et l'Institut Montaigne",
       "OpinionWay pour le Sens du service public, la Casden et la Fondation Jean-Jaurès",
       "Ifop pour l'ADFH",
+      "Ifop pour Marianne",
+      "Elabe pour BFMTV",
       "Destin Commun"
     ] },
     { role: "", noms: [
