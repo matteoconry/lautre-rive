@@ -421,3 +421,46 @@ body.lea {
   image-rendering: pixelated;
   border: 2px solid var(--chaud);
 }
+
+/* Le générique de fin : le texte monte lentement dans un cadre */
+.generique {
+  position: relative;
+  height: 46vh;
+  min-height: 260px;
+  overflow: hidden;
+  text-align: center;
+  -webkit-mask-image: linear-gradient(transparent, #000 15%, #000 85%, transparent);
+          mask-image: linear-gradient(transparent, #000 15%, #000 85%, transparent);
+}
+.generique .rouleau {
+  padding: 40vh 0 8px;
+  animation: generique 38s linear forwards;
+}
+@keyframes generique {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(-100% + 46vh)); }
+}
+.generique h2 { font-size: 26px; letter-spacing: 3px; margin: 0 0 28px; }
+.generique .bloc { margin: 0 0 22px; }
+.generique .role { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--gris); margin-bottom: 4px; }
+.generique .nom { display: block; font-weight: bold; margin-bottom: 2px; }
+.generique .mention { display: block; font-size: 13px; font-style: italic; color: var(--gris); margin-bottom: 4px; }
+.generique .merci { font-weight: bold; margin: 30px 0 14px; color: var(--brique); }
+@media (prefers-reduced-motion: reduce) {
+  .generique { height: auto; min-height: 0; -webkit-mask-image: none; mask-image: none; }
+  .generique .rouleau { padding-top: 0; }
+}
+
+/* Le lien de soutien : discret, sous la carte */
+.don { text-align: center; margin: 10px 0 4px; font-size: 14px; }
+.don a { color: var(--brique); text-decoration: underline; }
+.don small { display: block; color: var(--gris); font-size: 12px; margin-top: 2px; }
+
+/* Premier écran : l'invitation à toucher l'écran */
+.texte p.invite {
+  text-align: center;
+  font-weight: bold;
+  margin: 18px 0 6px;
+  animation: clignote 1.6s steps(2) infinite;
+}
+.jeu.accueil .texte p.note { text-align: center; border: 0; padding-left: 0; }

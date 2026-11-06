@@ -291,6 +291,7 @@
       case "tete": return jouerTete(etape);
       case "quiz": return jouerQuiz(etape);
       case "rencontre": return jouerRencontre();
+      case "generique": return jouerGenerique();
       case "fin": return jouerFin();
     }
   }
@@ -459,7 +460,7 @@
 
   function sauver() {
     var etape = H.etapes[index];
-    if (etape.type === "rencontre" || etape.type === "fin") { effacerPartie(); return; }
+    if (etape.type === "rencontre" || etape.type === "generique" || etape.type === "fin") { effacerPartie(); return; }
     try {
       window.localStorage.setItem(CLE_PARTIE, JSON.stringify({ parcours: H.id, index: index, etat: etat }));
     } catch (e) { /* navigation privée */ }
@@ -621,6 +622,83 @@
     avancer();
   }
 
+  /* ---------------- Le générique ---------------- */
+
+  // Le lien « Soutenir le projet », discret, seulement si une adresse est renseignée
+  function lienDon() {
+    var don = window.Generique && window.Generique.don;
+    if (!don || !don.lien) return null;
+    var bloc = document.createElement("p");
+    bloc.className = "don";
+    var a = document.createElement("a");
+    a.href = don.lien;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.textContent = don.texte;
+    a.addEventListener("click", function (e) { e.stopPropagation(); });
+    bloc.appendChild(a);
+    if (don.detail) {
+      var d = document.createElement("small");
+      d.textContent = don.detail;
+      bloc.appendChild(d);
+    }
+    return bloc;
+  }
+
+  function jouerGenerique() {
+    var G = window.Generique;
+    if (!G) { avancer(); return; }
+    vider();
+    var cadre = document.createElement("div");
+    cadre.className = "generique";
+    var rouleau = document.createElement("div");
+    rouleau.className = "rouleau";
+
+    var titre = document.createElement("h2");
+    titre.textContent = "L'Autre Rive";
+    rouleau.appendChild(titre);
+    G.blocs.forEach(function (b) {
+      var bloc = document.createElement("div");
+      bloc.className = "bloc";
+      if (b.role) {
+        var role = document.createElement("span");
+        role.className = "role";
+        role.textContent = b.role;
+        bloc.appendChild(role);
+      }
+      b.noms.forEach(function (n) {
+        var nom = document.createElement("span");
+        nom.className = b.role ? "nom" : "mention";
+        nom.textContent = n;
+        bloc.appendChild(nom);
+      });
+      rouleau.appendChild(bloc);
+    });
+    var merci = document.createElement("p");
+    merci.className = "merci";
+    merci.textContent = G.merci;
+    rouleau.appendChild(merci);
+    var don = lienDon();
+    if (don) rouleau.appendChild(don);
+
+    cadre.appendChild(rouleau);
+    el.texte.appendChild(cadre);
+    el.suite.classList.remove("cache");
+
+    var fini = false;
+    function suite() {
+      if (fini) return;
+      fini = true;
+      attente = null;
+      avancer();
+    }
+    // Le texte défile tout seul ; toucher l'écran passe à la suite
+    rouleau.addEventListener("animationend", function () {
+      attente = suite;
+    });
+    attente = suite;
+  }
+
   function jouerFin() {
     vider();
 
@@ -662,6 +740,8 @@
     apercu.alt = "Ta carte à partager : " + texteCarte();
     apercu.src = carte.toDataURL("image/png");
     el.texte.appendChild(apercu);
+    var don = lienDon();
+    if (don) el.texte.appendChild(don);
 
     boutons([
       { texte: "Partager ma carte", classe: H.rive },
@@ -678,6 +758,8 @@
 
   /* ---------------- Écran d'accueil : le pont ---------------- */
 
+  var premiereFois = true;
+
   function accueil() {
     vider();
     decor = "pont";
@@ -691,6 +773,22 @@
     var h1 = document.createElement("h1");
     h1.textContent = "L'Autre Rive";
     el.texte.appendChild(h1);
+
+    // Premier écran : les navigateurs refusent le son avant un geste du joueur.
+    // Ce toucher lance la musique, puis le menu apparaît.
+    if (premiereFois) {
+      premiereFois = false;
+      var invite = document.createElement("p");
+      invite.className = "invite";
+      invite.textContent = "Touche l'écran pour entrer";
+      el.texte.appendChild(invite);
+      var casque = document.createElement("p");
+      casque.className = "note";
+      casque.textContent = "Avec le son, c'est mieux.";
+      el.texte.appendChild(casque);
+      attente = function () { attente = null; accueil(); };
+      return;
+    }
     var sauve = lirePartie();
     ecrire([
       { t: "Un pont. Deux rives. Six jours avant le vote.", style: "pense" },

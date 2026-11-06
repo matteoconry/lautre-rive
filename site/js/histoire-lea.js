@@ -92,6 +92,7 @@ window.Parcours.lea = {
         texte: "Retourner le badge",
         drapeaux: { badge_touche: true },
         suite: [ { lignes: [
+          { t: "Ses doigts s'arrêtent sur le plastique. Elle n'a pas la force de le retourner." },
           { t: "Le RER entre en gare. Elle referme la poche. Pas maintenant." }
         ] } ]
       },
@@ -154,7 +155,7 @@ window.Parcours.lea = {
     ] },
 
     { type: "texte", lignes: [
-      { t: "Elle ne se plaint pas. Elle compte.", style: "pense" }
+      { t: "Elle ne se plaint pas. Elle fait ses comptes.", style: "pense" }
     ] },
 
     /* ==================== J-4 · Ce qui manque ==================== */
@@ -445,6 +446,7 @@ window.Parcours.lea = {
 
     { type: "rencontre" },
 
+    { type: "generique" },
     { type: "fin" }
   ]
 };
