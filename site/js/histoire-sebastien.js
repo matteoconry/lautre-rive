@@ -46,7 +46,7 @@ window.Parcours.sebastien = {
   seuil_energie: 3,
 
   // Chaque nuit, il récupère un peu d'énergie
-  recuperation_nuit: 1,
+  recuperation_nuit: 0, // la semaine use : on ne récupère pas la nuit
 
   etapes: [
 
@@ -151,12 +151,12 @@ window.Parcours.sebastien = {
       {
         texte: "Payer Berlin",
         detail: "Il roulera sur la réserve.",
-        effets: { fin_de_mois: -180, liens: +2 },
+        effets: { fin_de_mois: -180, liens: +1 },
         drapeaux: { berlin: true },
         suite: [ { lignes: [
           { style: "sms", de: "Sébastien", t: "C'est payé. Profite." },
           { t: "Il roulera sur la réserve, et ça pèsera demain." },
-          { t: "Fin de mois -180 €, Liens +2.", style: "effets" }
+          { t: "Fin de mois -180 €, Liens +1.", style: "effets" }
         ] } ]
       },
       {
@@ -196,6 +196,16 @@ window.Parcours.sebastien = {
       { t: "La pharmacie a le rideau baissé. Sur la porte de la poste, une affiche :" },
       { t: "« À compter du 1er mai, vos services postaux au Balto. »", style: "pense" },
       { t: "Le Balto, c'est le bar-tabac du village.", sinon: "samedi_au_boulot" }
+    ] },
+
+    { type: "texte", lignes: [
+      { t: "Avant de rentrer, les courses de la semaine. Il ne prend que l'essentiel. Le ticket dit quand même 60 €." }
+    ] },
+
+    { type: "choix", options: [
+      { texte: "Payer les courses", effets: { fin_de_mois: -60 }, suite: [ { lignes: [
+        { t: "Fin de mois -60 €.", style: "effets" }
+      ] } ] }
     ] },
 
     { type: "texte", lignes: [
@@ -273,10 +283,10 @@ window.Parcours.sebastien = {
       },
       {
         texte: "Rester, un autre de l'équipe ira",
-        effets: { liens: +2 },
+        effets: { liens: +1 },
         suite: [ { lignes: [
           { t: "Il s'assoit. Manon lui parle de Lille, de la fac, de partir." },
-          { t: "Liens +2.", style: "effets" }
+          { t: "Liens +1.", style: "effets" }
         ] } ]
       }
     ] },
@@ -462,13 +472,21 @@ window.Parcours.sebastien = {
 
     { type: "texte", lignes: [
       { t: "Le rideau se referme. Sur la tablette, une enveloppe et une feuille blanche." },
+      { t: "Il pense aux soixante-quatre kilomètres par jour, et à la taxe sur le gazole." },
+      { t: "Il pense au solde, le 19 du mois, et au samedi à l'entrepôt pour payer Berlin et le plein.", si: "samedi_au_boulot" },
+      { t: "Il pense au solde, le 19 du mois. À Berlin, payé, et au réservoir sur la réserve.", si: "berlin", sinon: "plein" },
+      { t: "Il pense au solde, le 19 du mois. Au plein, et au « ok » de Manon.", si: "plein", sinon: "berlin" },
+      { t: "Il pense à la poste partie au Balto, et au médecin qui ne prend plus personne." },
       { t: "Il pense à la mère de Nathalie et aux soixante-dix kilomètres pour une boîte de médicaments.", si: "pharmacie_soir" },
       { t: "Il pense au fils de Mme Fabre, qui a rendu service sans poser de questions.", si: "pharmacie_fils" },
       { t: "Il pense au silence de Nathalie, mercredi soir.", si: "pharmacie_attente" },
       { t: "Il pense au gamin de la D29, et aux 25 km de plus à la rentrée.", si: "parti_intervention" },
       { t: "Il pense aux vingt minutes de retard, et aux 25 km de plus à la rentrée.", sinon: "parti_intervention" },
+      { t: "Il pense à la fonderie. Vingt-deux ans, et un jour, plus rien." },
+      { t: "Il pense à Manon, qui lui a demandé s'il était raciste." },
       { t: "Il pense à Jean-Mi, et au silence qui a suivi.", si: "a_parle_au_bar" },
-      { t: "Il pense à Jean-Mi. Il aurait pu dire quelque chose.", sinon: "a_parle_au_bar" }
+      { t: "Il pense à Jean-Mi. Il aurait pu dire quelque chose.", sinon: "a_parle_au_bar" },
+      { t: "Ici, tout ferme, tout coûte plus cher, et personne ne vient voir. Il veut que quelqu'un, enfin, regarde par ici.", style: "fort" }
     ] },
 
     { type: "texte", lignes: [

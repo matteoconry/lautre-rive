@@ -26,7 +26,7 @@ window.Parcours.lea = {
   },
 
   seuil_energie: 3,
-  recuperation_nuit: 1,
+  recuperation_nuit: 0, // la semaine use : on ne récupère pas la nuit
 
   etapes: [
 
@@ -180,12 +180,12 @@ window.Parcours.lea = {
       {
         texte: "Descendre et rester à côté, sans rien dire",
         exigeant: true,
-        effets: { liens: +2 },
+        effets: { liens: +1 },
         drapeaux: { descendue: true },
         suite: [ { lignes: [
           { t: "Elle reste à deux mètres, en chaussons, jusqu'à la fin." },
           { style: "parole", de: "Yanis", t: "Merci. Mais ça sert à rien." },
-          { t: "Liens +2.", style: "effets" }
+          { t: "Liens +1.", style: "effets" }
         ] } ]
       },
       {
@@ -234,12 +234,12 @@ window.Parcours.lea = {
       {
         texte: "Rester et remplir la lettre avec Kenza",
         exigeant: true,
-        effets: { energie: -2, liens: +2 },
+        effets: { energie: -2, liens: +1 },
         drapeaux: { kenza: true },
         suite: [ { lignes: [
           { t: "Elles remplissent la lettre ensemble, case par case. Kenza écrit son nom elle-même." },
           { t: "Personne ne l'a aidée, elle, à faire ses devoirs. Si elle ne le fait pas, qui le fera ?", style: "pense" },
-          { t: "Énergie -2, Liens +2.", style: "effets" }
+          { t: "Énergie -2, Liens +1.", style: "effets" }
         ] } ]
       },
       {
@@ -331,6 +331,17 @@ window.Parcours.lea = {
     { type: "decor", decor: "manif", jour: 1, titre: "J-1 · La limite", sous: "Manifestation pour les services publics, samedi", sinon: "a_rate_le_partiel" },
     { type: "decor", decor: "caisse", jour: 1, titre: "J-1 · La limite", sous: "La salle de pause du supermarché, samedi", si: "a_rate_le_partiel" },
 
+    { type: "texte", lignes: [
+      { t: "Samedi matin, une notification : les APL sont enfin arrivées. Le loyer part dans la foulée, avec deux semaines de retard." }
+    ] },
+
+    { type: "choix", options: [
+      { texte: "Ouvrir l'appli de la banque", effets: { fin_de_mois: -190 }, suite: [ { lignes: [
+        { t: "APL +240 €, loyer -430 €. Son compte passe dans le rouge.", style: "fort" },
+        { t: "Fin de mois -190 €.", style: "effets" }
+      ] } ] }
+    ] },
+
     { type: "texte", si: "a_rate_le_partiel", lignes: [
       { t: "Sa responsable l'a aussi mise le samedi. Dans la salle de pause, une collègue lui tend son téléphone : une vidéo de la manif." }
     ] },
@@ -407,14 +418,20 @@ window.Parcours.lea = {
 
     { type: "texte", lignes: [
       { t: "Le rideau se referme. Sur la tablette, une enveloppe et une feuille blanche." },
+      { t: "Elle pense au RER en retard, tous les matins, et au titre du journal : « Les jeunes ne veulent plus travailler »." },
+      { t: "Elle pense au loyer payé avec deux semaines de retard, et au compte dans le rouge." },
       { t: "Elle pense au partiel, qu'elle a passé jeudi.", si: "est_allee_au_partiel" },
       { t: "Elle pense au partiel, qu'elle repassera en juin.", si: "a_rate_le_partiel" },
       { t: "Elle pense à Yanis, les mains sur le guidon, et à elle, à deux mètres.", si: "descendue" },
       { t: "Elle pense à Yanis, qui n'a rien dit de la soirée.", sinon: "descendue" },
+      { t: "Elle pense aux 100 € que sa mère n'a pas.", si: "appele_mere" },
+      { t: "Elle pense au studio refusé. « Garant insuffisant. »" },
       { t: "Elle pense à Kenza, qui a écrit son nom elle-même.", si: "kenza" },
       { t: "Elle pense à Kenza, et au délai passé de quelques heures.", sinon: "kenza" },
       { t: "Elle pense à la vitrine, et à ce qu'elle a dit.", si: "a_parle_a_la_manif" },
-      { t: "Elle pense à la vitrine. Elle aurait pu dire quelque chose.", sinon: "a_parle_a_la_manif" }
+      { t: "Elle pense à la vitrine. Elle aurait pu dire quelque chose.", sinon: "a_parle_a_la_manif" },
+      { t: "Elle pense à la subvention de l'association, qui s'arrête en juin, et à l'oncle Patrick : « Vous détestez la France. »" },
+      { t: "Elle bosse, elle étudie, elle aide. Elle veut que ça compte pour quelque chose.", style: "fort" }
     ] },
 
     { type: "texte", lignes: [
