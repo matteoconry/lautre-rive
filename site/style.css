@@ -451,26 +451,11 @@ body.lea {
 .generique-fin { text-align: center; margin: 12vh 0 0; animation: apparait 1.2s ease-out; }
 @keyframes apparait { from { opacity: 0; } to { opacity: 1; } }
 .generique-fin .merci { font-weight: bold; font-size: 1.35em; line-height: 1.5; margin: 0 0 22px; color: var(--brique); }
-.generique-fin .don { margin: 0; }
-.generique-fin .don a {
-  display: inline-block;
-  padding: 8px 18px;
-  background: var(--brique);
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-  border-radius: 4px;
-}
-.generique-fin .don small { font-size: 13px; margin-top: 6px; }
 @media (prefers-reduced-motion: reduce) {
   .generique { height: auto; min-height: 0; -webkit-mask-image: none; mask-image: none; }
   .generique .rouleau { padding-top: 0; }
 }
 
-/* Le lien de soutien : discret, sous la carte */
-.don { text-align: center; margin: 10px 0 4px; font-size: 14px; }
-.don a { color: var(--brique); text-decoration: underline; }
-.don small { display: block; color: var(--gris); font-size: 12px; margin-top: 2px; }
 
 /* Premier écran : l'invitation à toucher l'écran */
 .texte p.invite {
@@ -556,5 +541,7 @@ body.lea {
   .generique .rouleau { padding-top: 0; }
 }
 
-/* Sur le menu de départ, le lien de soutien reste discret sous les rives */
-.don-accueil { margin-top: 14px; }
+/* Sur le menu de départ, une seule ligne discrète sous les rives */
+.don-accueil { margin: 16px 0 0; text-align: center; font-size: 12px; color: var(--gris); letter-spacing: 0.5px; }
+.don-accueil a { color: inherit; text-decoration: none; white-space: nowrap; border-bottom: 1px dotted currentColor; }
+.don-accueil a:hover, .don-accueil a:focus { color: var(--chaud); }
