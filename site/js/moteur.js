@@ -509,7 +509,7 @@
     var carte = document.createElement("canvas");
     carte.width = C; carte.height = C;
     var c = carte.getContext("2d");
-    var couleur = H.id === "lea" ? "#e0684a" : "#6a8ae8";
+    var couleur = H.id === "lea" ? "#e07a3c" : "#8a6aff";
 
     c.fillStyle = "#1a1220"; c.fillRect(0, 0, C, C);
 

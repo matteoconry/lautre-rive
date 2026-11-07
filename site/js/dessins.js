@@ -47,28 +47,28 @@
     }
 
     // Rive gauche : la ville de Léa, ses immeubles (tons chauds, rouges)
-    r(ctx, 0, 44, 46, 8, "#3a1a22");
+    r(ctx, 0, 44, 46, 8, "#3a2018");
     var imm = [[2, 14, 14], [18, 28, 10], [30, 20, 12]];
     for (var k = 0; k < imm.length; k++) {
       var ix = imm[k][0], iy = imm[k][1], iw = imm[k][2];
-      r(ctx, ix, iy, iw, 44 - iy, "#4a2230");
+      r(ctx, ix, iy, iw, 44 - iy, "#5a2e22");
       for (var fy = iy + 2; fy < 42; fy += 4) {
         for (var fx = ix + 2; fx < ix + iw - 1; fx += 3) {
           var allume = ((fx * 7 + fy * 3 + k) % 5) < 2;
-          r(ctx, fx, fy, 1, 2, allume ? "#ff8a6a" : "#6a3040");
+          r(ctx, fx, fy, 1, 2, allume ? "#ffb060" : "#7a4030");
         }
       }
     }
 
     // Rive droite : le village de Sébastien (tons froids, bleus)
-    r(ctx, 114, 44, 46, 8, "#1e2234");
-    r(ctx, 146, 36, 10, 8, "#2a3456"); r(ctx, 145, 34, 12, 2, "#3a4a7a");
-    r(ctx, 136, 38, 8, 6, "#2a3456"); r(ctx, 135, 36, 10, 2, "#3a4a7a");
-    r(ctx, 129, 26, 4, 18, "#24304a"); r(ctx, 130, 22, 2, 4, "#24304a"); // clocher
-    r(ctx, 118, 37, 9, 7, "#2a3456"); r(ctx, 117, 35, 11, 2, "#3a4a7a");
-    r(ctx, 151, 39, 2, 2, "#a8c0ff"); r(ctx, 139, 40, 2, 2, "#a8c0ff"); r(ctx, 121, 40, 2, 2, "#a8c0ff");
+    r(ctx, 114, 44, 46, 8, "#241c34");
+    r(ctx, 146, 36, 10, 8, "#3a2a5a"); r(ctx, 145, 34, 12, 2, "#5a3e8a");
+    r(ctx, 136, 38, 8, 6, "#3a2a5a"); r(ctx, 135, 36, 10, 2, "#5a3e8a");
+    r(ctx, 129, 26, 4, 18, "#30244a"); r(ctx, 130, 22, 2, 4, "#30244a"); // clocher
+    r(ctx, 118, 37, 9, 7, "#3a2a5a"); r(ctx, 117, 35, 11, 2, "#5a3e8a");
+    r(ctx, 151, 39, 2, 2, "#c8a8ff"); r(ctx, 139, 40, 2, 2, "#c8a8ff"); r(ctx, 121, 40, 2, 2, "#c8a8ff");
     // Cheminée de la fonderie, éteinte
-    r(ctx, 116, 18, 4, 26, "#1a1e2e");
+    r(ctx, 116, 18, 4, 26, "#1e1a2e");
 
     // Le pont
     r(ctx, 0, 44, L, 3, "#2a1620");
@@ -413,7 +413,7 @@
     r(ctx, 0, 0, L, 8, "#2a201a");
     // Étagères à bouteilles
     r(ctx, 10, 14, 90, 2, "#5a4030"); r(ctx, 10, 28, 90, 2, "#5a4030");
-    var couleurs = ["#2a6a3a", "#8a6a2a", "#6a2a2a", "#c8c0a0", "#3a4a7a"];
+    var couleurs = ["#2a6a3a", "#8a6a2a", "#6a2a2a", "#c8c0a0", "#5a3e8a"];
     for (var b = 0; b < 15; b++) {
       r(ctx, 12 + b * 6, 7, 3, 7, couleurs[b % 5]); r(ctx, 13 + b * 6, 5, 1, 2, couleurs[b % 5]);
       r(ctx, 12 + b * 6, 21, 3, 7, couleurs[(b + 2) % 5]);
@@ -758,11 +758,11 @@
     // Léa vient de la gauche (sa ville), Sébastien de la droite (son village)
     function seb() {
       r(ctx, 86, 32, 2, 8, "#2a3448"); r(ctx, 89, 32, 2, 8, "#2a3448");
-      r(ctx, 85, 23, 7, 9, "#4a6ad8"); r(ctx, 86, 17, 5, 6, "#c89070"); r(ctx, 86, 16, 5, 2, "#3a2a20");
+      r(ctx, 85, 23, 7, 9, "#8a6aff"); r(ctx, 86, 17, 5, 6, "#c89070"); r(ctx, 86, 16, 5, 2, "#3a2a20");
     }
     function lea() {
       r(ctx, 71, 33, 2, 7, "#2a2a40"); r(ctx, 74, 33, 2, 7, "#2a2a40");
-      r(ctx, 70, 25, 7, 8, "#c84a3a"); r(ctx, 71, 19, 5, 6, "#b08060"); r(ctx, 71, 18, 5, 2, "#1a1010"); r(ctx, 70, 19, 2, 6, "#1a1010");
+      r(ctx, 70, 25, 7, 8, "#e07a3c"); r(ctx, 71, 19, 5, 6, "#b08060"); r(ctx, 71, 18, 5, 2, "#1a1010"); r(ctx, 70, 19, 2, 6, "#1a1010");
     }
     function flou(x0) {
       var h = hasard(Math.floor(t * 6));
