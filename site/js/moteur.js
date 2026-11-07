@@ -658,10 +658,12 @@
       rouleau.appendChild(bloc);
     });
     // Le mot de la fin défile avec le reste et s'arrête au milieu du cadre
-    var merci = document.createElement("p");
-    merci.className = "merci";
-    merci.textContent = G.merci;
-    rouleau.appendChild(merci);
+    if (G.merci) {
+      var merci = document.createElement("p");
+      merci.className = "merci";
+      merci.textContent = G.merci;
+      rouleau.appendChild(merci);
+    }
     cadre.appendChild(rouleau);
     el.texte.appendChild(cadre);
     el.suite.classList.remove("cache");
