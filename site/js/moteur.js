@@ -740,7 +740,7 @@
     ], function (opt, n) {
       if (n === 0) partagerCarte(carte);
       else if (n === 1) commencer(H.rive === "gauche" ? "sebastien" : "lea");
-      else if (n === 2) commencer(autre === P.lea ? "lea" : "sebastien");
+      else if (n === 2) presenter(autre === P.lea ? "lea" : "sebastien");
       else accueil();
     });
   }
@@ -748,6 +748,36 @@
   /* ---------------- Écran d'accueil : le pont ---------------- */
 
   var premiereFois = true;
+
+  // Avant de traverser : qui attend de l'autre côté du pont
+  function presenter(nom) {
+    var q = P[nom];
+    var retour = !el.jeu.classList.contains("accueil"); // après une première semaine
+    if (retour) {
+      // Depuis la fin d'une semaine : on revient d'abord sur le pont
+      decor = "pont";
+      M.jouer("pont");
+      etat = nouvelEtat();
+      el.jeu.classList.add("accueil");
+      document.body.className = "";
+      el.hud.classList.add("cache");
+      el.titre.classList.remove("visible");
+    }
+    vider();
+    ecrire(retour ? [
+      { t: "Cette fois, tu retraverses le pont.", style: "fort" },
+      { t: "Sur ta rive t'attend " + q.presentation + "." },
+      { t: "Pendant six jours, tu vas vivre la vie de quelqu'un qui vote plutôt comme toi. Ses choix seront les tiens. Il n'y a pas de bonne ou de mauvaise réponse." }
+    ] : [
+      { t: "Alors tu vas passer de l'autre côté.", style: "fort" },
+      { t: "De l'autre côté t'attend " + q.presentation + "." },
+      { t: "Pendant six jours, tu vas vivre la vie de quelqu'un qui ne vote pas comme toi. Ses choix seront les tiens. Il n'y a pas de bonne ou de mauvaise réponse." }
+    ], function () {
+      boutons([{ texte: "Traverser le pont", classe: q.rive === "gauche" ? "droite" : "gauche" }, { texte: "Revenir au pont" }], function (o, k) {
+        if (k === 0) commencer(nom); else accueil();
+      });
+    });
+  }
 
   function accueil() {
     vider();
@@ -787,18 +817,7 @@
         { texte: "Rive droite →", classe: "droite" }
       ];
       boutons(options, function (opt, n) {
-        var nom = n === 0 ? "sebastien" : "lea";
-        var q = P[nom];
-        vider();
-        ecrire([
-          { t: "Alors tu vas passer de l'autre côté.", style: "fort" },
-          { t: "De l'autre côté t'attend " + q.presentation + "." },
-          { t: "Pendant six jours, tu vas vivre la vie de quelqu'un qui ne vote pas comme toi. Ses choix seront les tiens. Il n'y a pas de bonne ou de mauvaise réponse." }
-        ], function () {
-          boutons([{ texte: "Traverser le pont", classe: q.rive === "gauche" ? "droite" : "gauche" }, { texte: "Revenir au pont" }], function (o, k) {
-            if (k === 0) commencer(nom); else accueil();
-          });
-        });
+        presenter(n === 0 ? "sebastien" : "lea");
       });
       // Une semaine en cours : une petite ligne discrète au-dessus des rives
       if (sauve) {
