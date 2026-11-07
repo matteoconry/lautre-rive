@@ -784,11 +784,11 @@
     ecrire([
       { t: "Un pont. Deux rives. Six jours avant le vote.", style: "pense" },
       { t: sauve ? "Ta semaine est restée en cours." : "De quel côté du pont viens-tu ?", style: "recit" },
-      { t: "Politiquement, tu te sens plutôt à gauche ou à droite ? Ensuite, tu traverseras pour vivre la semaine de quelqu'un d'en face.", style: "note" }
+      { t: "Politiquement, tu te sens plutôt de gauche ou de droite ?", style: "note" }
     ], function () {
       var options = [
-        { texte: "Plutôt à gauche", classe: "gauche" },
-        { texte: "Plutôt à droite", classe: "droite" }
+        { texte: "← Rive gauche", classe: "gauche" },
+        { texte: "Rive droite →", classe: "droite" }
       ];
       if (sauve) {
         var q0 = P[sauve.parcours], j = sauve.etat.jour;

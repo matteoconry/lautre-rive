@@ -343,8 +343,19 @@ body {
 }
 .jeu.accueil .texte p.pense { color: var(--gris); }
 .jeu.accueil .choix button { text-align: center; }
+/* Les deux rives : mêmes couleurs, un peu de relief (reflet en haut, ombre en bas) */
+.jeu.accueil .choix button.gauche,
+.jeu.accueil .choix button.droite {
+  font-weight: bold;
+  letter-spacing: 1px;
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.28), inset 0 -4px 0 rgba(0, 0, 0, 0.18), 3px 3px 0 var(--encre);
+  transition: transform .05s, filter .15s;
+}
 .jeu.accueil .choix button.gauche { background: var(--chaud); }
 .jeu.accueil .choix button.droite { background: #8a9fd8; }
+.jeu.accueil .choix button.gauche:hover, .jeu.accueil .choix button.gauche:focus-visible { background: var(--chaud); filter: brightness(1.08); }
+.jeu.accueil .choix button.droite:hover, .jeu.accueil .choix button.droite:focus-visible { background: #8a9fd8; filter: brightness(1.08); }
+.jeu.accueil .choix button.gauche:active, .jeu.accueil .choix button.droite:active { box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.28), 1px 1px 0 var(--encre); }
 
 .texte h1 {
   font-size: clamp(28px, 8vw, 44px);
