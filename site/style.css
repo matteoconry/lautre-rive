@@ -554,6 +554,9 @@ body.lea {
 }
 
 /* Sur le menu de départ, une seule ligne discrète sous les rives */
+.jeu .choix button.reprise { display: block; margin: 0 auto 4px; padding: 2px 4px; min-height: 0; background: none; border: 0; box-shadow: none; text-align: center; font-size: 13px; color: var(--gris); letter-spacing: 0.5px; text-decoration: underline dotted; text-underline-offset: 3px; cursor: pointer; }
+.jeu .choix button.reprise:hover, .jeu .choix button.reprise:focus-visible { background: none; color: var(--chaud); outline: none; }
+.jeu .choix button.reprise:active { transform: none; box-shadow: none; }
 .don-accueil { margin: 16px 0 0; text-align: center; font-size: 12px; color: var(--gris); letter-spacing: 0.5px; }
 .don-accueil a { color: inherit; text-decoration: none; white-space: nowrap; border-bottom: 1px dotted currentColor; }
 .don-accueil a:hover, .don-accueil a:focus { color: var(--chaud); }
