@@ -805,7 +805,7 @@
         ecrire([
           { t: "Alors tu vas passer de l'autre côté.", style: "fort" },
           { t: "De l'autre côté t'attend " + q.presentation + "." },
-          { t: "Pendant six jours, tu vas vivre la vie de quelqu'un qui ne vote pas comme toi. Ses choix seront les tiens. Aucun n'est le bon." }
+          { t: "Pendant six jours, tu vas vivre la vie de quelqu'un qui ne vote pas comme toi. Ses choix seront les tiens. Il n'y a pas de bonne ou de mauvaise réponse." }
         ], function () {
           boutons([{ texte: "Traverser le pont", classe: q.rive === "gauche" ? "droite" : "gauche" }, { texte: "Revenir au pont" }], function (o, k) {
             if (k === 0) commencer(nom); else accueil();
