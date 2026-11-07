@@ -45,7 +45,7 @@ window.Parcours.sebastien = {
 
   seuil_energie: 3,
 
-  // Chaque nuit, il récupère un peu d'énergie
+  // Pas de récupération la nuit : la semaine use
   recuperation_nuit: 0, // la semaine use : on ne récupère pas la nuit
 
   etapes: [

@@ -46,7 +46,7 @@
       r(ctx, cx - lw / 2 + dx, ry, lw, 1, i % 2 ? "#f0a050" : "#ffd27a");
     }
 
-    // Rive gauche : la ville de Léa, ses immeubles (tons chauds, rouges)
+    // Rive gauche : la ville de Léa, ses immeubles (tons chauds, orange)
     r(ctx, 0, 44, 46, 8, "#3a2018");
     var imm = [[2, 14, 14], [18, 28, 10], [30, 20, 12]];
     for (var k = 0; k < imm.length; k++) {
@@ -60,7 +60,7 @@
       }
     }
 
-    // Rive droite : le village de Sébastien (tons froids, bleus)
+    // Rive droite : le village de Sébastien (tons froids, violets)
     r(ctx, 114, 44, 46, 8, "#241c34");
     r(ctx, 146, 36, 10, 8, "#3a2a5a"); r(ctx, 145, 34, 12, 2, "#5a3e8a");
     r(ctx, 136, 38, 8, 6, "#3a2a5a"); r(ctx, 135, 36, 10, 2, "#5a3e8a");
@@ -140,7 +140,7 @@
     r(ctx, 150, 22, 10, 42, "#d8d0c4");
     r(ctx, 150, 38, 10, 1, "#a8a094");
     r(ctx, 151, 30, 8, 5, "#ffffff");
-    r(ctx, 154, 29, 2, 2, "#e07a3c");       // l'aimant
+    r(ctx, 154, 29, 2, 2, "#8a6aff");       // l'aimant
     if (Math.floor(t * 1.2) % 2 === 0) r(ctx, 150, 29, 10, 7, "rgba(255,210,120,0.25)");
 
     // Table et chaise
@@ -194,7 +194,7 @@
     r(ctx, 22, 64, 34, 4, "#2a2226"); r(ctx, 18, 68, 6, 16, "#2a2226"); r(ctx, 54, 68, 6, 16, "#2a2226");
     r(ctx, 36, 68, 6, 10, "#2a2226");
     // Compteur
-    r(ctx, 30, 62, 18, 2, "#e07a3c");
+    r(ctx, 30, 62, 18, 2, "#8a6aff");
     // Voyant du réservoir (allumé, comme dans le script de J-5)
     if (Math.floor(t * 2) % 2 === 0) r(ctx, 50, 62, 2, 2, "#ffb020");
     // Autoradio qui parle
@@ -237,7 +237,7 @@
     r(ctx, bx, by, 24, 18, "#c8c0b0");          // plastique
     r(ctx, bx + 1, by + 1, 22, 16, "#e8e2d4");  // dos blanc, illisible
     r(ctx, bx + 10, by - 3, 4, 4, "#8a8070");   // la pince
-    r(ctx, bx + 11, by - 12, 2, 9, "#a8442c");  // le vieux cordon, couleur brique
+    r(ctx, bx + 11, by - 12, 2, 9, "#5a3ec8");  // le vieux cordon, violet
     r(ctx, bx + 3, by + 12, 18, 1, "#d0c8b8");  // une rayure
     r(ctx, bx + 5, by + 5, 6, 1, "#d8d0c0");
     if (etat && etat.drapeaux.badge_touche) {
@@ -284,7 +284,7 @@
     r(ctx, 0, 60, L, 30, "#5a5658");
     // Palette et Sébastien assis dessus
     r(ctx, 26, 62, 30, 3, "#a07a4a"); r(ctx, 26, 65, 30, 2, "#7a5a34"); r(ctx, 28, 67, 4, 3, "#7a5a34"); r(ctx, 50, 67, 4, 3, "#7a5a34");
-    r(ctx, 34, 44, 12, 18, "#e07a3c");               // gilet orange
+    r(ctx, 34, 44, 12, 18, "#8a6aff");               // gilet (couleur de Sébastien)
     r(ctx, 35, 46, 10, 2, "#f0d040");                // bande réfléchissante
     r(ctx, 36, 35, 8, 9, "#c89070");                 // visage
     r(ctx, 35, 33, 10, 3, "#3a2a20");                // cheveux
@@ -436,7 +436,7 @@
     });
     r(ctx, 44, 44, 3, 4, "#e8d080"); r(ctx, 76, 44, 3, 4, "#e8d080"); // les verres
     // Sébastien, de dos, au premier plan
-    r(ctx, 64, 66, 22, 24, "#e07a3c"); r(ctx, 68, 56, 14, 11, "#3a2a20");
+    r(ctx, 64, 66, 22, 24, "#8a6aff"); r(ctx, 68, 56, 14, 11, "#3a2a20");
   }
 
   /* ---------- Dimanche : le parking de la mairie ---------- */
@@ -468,11 +468,11 @@
   function badge(ctx, t) {
     r(ctx, 0, 0, L, H, "#1a1214");
     ctx.globalAlpha = 0.25 + (Math.sin(t * 1.5) + 1) * 0.08; r(ctx, 36, 12, 88, 66, "#ffd27a"); ctx.globalAlpha = 1;
-    r(ctx, 76, 0, 8, 14, "#a8442c");                  // le vieux cordon
+    r(ctx, 76, 0, 8, 14, "#5a3ec8");                  // le vieux cordon
     r(ctx, 74, 12, 12, 6, "#8a8070");                 // la pince
     r(ctx, 44, 18, 72, 52, "#c8c0b0");                // plastique jauni
     r(ctx, 46, 20, 68, 48, "#ece2c8");
-    r(ctx, 46, 20, 68, 8, "#a8442c");                 // bandeau de l'usine
+    r(ctx, 46, 20, 68, 8, "#5a3ec8");                 // bandeau de l'usine
     r(ctx, 50, 23, 40, 2, "#ece2c8");
     r(ctx, 50, 32, 20, 26, "#8a8478");                // la photo
     r(ctx, 54, 36, 12, 12, "#c8a888"); r(ctx, 53, 34, 14, 4, "#5a5048"); r(ctx, 52, 50, 16, 8, "#5a5a62");
@@ -502,7 +502,7 @@
     r(ctx, 70, 72, 10, 6, "#c89070"); r(ctx, 98, 72, 10, 6, "#c89070");
   }
 
-  /* ====================== Les décors de Léa (couleurs froides) ====================== */
+  /* ====================== Les décors de Léa (sa couleur : orange) ====================== */
 
   // Un petit personnage debout : x, y (pieds), couleur du haut, peau, cheveux
   function silhouette(ctx, x, y, haut, peau, cheveux, bas) {
@@ -532,24 +532,24 @@
     // L'homme au journal
     r(ctx, 108, 46, 10, 8, "#e8e4d8"); r(ctx, 109, 47, 8, 1, "#222");
     // Léa, sac à dos, au milieu
-    silhouette(ctx, 76, 67, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+    silhouette(ctx, 76, 67, "#e07a3c", "#b08060", "#1a1010", "#2a2a40");
     r(ctx, 74, 52, 3, 8, "#3a3a7a");
   }
 
   /* ---------- J-6 : le badge dans la poche du sac ---------- */
   function sac(ctx, t, etat) {
     r(ctx, 0, 0, L, H, "#121226");
-    r(ctx, 20, 10, 120, 76, "#2a2a6a");               // le sac
-    r(ctx, 24, 14, 112, 68, "#34348a");
+    r(ctx, 20, 10, 120, 76, "#6a3420");               // le sac (orange, la couleur de Léa)
+    r(ctx, 24, 14, 112, 68, "#8a4628");
     r(ctx, 24, 24, 112, 2, "#c8c8d8");                // fermeture éclair ouverte
     r(ctx, 30, 30, 34, 22, "#e8e4d8"); r(ctx, 32, 34, 28, 1, "#9a9aa8"); r(ctx, 32, 38, 24, 1, "#9a9aa8"); // cours de droit
     r(ctx, 98, 34, 30, 20, "#1a8a5a"); r(ctx, 100, 36, 26, 4, "#e8e8e8");  // passe Navigo
     var bx = 64, by = 40;
     var lueur = (Math.sin(t * 2.2) + 1) / 2;
-    ctx.globalAlpha = 0.18 + lueur * 0.22; r(ctx, bx - 4, by - 4, 32, 26, "#a0b8ff"); ctx.globalAlpha = 1;
+    ctx.globalAlpha = 0.18 + lueur * 0.22; r(ctx, bx - 4, by - 4, 32, 26, "#ffc890"); ctx.globalAlpha = 1;
     r(ctx, bx + 2, by + 2, 24, 18, "#0a0a18"); r(ctx, bx - 1, by - 1, 26, 20, "#14142a");
     r(ctx, bx, by, 24, 18, "#c0c4d0"); r(ctx, bx + 1, by + 1, 22, 16, "#e4e8f0");
-    r(ctx, bx + 10, by - 3, 4, 4, "#8a90a0"); r(ctx, bx + 11, by - 12, 2, 9, "#3a6ad8"); // cordon bleu
+    r(ctx, bx + 10, by - 3, 4, 4, "#8a90a0"); r(ctx, bx + 11, by - 12, 2, 9, "#a8442c"); // cordon orange
     if (etat && etat.drapeaux.badge_touche) r(ctx, bx + 18, by + 13, 5, 4, "#a8b0c8");
   }
 
@@ -563,14 +563,14 @@
     r(ctx, 126, 12, 2, 28, "#3a3a52");
     // Évier, vaisselle empilée
     r(ctx, 0, 48, 70, 4, "#5a5a6a"); r(ctx, 0, 52, 70, 12, "#3a3a4a");
-    r(ctx, 10, 40, 14, 3, "#e8e8e8"); r(ctx, 11, 37, 12, 3, "#d8d8e8"); r(ctx, 12, 34, 10, 3, "#e8e8e8"); r(ctx, 28, 38, 6, 10, "#8a5ad8");
+    r(ctx, 10, 40, 14, 3, "#e8e8e8"); r(ctx, 11, 37, 12, 3, "#d8d8e8"); r(ctx, 12, 34, 10, 3, "#e8e8e8"); r(ctx, 28, 38, 6, 10, "#e07a3c");
     // Table, ordinateur (le site de la CAF), Léa
     r(ctx, 70, 58, 60, 3, "#6a5a4a"); r(ctx, 74, 61, 2, 20, "#4a3a2a"); r(ctx, 124, 61, 2, 20, "#4a3a2a");
     r(ctx, 86, 46, 26, 12, "#1a1a24"); r(ctx, 88, 48, 22, 8, "#e8f0ff");
     r(ctx, 90, 50, 10, 1, "#3a6ad8"); r(ctx, 90, 53, 16, 1, "#9a9aa8");
     if (Math.floor(t * 2) % 2) r(ctx, 102, 50, 6, 2, "#3a6ad8"); // « en cours de traitement »
     r(ctx, 84, 58, 30, 2, "#2a2a34");
-    silhouette(ctx, 62, 74, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+    silhouette(ctx, 62, 74, "#e07a3c", "#b08060", "#1a1010", "#2a2a40");
     // Le frigo couvert de mots
     r(ctx, 142, 24, 16, 40, "#d8d8e0"); r(ctx, 145, 28, 4, 4, "#ffd040"); r(ctx, 151, 33, 4, 4, "#ff80a0"); r(ctx, 146, 40, 4, 4, "#80d0ff");
   }
@@ -614,7 +614,7 @@
     r(ctx, 30, 54, 100, 4, "#8a6a4a"); r(ctx, 34, 58, 3, 24, "#6a4a2a"); r(ctx, 123, 58, 3, 24, "#6a4a2a");
     r(ctx, 60, 50, 16, 4, "#ffffff"); r(ctx, 62, 51, 12, 1, "#6a6aff"); r(ctx, 84, 50, 14, 4, "#f0f0f8");
     // Léa et Kenza côte à côte
-    silhouette(ctx, 54, 62, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+    silhouette(ctx, 54, 62, "#e07a3c", "#b08060", "#1a1010", "#2a2a40");
     r(ctx, 92, 46, 6, 8, "#ffb040"); r(ctx, 93, 40, 4, 6, "#6a4a30"); r(ctx, 92, 39, 6, 2, "#1a1010"); r(ctx, 97, 41, 2, 4, "#1a1010");
     // La lettre de l'école, qui tremble un peu dans la main de Kenza
     var tremble = Math.floor(t * 4) % 2;
@@ -660,7 +660,7 @@
     silhouette(ctx, 24, 54, "#3a5a3a", "#d8a080", "#7a6a5a", "#2a2a3a");
     silhouette(ctx, 46, 54, "#8a6a9a", "#e0b090", "#e8e8e8", "#2a2a3a");
     silhouette(ctx, 92, 54, "#5a7a9a", "#b08060", "#3a2a20", "#2a2a3a");
-    silhouette(ctx, 108, 54, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+    silhouette(ctx, 108, 54, "#e07a3c", "#b08060", "#1a1010", "#2a2a40");
   }
 
   /* ---------- J-1 : la manifestation ---------- */
@@ -690,7 +690,7 @@
     silhouette(ctx, 118, 70, "#111", "#111", "#111", "#111");
     silhouette(ctx, 130, 70, "#111", "#111", "#111", "#111");
     // Léa, au premier plan
-    silhouette(ctx, 76, 88, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+    silhouette(ctx, 76, 88, "#e07a3c", "#b08060", "#1a1010", "#2a2a40");
   }
 
   /* ---------- J-1 (si elle travaille samedi) : la salle de pause ---------- */
@@ -707,8 +707,8 @@
     r(ctx, 144, 30, 14, 32, "#3a3a44"); r(ctx, 147, 34, 8, 6, "#80c0ff");
     r(ctx, 116, 52, 4, 4, "#8a5a3a");
     // Léa en tenue de caisse, une collègue lui tend son téléphone
-    silhouette(ctx, 100, 70, "#3a6ad8", "#b08060", "#1a1010", "#2a2a40");
-    silhouette(ctx, 120, 70, "#3a6ad8", "#e0b090", "#c8a040", "#2a2a40");
+    silhouette(ctx, 100, 70, "#e07a3c", "#b08060", "#1a1010", "#2a2a40");
+    silhouette(ctx, 120, 70, "#e07a3c", "#e0b090", "#c8a040", "#2a2a40");
     r(ctx, 112, 52, 4, 6, "#111"); r(ctx, 113, 53, 2, 4, Math.floor(t * 3) % 2 ? "#ff6a6a" : "#d0d0d8");
   }
 
@@ -729,18 +729,18 @@
     [[110, "#6a6a3a"], [122, "#3a5a7a"], [134, "#8a4a4a"]].forEach(function (e, k) {
       silhouette(ctx, e[0] - avance, 70, e[1], k === 1 ? "#8a5a3a" : "#d8a080", "#2a2020");
     });
-    silhouette(ctx, 146 - avance, 70, "#7a5ad8", "#b08060", "#1a1010", "#2a2a40");
+    silhouette(ctx, 146 - avance, 70, "#e07a3c", "#b08060", "#1a1010", "#2a2a40");
   }
 
   /* ---------- Dimanche : le badge d'hôpital, enfin retourné ---------- */
   function badge_lea(ctx, t) {
     r(ctx, 0, 0, L, H, "#121226");
     ctx.globalAlpha = 0.25 + (Math.sin(t * 1.5) + 1) * 0.08; r(ctx, 36, 12, 88, 66, "#a0b8ff"); ctx.globalAlpha = 1;
-    r(ctx, 76, 0, 8, 14, "#3a6ad8");                  // le cordon
+    r(ctx, 76, 0, 8, 14, "#a8442c");                  // le cordon
     r(ctx, 74, 12, 12, 6, "#8a90a0");
     r(ctx, 44, 18, 72, 52, "#c0c4d0");
     r(ctx, 46, 20, 68, 48, "#f4f6fa");
-    r(ctx, 46, 20, 68, 8, "#2a8ac8");                 // bandeau de l'hôpital
+    r(ctx, 46, 20, 68, 8, "#a8442c");                 // bandeau de l'hôpital
     r(ctx, 50, 23, 30, 2, "#f4f6fa"); r(ctx, 104, 22, 6, 4, "#f4f6fa"); r(ctx, 106, 21, 2, 6, "#f4f6fa");
     r(ctx, 50, 32, 20, 26, "#9aa0b0");                // la photo
     r(ctx, 54, 36, 12, 12, "#b08060"); r(ctx, 53, 34, 14, 4, "#3a2a20"); r(ctx, 52, 50, 16, 8, "#e8f0f8");
@@ -771,8 +771,8 @@
     if (complet || joueSeb) seb(); else flou(84);
     if (complet || !joueSeb) lea(); else flou(69);
     if (complet) {
-      r(ctx, 81, 38, 4, 3, "#ece2c8"); r(ctx, 81, 38, 4, 1, "#a8442c");   // le badge de Roger
-      r(ctx, 76, 38, 4, 3, "#f4f6fa"); r(ctx, 76, 38, 4, 1, "#2a8ac8");   // le badge de Christine
+      r(ctx, 81, 38, 4, 3, "#ece2c8"); r(ctx, 81, 38, 4, 1, "#5a3ec8");   // le badge de Roger
+      r(ctx, 76, 38, 4, 3, "#f4f6fa"); r(ctx, 76, 38, 4, 1, "#a8442c");   // le badge de Christine
     }
   }
 

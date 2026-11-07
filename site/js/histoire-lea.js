@@ -40,30 +40,8 @@ window.Parcours.lea = {
       { t: "Dimanche, est-ce qu'elle votera ? Elle ne sait pas encore.", style: "fort" }
     ] },
 
-    { type: "choix", question: "Que fait Léa ?", options: [
-      {
-        texte: "Attendre le RER",
-        detail: "Elle arrivera en retard.",
-        effets: { energie: +1, liens: -1 },
-        suite: [ { lignes: [
-          { t: "Elle arrive à 8 h 20. Le prof lève les yeux : « Mademoiselle Morel nous fait l'honneur. » Quelques rires." },
-          { t: "Énergie +1, Liens -1.", style: "effets" }
-        ] } ]
-      },
-      {
-        texte: "Prendre un Vélib' jusqu'à la fac",
-        detail: "3 €, et il pleut.",
-        exigeant: true,
-        effets: { fin_de_mois: -3, energie: -2 },
-        suite: [ { lignes: [
-          { t: "Quarante minutes de pédalage sous la bruine. À l'heure, trempée." },
-          { t: "Fin de mois -3 €, Énergie -2.", style: "effets" }
-        ] } ]
-      }
-    ] },
-
     { type: "texte", lignes: [
-      { t: "Sur le quai, un homme lit un journal. Le titre, en gros :" },
+      { t: "Sur le quai, en attendant, un homme lit un journal. Le titre, en gros :" },
       { t: "« Les jeunes ne veulent plus travailler ».", style: "pense" }
     ] },
 
@@ -93,13 +71,35 @@ window.Parcours.lea = {
         drapeaux: { badge_touche: true },
         suite: [ { lignes: [
           { t: "Ses doigts s'arrêtent sur le plastique. Elle n'a pas la force de le retourner." },
-          { t: "Le RER entre en gare. Elle referme la poche. Pas maintenant." }
+          { t: "Elle referme la poche. Pas maintenant." }
         ] } ]
       },
       {
         texte: "Refermer la poche",
         suite: [ { lignes: [
           { t: "Elle trouve son passe et referme la poche du sac." }
+        ] } ]
+      }
+    ] },
+
+    { type: "choix", question: "Que fait Léa ?", options: [
+      {
+        texte: "Attendre le RER",
+        detail: "Elle arrivera en retard.",
+        effets: { energie: +1, liens: -1 },
+        suite: [ { lignes: [
+          { t: "Elle arrive à 8 h 20. Le prof lève les yeux : « Mademoiselle Morel nous fait l'honneur. » Quelques rires." },
+          { t: "Énergie +1, Liens -1.", style: "effets" }
+        ] } ]
+      },
+      {
+        texte: "Prendre un Vélib' jusqu'à la fac",
+        detail: "3 €, et il pleut.",
+        exigeant: true,
+        effets: { fin_de_mois: -3, energie: -2 },
+        suite: [ { lignes: [
+          { t: "Quarante minutes de pédalage sous la bruine. À l'heure, trempée." },
+          { t: "Fin de mois -3 €, Énergie -2.", style: "effets" }
         ] } ]
       }
     ] },
@@ -136,7 +136,7 @@ window.Parcours.lea = {
         texte: "Aller au partiel et demander à Inès d'avancer le loyer",
         exigeant: true,
         effets: { liens: -1, energie: -1 },
-        drapeaux: { est_allee_au_partiel: true },
+        drapeaux: { est_allee_au_partiel: true, ines: true },
         suite: [ { lignes: [
           { style: "parole", de: "Inès", t: "Ok… mais tu me rembourses vite, hein. Moi aussi je suis juste." },
           { t: "Liens -1, Énergie -1.", style: "effets" }
@@ -332,12 +332,14 @@ window.Parcours.lea = {
     { type: "decor", decor: "caisse", jour: 1, titre: "J-1 · La limite", sous: "La salle de pause du supermarché, samedi", si: "a_rate_le_partiel" },
 
     { type: "texte", lignes: [
-      { t: "Samedi matin, une notification : les APL sont enfin arrivées. Le loyer part dans la foulée, avec deux semaines de retard." }
+      { t: "Samedi matin, une notification : les APL sont enfin arrivées. Le loyer part dans la foulée, avec deux semaines de retard.", sinon: "ines" },
+      { t: "Samedi matin, une notification : les APL sont enfin arrivées. Elle rembourse tout de suite Inès, qui avait avancé le loyer.", si: "ines" }
     ] },
 
     { type: "choix", options: [
       { texte: "Ouvrir l'appli de la banque", effets: { fin_de_mois: -190 }, suite: [ { lignes: [
-        { t: "APL +240 €, loyer -430 €. Son compte passe dans le rouge.", style: "fort" },
+        { t: "APL +240 €, loyer -430 €. Son compte passe dans le rouge.", style: "fort", sinon: "ines" },
+        { t: "APL +240 €, Inès -430 €. Son compte passe dans le rouge.", style: "fort", si: "ines" },
         { t: "Fin de mois -190 €.", style: "effets" }
       ] } ] }
     ] },
@@ -419,7 +421,8 @@ window.Parcours.lea = {
     { type: "texte", lignes: [
       { t: "Le rideau se referme. Sur la tablette, une enveloppe et une feuille blanche." },
       { t: "Elle pense au RER en retard, tous les matins, et au titre du journal : « Les jeunes ne veulent plus travailler »." },
-      { t: "Elle pense au loyer payé avec deux semaines de retard, et au compte dans le rouge." },
+      { t: "Elle pense au loyer payé avec deux semaines de retard, et au compte dans le rouge.", sinon: "ines" },
+      { t: "Elle pense au loyer qu'Inès a dû avancer, et au compte dans le rouge.", si: "ines" },
       { t: "Elle pense au partiel, qu'elle a passé jeudi.", si: "est_allee_au_partiel" },
       { t: "Elle pense au partiel, qu'elle repassera en juin.", si: "a_rate_le_partiel" },
       { t: "Elle pense à Yanis, les mains sur le guidon, et à elle, à deux mètres.", si: "descendue" },
