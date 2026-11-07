@@ -445,11 +445,11 @@ body.lea {
   min-height: 260px;
   overflow: hidden;
   text-align: center;
-  -webkit-mask-image: linear-gradient(transparent, #000 15%, #000 85%, transparent);
-          mask-image: linear-gradient(transparent, #000 15%, #000 85%, transparent);
+  -webkit-mask-image: linear-gradient(transparent, #000 15%);
+          mask-image: linear-gradient(transparent, #000 15%);
 }
 .generique .rouleau {
-  padding: 40vh 0 8px;
+  padding: 40vh 0 18vh;
   animation: generique 38s linear forwards;
 }
 @keyframes generique {
@@ -462,11 +462,7 @@ body.lea {
 .generique .role.phrase { text-transform: none; letter-spacing: 0; font-size: 15px; font-style: italic; color: inherit; margin-bottom: 6px; }
 .generique .nom { display: block; font-weight: bold; margin-bottom: 2px; }
 .generique .mention { display: block; font-size: 13px; font-style: italic; color: var(--gris); margin-bottom: 4px; }
-/* Sous le défilé : le mot de la fin et le soutien, fixes et bien lisibles */
-.generique.cache, .generique-fin.cache { display: none; }
-.generique-fin { text-align: center; margin: 12vh 0 0; animation: apparait 1.2s ease-out; }
-@keyframes apparait { from { opacity: 0; } to { opacity: 1; } }
-.generique-fin .merci { font-weight: bold; font-size: 1.35em; line-height: 1.5; margin: 0 0 22px; color: var(--brique); }
+.generique .merci { font-weight: bold; font-size: 1.2em; line-height: 1.5; margin: 40px 0 0; color: var(--brique); }
 @media (prefers-reduced-motion: reduce) {
   .generique { height: auto; min-height: 0; -webkit-mask-image: none; mask-image: none; }
   .generique .rouleau { padding-top: 0; }
@@ -539,7 +535,7 @@ body.lea {
   .titre-scene small { font-size: clamp(12px, 1.3vw, 17px); }
   /* Le générique prend la hauteur de la boîte */
   .generique { --gen: calc(100dvh - 140px); height: var(--gen); }
-  .generique .rouleau { padding-top: calc(var(--gen) - 40px); animation-name: generique-large; }
+  .generique .rouleau { padding-top: calc(var(--gen) - 40px); padding-bottom: calc(var(--gen) * 0.4); animation-name: generique-large; }
   @keyframes generique-large {
     from { transform: translateY(0); }
     to { transform: translateY(calc(-100% + 100dvh - 140px)); }

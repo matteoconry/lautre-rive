@@ -657,25 +657,20 @@
       });
       rouleau.appendChild(bloc);
     });
-    cadre.appendChild(rouleau);
-    el.texte.appendChild(cadre);
-
-    // D'abord le générique ; à la fin, le mot de la fin et le soutien prennent sa place
-    var fin = document.createElement("div");
-    fin.className = "generique-fin cache";
+    // Le mot de la fin défile avec le reste et s'arrête au milieu du cadre
     var merci = document.createElement("p");
     merci.className = "merci";
     merci.textContent = G.merci;
-    fin.appendChild(merci);
-    el.texte.appendChild(fin);
+    rouleau.appendChild(merci);
+    cadre.appendChild(rouleau);
+    el.texte.appendChild(cadre);
     el.suite.classList.remove("cache");
 
-    var etapeFin = false, fini = false;
-    function montrerFin() {
-      if (etapeFin) return;
-      etapeFin = true;
-      cadre.classList.add("cache");
-      fin.classList.remove("cache");
+    var arrive = false, fini = false;
+    function finDefile() {
+      if (arrive) return;
+      arrive = true;
+      rouleau.style.animationDelay = "-60s"; // toucher l'écran saute à la fin du défilé
       attente = suite;
     }
     function suite() {
@@ -684,9 +679,8 @@
       attente = null;
       avancer();
     }
-    // Le texte défile tout seul ; toucher l'écran saute directement au mot de la fin
-    rouleau.addEventListener("animationend", montrerFin);
-    attente = montrerFin;
+    rouleau.addEventListener("animationend", finDefile);
+    attente = finDefile;
   }
 
   function jouerFin() {
