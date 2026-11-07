@@ -509,7 +509,7 @@
     var carte = document.createElement("canvas");
     carte.width = C; carte.height = C;
     var c = carte.getContext("2d");
-    var couleur = H.id === "lea" ? "#8a6aff" : "#e07a3c";
+    var couleur = H.id === "lea" ? "#e0684a" : "#6a8ae8";
 
     c.fillStyle = "#1a1220"; c.fillRect(0, 0, C, C);
 
@@ -807,7 +807,7 @@
           { t: "De l'autre côté t'attend " + q.presentation + "." },
           { t: "Pendant six jours, tu vas vivre la vie de quelqu'un qui ne vote pas comme toi. Ses choix seront les tiens. Aucun n'est le bon." }
         ], function () {
-          boutons([{ texte: "Traverser le pont", classe: q.rive }, { texte: "Revenir au pont" }], function (o, k) {
+          boutons([{ texte: "Traverser le pont", classe: q.rive === "gauche" ? "droite" : "gauche" }, { texte: "Revenir au pont" }], function (o, k) {
             if (k === 0) commencer(nom); else accueil();
           });
         });

@@ -4,8 +4,8 @@
   --fond: #1a1220;
   --papier: #f4e9d8;
   --encre: #2a1d1a;
-  --chaud: #e07a3c;   /* couleur de Sébastien : orange */
-  --brique: #a8442c;  /* couleur de Sébastien : brique */
+  --chaud: #e07a3c;   /* couleurs de l'accueil (les personnages ont les leurs, plus bas) */
+  --brique: #a8442c;
   --gris: #8a7f86;
   --vert: #7fbf7a;
   --rouge: #e0584a;
@@ -387,10 +387,15 @@ body {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 
-/* Le parcours de Léa : couleurs froides (bleu, violet néon) */
+/* Chaque personnage a la couleur de sa rive :
+   Sébastien (rive droite) en bleu, Léa (rive gauche) en rouge-orangé */
+body.sebastien {
+  --chaud: #6a8ae8;
+  --brique: #3a5ab8;
+}
 body.lea {
-  --chaud: #8a6aff;
-  --brique: #3a6ad8;
+  --chaud: #e0684a;
+  --brique: #b03e2e;
 }
 
 /* Quiz : le curseur et les barres */
