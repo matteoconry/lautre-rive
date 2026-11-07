@@ -28,7 +28,7 @@ window.Generique = {
       "Aucun parti, aucun candidat n'y est montré."
     ] }
   ],
-  merci: "Merci d'avoir traversé le pont.", // phrase de fin (vide = pas de phrase),
+  merci: "Merci d'avoir traversé le pont.", // phrase de fin (vide = pas de phrase)
 
   don: {
     lien: "https://fr.tipeee.com/lautre-rive-jeu/",
