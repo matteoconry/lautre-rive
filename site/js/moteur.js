@@ -627,30 +627,11 @@
   /* ---------------- Le générique ---------------- */
 
   // Le lien « Soutenir le projet », discret, seulement si une adresse est renseignée
-  function lienDon() {
-    var don = window.Generique && window.Generique.don;
-    if (!don || !don.lien) return null;
-    var bloc = document.createElement("p");
-    bloc.className = "don";
-    var a = document.createElement("a");
-    a.href = don.lien;
-    a.target = "_blank";
-    a.rel = "noopener";
-    a.textContent = don.texte;
-    a.addEventListener("click", function (e) { e.stopPropagation(); });
-    bloc.appendChild(a);
-    if (don.detail) {
-      var d = document.createElement("small");
-      d.textContent = don.detail;
-      bloc.appendChild(d);
-    }
-    return bloc;
-  }
-
   function jouerGenerique() {
     var G = window.Generique;
     if (!G) { avancer(); return; }
     vider();
+    M.jouer("generique"); // une musique à part pour le générique
     var cadre = document.createElement("div");
     cadre.className = "generique";
     var rouleau = document.createElement("div");
@@ -686,8 +667,6 @@
     merci.className = "merci";
     merci.textContent = G.merci;
     fin.appendChild(merci);
-    var don = lienDon();
-    if (don) fin.appendChild(don);
     el.texte.appendChild(fin);
     el.suite.classList.remove("cache");
 
@@ -756,8 +735,6 @@
     apercu.alt = "Ta carte à partager : " + texteCarte();
     apercu.src = carte.toDataURL("image/png");
     el.texte.appendChild(apercu);
-    var don = lienDon();
-    if (don) el.texte.appendChild(don);
 
     boutons([
       { texte: "Partager ma carte", classe: H.rive },
@@ -835,8 +812,18 @@
         });
       });
       // Sous les rives, le lien pour soutenir le projet
-      var don = lienDon();
-      if (don) { don.classList.add("don-accueil"); el.choix.appendChild(don); }
+      var D = window.Generique && window.Generique.don;
+      if (D && D.lien) {
+        var soutien = document.createElement("p");
+        soutien.className = "don-accueil";
+        soutien.appendChild(document.createTextNode("Gratuit et sans publicité · "));
+        var a = document.createElement("a");
+        a.href = D.lien; a.target = "_blank"; a.rel = "noopener";
+        a.textContent = "soutenir le projet";
+        a.addEventListener("click", function (e) { e.stopPropagation(); });
+        soutien.appendChild(a);
+        el.choix.appendChild(soutien);
+      }
     });
   }
 

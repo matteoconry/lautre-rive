@@ -247,6 +247,39 @@
       }
     },
 
+    // Le générique de fin : le thème du pont, plus ample et lumineux, au piano
+    generique: {
+      bpm: 76, echo: 0.5,
+      accords: [[50, 54, 57, 62], [45, 49, 52, 57], [47, 50, 54, 59], [43, 47, 50, 55],
+                [50, 54, 57, 62], [45, 49, 52, 57], [43, 47, 50, 55], [45, 49, 52, 57]],
+      melodie: [
+        [74, null, 73, null, 69, null, 71, null],
+        [73, null, null, 69, null, 64, null, null],
+        [71, null, 69, null, 66, null, 69, null],
+        [67, null, null, 66, null, 62, null, null],
+        [74, null, 76, null, 78, null, 76, null],
+        [76, null, null, 73, null, 69, null, null],
+        [71, null, 74, null, 71, null, 67, null],
+        [69, null, null, null, 73, null, null, null]
+      ],
+      couches: function (s) {
+        return [souffle(s, bruitBrun, "lowpass", 450, 0.07, 0.06)]; // l'eau, au loin
+      },
+      pas: function (s, t, i, d) {
+        var a = accordDe(this, i);
+        if (a.pas === 0) {
+          nappe(s, t, a.notes, 0.03, d * 8, 1400);
+          basse(s, t, a.notes[0] - 12, 0.17, d * 6);
+          a.notes.forEach(function (n, k) { piano(s, t + k * 0.03, n, 0.022); });
+        }
+        if (a.pas === 4) basse(s, t, a.notes[0] - 12, 0.10, d * 3);
+        var arp = [0, 1, 2, 3, 2, 1, 2, 3][a.pas];
+        pince(s, t, a.notes[arp] + 12, 0.04, 1.4);
+        var m = this.melodie[a.mesure][a.pas];
+        if (m) piano(s, t, m + 12, 0.06);
+      }
+    },
+
     // La cuisine à 5 h 10 : calme, fatigué, tendre. Horloge et cafetière.
     cuisine: {
       bpm: 58, echo: 0.3,
