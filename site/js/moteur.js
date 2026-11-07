@@ -777,22 +777,14 @@
     var sauve = lirePartie();
     ecrire([
       { t: "Un pont. Deux rives. Six jours avant le vote.", style: "pense" },
-      { t: sauve ? "Ta semaine est restée en cours." : "De quel côté du pont viens-tu ?", style: "recit" },
+      { t: "De quel côté du pont viens-tu ?", style: "recit" },
       { t: "Politiquement, tu te sens plutôt de gauche ou de droite ?", style: "note" }
     ], function () {
       var options = [
         { texte: "← Rive gauche", classe: "gauche" },
         { texte: "Rive droite →", classe: "droite" }
       ];
-      if (sauve) {
-        var q0 = P[sauve.parcours], j = sauve.etat.jour;
-        options.unshift({
-          texte: "Reprendre avec " + q0.prenom,
-          detail: j > 0 ? "J-" + j + " avant le vote" : "Le jour du vote"
-        });
-      }
       boutons(options, function (opt, n) {
-        if (sauve) { if (n === 0) { reprendre(sauve); return; } n--; }
         var nom = n === 0 ? "sebastien" : "lea";
         var q = P[nom];
         vider();
@@ -806,6 +798,16 @@
           });
         });
       });
+      // Une semaine en cours : une petite ligne discrète au-dessus des rives
+      if (sauve) {
+        var q0 = P[sauve.parcours], j = sauve.etat.jour;
+        var reprise = document.createElement("button");
+        reprise.type = "button";
+        reprise.className = "reprise";
+        reprise.textContent = "↻ Reprendre la semaine de " + q0.prenom + " (" + (j > 0 ? "J-" + j : "jour du vote") + ")";
+        reprise.addEventListener("click", function (e) { e.stopPropagation(); reprendre(sauve); });
+        el.choix.insertBefore(reprise, el.choix.firstChild);
+      }
       // Sous les rives, le lien pour soutenir le projet
       var D = window.Generique && window.Generique.don;
       if (D && D.lien) {
