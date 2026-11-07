@@ -40,8 +40,32 @@ window.Parcours.lea = {
       { t: "Dimanche, est-ce qu'elle votera ? Elle ne sait pas encore.", style: "fort" }
     ] },
 
+    { type: "choix", question: "Que fait Léa ?", options: [
+      {
+        texte: "Attendre le RER",
+        detail: "Elle arrivera en retard.",
+        effets: { energie: +1, liens: -1 },
+        suite: [ { lignes: [
+          { t: "Elle reste sur le quai. Vingt minutes de plus." },
+          { t: "Énergie +1, Liens -1.", style: "effets" }
+        ] } ]
+      },
+      {
+        texte: "Prendre un Vélib' jusqu'à la fac",
+        detail: "3 €, et il pleut.",
+        exigeant: true,
+        effets: { fin_de_mois: -3, energie: -2 },
+        drapeaux: { velib: true },
+        suite: [ { lignes: [
+          { t: "Elle remonte l'escalier et décroche un Vélib' devant la gare." },
+          { t: "Fin de mois -3 €, Énergie -2.", style: "effets" }
+        ] } ]
+      }
+    ] },
+
     { type: "texte", lignes: [
-      { t: "Sur le quai, en attendant, un homme lit un journal. Le titre, en gros :" },
+      { t: "Sur le quai, un homme lit un journal. Le titre, en gros :", sinon: "velib" },
+      { t: "Au premier feu rouge, devant un kiosque, la une d'un journal. Le titre, en gros :", si: "velib" },
       { t: "« Les jeunes ne veulent plus travailler ».", style: "pense" }
     ] },
 
@@ -61,7 +85,8 @@ window.Parcours.lea = {
     { type: "decor", decor: "sac" },
 
     { type: "texte", lignes: [
-      { t: "En cherchant son passe Navigo, elle effleure quelque chose dans la poche avant du sac." },
+      { t: "En cherchant son passe Navigo, elle effleure quelque chose dans la poche avant du sac.", sinon: "velib" },
+      { t: "Arrivée devant la fac, elle cherche son porte-monnaie et effleure quelque chose dans la poche avant du sac.", si: "velib" },
       { t: "Un badge plastifié. Elle ne le sort jamais. Elle ne s'en sépare pas non plus.", style: "pense" }
     ] },
 
@@ -71,37 +96,22 @@ window.Parcours.lea = {
         drapeaux: { badge_touche: true },
         suite: [ { lignes: [
           { t: "Ses doigts s'arrêtent sur le plastique. Elle n'a pas la force de le retourner." },
-          { t: "Elle referme la poche. Pas maintenant." }
+          { t: "Le RER entre en gare. Elle referme la poche. Pas maintenant.", sinon: "velib" },
+          { t: "Elle referme la poche. Pas maintenant.", si: "velib" }
         ] } ]
       },
       {
         texte: "Refermer la poche",
         suite: [ { lignes: [
-          { t: "Elle trouve son passe et referme la poche du sac." }
+          { t: "Elle trouve son passe et referme la poche du sac.", sinon: "velib" },
+          { t: "Elle trouve son porte-monnaie et referme la poche du sac.", si: "velib" }
         ] } ]
       }
     ] },
 
-    { type: "choix", question: "Que fait Léa ?", options: [
-      {
-        texte: "Attendre le RER",
-        detail: "Elle arrivera en retard.",
-        effets: { energie: +1, liens: -1 },
-        suite: [ { lignes: [
-          { t: "Elle arrive à 8 h 20. Le prof lève les yeux : « Mademoiselle Morel nous fait l'honneur. » Quelques rires." },
-          { t: "Énergie +1, Liens -1.", style: "effets" }
-        ] } ]
-      },
-      {
-        texte: "Prendre un Vélib' jusqu'à la fac",
-        detail: "3 €, et il pleut.",
-        exigeant: true,
-        effets: { fin_de_mois: -3, energie: -2 },
-        suite: [ { lignes: [
-          { t: "Quarante minutes de pédalage sous la bruine. À l'heure, trempée." },
-          { t: "Fin de mois -3 €, Énergie -2.", style: "effets" }
-        ] } ]
-      }
+    { type: "texte", lignes: [
+      { t: "Elle arrive à 8 h 20. Le prof lève les yeux : « Mademoiselle Morel nous fait l'honneur. » Quelques rires.", sinon: "velib" },
+      { t: "Quarante minutes de pédalage sous la bruine. Elle est à l'heure, mais trempée.", si: "velib" }
     ] },
 
     /* ==================== J-5 · Le compte ==================== */
