@@ -16,19 +16,19 @@ window.Generique = {
       "des aides-soignantes et des aides à domicile,",
       "des pompiers volontaires et des bénévoles,",
       "des parents qui comptent chaque euro,",
-      "et des jeunes qui se demandent ce qu'ils vont devenir."
+      "des jeunes qui se demandent ce qu'ils vont devenir,",
+      "des anciens qui ont vu fermer l'usine ou la poste,",
+      "des gens qui se lèvent tôt et rentrent tard,",
+      "qui ont peur pour leurs enfants,",
+      "et qui pensent que personne ne les écoute."
     ] },
     { role: "Un jeu de", noms: ["Mattéo"] },
-    { role: "Les chiffres", noms: [
-      "Sondages Ipsos, Ifop, Elabe et OpinionWay, études Destin Commun.",
-      "La source exacte est donnée sous chaque chiffre, dans le jeu."
-    ] },
     { role: "", noms: [
       "Les personnages, les villes et les entreprises de ce jeu sont inventés.",
       "Aucun parti, aucun candidat n'y est montré."
     ] }
   ],
-  merci: "Merci d'avoir traversé le pont. Maintenant, va parler à quelqu'un de l'autre rive.",
+  merci: "L'autre rive n'est pas si loin.",
 
   don: {
     lien: "https://fr.tipeee.com/lautre-rive-jeu/",
