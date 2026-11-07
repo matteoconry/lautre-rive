@@ -649,18 +649,19 @@
     // La télé sur le buffet, débat sans le son
     r(ctx, 126, 26, 28, 20, "#111"); r(ctx, 128, 28, 24, 16, ["#3a5a8a", "#8a3a3a"][Math.floor(t / 1.8) % 2]);
     r(ctx, 120, 46, 40, 10, "#6a4a30");
+    // La famille, assise derrière la table : oncle Patrick, la grand-mère, Christine, Léa
+    [[28, "#3a5a3a", "#d8a080", "#7a6a5a"], [46, "#8a6a9a", "#e0b090", "#e8e8e8"], [92, "#5a7a9a", "#b08060", "#3a2a20"], [108, "#e07a3c", "#b08060", "#1a1010"]].forEach(function (p) {
+      r(ctx, p[0] - 2, 40, 11, 18, "#7a5a3a"); r(ctx, p[0] - 2, 40, 11, 2, "#8a6a4a"); // dossier de chaise
+      silhouette(ctx, p[0], 64, p[1], p[2], p[3], "#2a2a3a");
+    });
     // La table avec la toile cirée
-    r(ctx, 14, 54, 118, 6, "#c84a4a");
-    for (var c = 14; c < 132; c += 6) r(ctx, c, 54, 3, 6, "#e8e0d0");
-    r(ctx, 20, 60, 3, 22, "#5a3a24"); r(ctx, 124, 60, 3, 22, "#5a3a24");
+    r(ctx, 14, 54, 118, 12, "#c84a4a");
+    for (var c = 14; c < 132; c += 6) r(ctx, c, 54, 3, 12, "#e8e0d0");
+    r(ctx, 14, 54, 118, 2, "#f0e0d0"); r(ctx, 14, 65, 118, 1, "#9a3434"); // le dessus et l'ourlet de la nappe
+    r(ctx, 20, 66, 3, 16, "#5a3a24"); r(ctx, 124, 66, 3, 16, "#5a3a24");
     // Le gâteau, bougies
     r(ctx, 64, 46, 18, 8, "#f0d8c0"); r(ctx, 64, 46, 18, 2, "#f8f0e8");
     for (var b = 0; b < 4; b++) { r(ctx, 67 + b * 4, 42, 1, 4, "#80c0ff"); if (Math.floor(t * 6 + b) % 2) r(ctx, 67 + b * 4, 40, 1, 2, "#ffb020"); }
-    // La famille : oncle Patrick, la grand-mère, Christine, Léa
-    silhouette(ctx, 24, 54, "#3a5a3a", "#d8a080", "#7a6a5a", "#2a2a3a");
-    silhouette(ctx, 46, 54, "#8a6a9a", "#e0b090", "#e8e8e8", "#2a2a3a");
-    silhouette(ctx, 92, 54, "#5a7a9a", "#b08060", "#3a2a20", "#2a2a3a");
-    silhouette(ctx, 108, 54, "#e07a3c", "#b08060", "#1a1010", "#2a2a40");
   }
 
   /* ---------- J-1 : la manifestation ---------- */
